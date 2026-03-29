@@ -1,0 +1,28 @@
+{
+  "name": "mikha",
+  "version": "1.0.0",
+  "description": "Un agente de IA personal local",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --env-file=.env src/index.ts",
+    "dev:uni": "tsx --env-file=.env.uni src/index_uni.ts",
+    "dev:const": "tsx --env-file=.env.const src/index_const.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:uni": "node dist/index_uni.js",
+    "start:const": "node dist/index_const.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "dotenv": "^16.4.5",
+    "grammy": "^1.32.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.8.6",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
