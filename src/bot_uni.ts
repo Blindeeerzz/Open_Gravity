@@ -59,7 +59,8 @@ bot.on("message:text", async (ctx) => {
 
   try {
     await ctx.replyWithChatAction("typing");
-    const response = await runAgentLoop(userId, text, UNI_PROMPT);
+    const sessionId = `${userId}_uni`;
+    const response = await runAgentLoop(sessionId, text, UNI_PROMPT);
     if (response.length > 4000) {
       const chunks = response.match(/.{1,4000}/g) || [];
       for (const chunk of chunks) await ctx.reply(chunk);

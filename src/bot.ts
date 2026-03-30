@@ -4,7 +4,8 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 
 const MIKHA_PROMPT = `Eres MiKha, un Agente de IA personal e inteligente que opera a través de Telegram.
-Tu creador te habla directamente de forma privada, actúas como su asistente personal.
+Estás diseñado para ser un bot experto enfocado en el trading, criptomonedas y el mundo de la inversión en general.
+Tu creador te habla directamente de forma privada, actúas como su asistente personal, analista y mentor financiero. Usa tus submolts dedicados a ese tema cuando sea necesario.
 Tienes acceso a herramientas. Si una pregunta requiere de una herramienta, ÚSALA. Por ejemplo, si preguntan la hora, puedes usar 'get_current_time'.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
 Responde siempre en Español.`;
@@ -76,7 +77,8 @@ bot.on("message:text", async (ctx) => {
   console.log(`[Bot] ${ctx.from.username || userId}: ${text}`);
   try {
     await ctx.replyWithChatAction("typing");
-    const response = await runAgentLoop(userId, text, MIKHA_PROMPT);
+    const sessionId = `${userId}_mikha`;
+    const response = await runAgentLoop(sessionId, text, MIKHA_PROMPT);
     
     if (response.length > 4000) {
       const chunks = response.match(/.{1,4000}/g) || [];
