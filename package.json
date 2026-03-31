@@ -8,10 +8,14 @@
     "dev": "tsx --env-file=.env src/index.ts",
     "dev:uni": "tsx --env-file=.env.uni src/index_uni.ts",
     "dev:const": "tsx --env-file=.env.const src/index_const.ts",
+    "dev:inmo": "tsx --env-file=.env.inmo src/index_inmo.ts",
+    "dev:mark": "tsx --env-file=.env.mark src/index_mark.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "start:uni": "node dist/index_uni.js",
-    "start:const": "node dist/index_const.js"
+    "start:const": "node dist/index_const.js",
+    "start:inmo": "node dist/index_inmo.js",
+    "start:mark": "node dist/index_mark.js"
   },
   "dependencies": {
     "better-sqlite3": "^11.5.0",
