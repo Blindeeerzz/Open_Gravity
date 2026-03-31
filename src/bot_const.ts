@@ -44,7 +44,7 @@ bot.command("invite", async (ctx) => {
   }
   const code = createInvite();
   const botInfo = await ctx.api.getMe();
-  await ctx.reply(`✅ **Invitación creada**\nEnlace: https://t.me/${botInfo.username}?start=${code}`, { parse_mode: "Markdown" });
+  await ctx.reply(`✅ Invitación creada\nEnlace: https://t.me/${botInfo.username}?start=${code}`);
 });
 
 bot.command("start", async (ctx) => {
