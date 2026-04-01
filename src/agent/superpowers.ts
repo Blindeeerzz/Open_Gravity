@@ -36,9 +36,9 @@ export async function transcribeAudio(fileUrl: string): Promise<string> {
   }
 }
 
-// 2. Analizar Imagen (Qwen Vision en HuggingFace)
+// 2. Analizar Imagen (Gemini / OpenRouter)
 export async function analyzeImage(fileUrl: string, caption: string = ""): Promise<string> {
-  if (!config.HUGGINGFACE_API_KEY) throw new Error("HUGGINGFACE_API_KEY no está configurada.");
+  if (!config.OPENROUTER_API_KEY) throw new Error("OPENROUTER_API_KEY no está configurada. Necesaria para analizar imágenes.");
 
   try {
     // 1. Descargar la imagen a buffer y pasar a Base64
@@ -53,16 +53,17 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
       ? `Describe esta imagen en detalle y responde a este contexto del usuario: ${caption}`
       : "Describe esta imagen detalladamente.";
 
-    // Usamos el endpoint oficial de Chat Comptetions de Hugging Face
-    const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
+    // Usamos OpenRouter (motor principal para Visión)
+    const orRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${config.HUGGINGFACE_API_KEY}`,
-        "Content-Type": "application/json"
+        "Authorization": `Bearer ${config.OPENROUTER_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://github.com/hachi/open_gravity",
+        "X-Title": "MiKha Vision"
       },
       body: JSON.stringify({
-        model: "Qwen/Qwen2.5-VL-7B-Instruct",
-        max_tokens: 500,
+        model: "google/gemini-2.5-flash", // Gratuito, rápido e increíble con visión
         messages: [
           {
             role: "user",
@@ -75,12 +76,12 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
       })
     });
 
-    if (!hfRes.ok) {
-        const err = await hfRes.text();
-        throw new Error(`HuggingFace Vision Error: ${err}`);
+    if (!orRes.ok) {
+        const err = await orRes.text();
+        throw new Error(`OpenRouter Vision Error: ${err}`);
     }
 
-    const data = await hfRes.json();
+    const data = await orRes.json();
     return data.choices?.[0]?.message?.content || "No hay descripción.";
   } catch (error: any) {
     console.error("[Superpower] Vision Error:", error.message);
