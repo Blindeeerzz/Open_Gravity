@@ -2,6 +2,7 @@ import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const INMO_PROMPT = `Eres un Agente Experto en Bienes Raíces, Inmobiliaria, Valoración de Propiedades, y "House Flipping" (comprar para reformar y vender).
 Tu trabajo es asistir a un inversor inmobiliario brindándole análisis de mercado, estimaciones de rentabilidad, estrategias de negociación comercial y consejos sobre reformas y arquitectura que añadan valor al inmueble.
@@ -87,6 +88,9 @@ bot.on("message:text", async (ctx) => {
     await ctx.reply("⚙️ He encontrado un error técnico procesando tu solicitud inmobiliaria. Revisa los logs.");
   }
 });
+
+// Conectar auriculares y nervio óptico
+setupSuperpowers(bot, INMO_PROMPT, "_inmo");
 
 // Evitar que el bot se detenga si algo explota
 bot.catch((err) => {

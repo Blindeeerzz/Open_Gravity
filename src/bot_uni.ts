@@ -2,6 +2,7 @@ import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const UNI_PROMPT = `Eres un Agente Experto en Psicología Infantil y Ciencias del Deporte, especializado en la aplicación de la actividad física para el desarrollo cognitivo y motriz de niños con necesidades especiales (deficiencias cognitivas, autismo, TDAH, etc.).
 Actúas como un mentor, consultor y apoyo académico para un estudiante universitario de esta rama. 

@@ -2,7 +2,7 @@ import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
-import { transcribeAudio, analyzeImage } from "./agent/superpowers.js";
+import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const MIKHA_PROMPT = `Eres MiKha, un Agente de IA personal e inteligente que opera a través de Telegram.
 Estás diseñado para ser un bot experto enfocado en el trading, criptomonedas y el mundo de la inversión en general.
@@ -98,75 +98,7 @@ bot.on("message:text", async (ctx) => {
 // -----------------------------------------
 // SUPERPODERES: VISION Y AUDIO
 // -----------------------------------------
-
-// Manejador de Notas de Voz
-bot.on("message:voice", async (ctx) => {
-  const userId = ctx.from.id.toString();
-  try {
-    await ctx.replyWithChatAction("typing");
-    
-    // Obtener la URL pública del archivo en los servidores de Telegram
-    const fileId = ctx.message.voice.file_id;
-    const file = await ctx.api.getFile(fileId);
-    const fileUrl = `https://api.telegram.org/file/bot${config.TELEGRAM_BOT_TOKEN}/${file.file_path}`;
-    
-    // 1. Transcribir
-    const transcript = await transcribeAudio(fileUrl);
-    await ctx.reply(`🎤 *He escuchado:* "${transcript}"`, { parse_mode: "Markdown" });
-
-    // 2. Pasar al Agente
-    const sessionId = `${userId}_mikha`;
-    const response = await runAgentLoop(sessionId, `🎤 (Nota de Voz del Usuario): ${transcript}`, MIKHA_PROMPT);
-    
-    if (response.length > 4000) {
-      const chunks = response.match(/.{1,4000}/g) || [];
-      for (const chunk of chunks) await ctx.reply(chunk);
-    } else {
-      await ctx.reply(response);
-    }
-  } catch (error: any) {
-    console.error("[Audio Error]:", error);
-    await ctx.reply("⚙️ No he podido procesar o entender el audio.");
-  }
-});
-
-// Manejador de Imágenes (Visión)
-bot.on("message:photo", async (ctx) => {
-  const userId = ctx.from.id.toString();
-  try {
-    await ctx.replyWithChatAction("typing");
-    
-    // Telegram manda varias resoluciones, cogemos la más grande (la última)
-    const highestResPhoto = ctx.message.photo[ctx.message.photo.length - 1];
-    const file = await ctx.api.getFile(highestResPhoto.file_id);
-    const fileUrl = `https://api.telegram.org/file/bot${config.TELEGRAM_BOT_TOKEN}/${file.file_path}`;
-    
-    const userCaption = ctx.message.caption || "";
-    
-    // 1. Analizar Imagen 
-    // Le avisamos al usuario que estamos mirándola (puede tardar un par de segundos)
-    const analyzingMsg = await ctx.reply("👁️ *Analizando imagen...*", { parse_mode: "Markdown" });
-    const imageDescription = await analyzeImage(fileUrl, userCaption);
-    
-    // Opcional: Borrar el mensaje de "Analizando..."
-    await ctx.api.deleteMessage(ctx.chat.id, analyzingMsg.message_id).catch(() => {});
-
-    // 2. Pasar contexto visual al Agente
-    const sessionId = `${userId}_mikha`;
-    const finalPrompt = `📷 EL USUARIO HA ENVIADO UNA IMAGEN.\nEste es el análisis visual de la imagen detallado: "${imageDescription}"\nResponde o ayuda al usuario en base a esto. ${userCaption ? "El usuario añade este comentario: " + userCaption : ""}`;
-    const response = await runAgentLoop(sessionId, finalPrompt, MIKHA_PROMPT);
-    
-    if (response.length > 4000) {
-      const chunks = response.match(/.{1,4000}/g) || [];
-      for (const chunk of chunks) await ctx.reply(chunk);
-    } else {
-      await ctx.reply(response);
-    }
-  } catch (error: any) {
-    console.error("[Vision Error]:", error);
-    await ctx.reply("⚙️ No he podido procesar o ver la imagen adecuadamente.");
-  }
-});
+setupSuperpowers(bot, MIKHA_PROMPT, "_mikha");
 
 bot.catch((err) => {
   console.error("🚨 Error global capturado para evitar cierre:", err.message || err);

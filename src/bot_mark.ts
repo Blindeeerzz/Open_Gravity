@@ -2,6 +2,7 @@ import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const MARK_PROMPT = `Eres un Experto en Marketing Digital, Creación de Contenido, SEO, y Especialista en Animación Digital 3D.
 Tu trabajo es asistir a un Creador Digital brindándole estrategias de marketing, guiones persuasivos, ideas para redes sociales, métricas de engagement y metodologías detalladas para animación 3D (Blender, Unreal Engine, IA generativa para texturas/vídeo, flujos de renderizado, y rigging).
@@ -87,6 +88,9 @@ bot.on("message:text", async (ctx) => {
     await ctx.reply("⚙️ He encontrado un error técnico procesando tu estrategia. Revisa los logs.");
   }
 });
+
+// Conectar auriculares y nervio óptico
+setupSuperpowers(bot, MARK_PROMPT, "_mark");
 
 // Evitar que el bot se detenga si algo explota
 bot.catch((err) => {

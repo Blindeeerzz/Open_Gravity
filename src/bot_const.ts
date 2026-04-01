@@ -2,6 +2,7 @@ import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const CONST_PROMPT = `Eres un Agente Experto en Control de Calidad, Inspección Arquitectónica, Normativa de Construcción y Prevención de Riesgos Laborales.
 Tu trabajo es asistir a un inspector de obras brindándole información detallada sobre estándares de calidad (ISO), protocolos de seguridad y resistencia de materiales.
