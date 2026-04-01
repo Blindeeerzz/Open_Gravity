@@ -8,7 +8,8 @@ const envSchema = z.object({
   HUGGINGFACE_MODEL: z.string().default("meta-llama/Meta-Llama-3-8B-Instruct"),
   OPENROUTER_MODEL: z.string().default("openrouter/free"),
   DB_PATH: z.string().default("./memory.db"),
-  GROQ_API_KEY: z.string().optional()
+  GROQ_API_KEY: z.string().optional(),
+  GEMINI_API_KEY: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);
