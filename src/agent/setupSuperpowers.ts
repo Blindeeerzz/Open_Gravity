@@ -1,7 +1,9 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
+import fs from "fs";
 import { config } from "../config.js";
 import { runAgentLoop } from "./loop.js";
 import { transcribeAudio, analyzeImage } from "./superpowers.js";
+import { generateSpeechFromText } from "./voice_generator.js";
 
 /**
  * Función centralizada para dotar de Audiición (Whisper) y Visión (Gemini)
@@ -32,6 +34,25 @@ export function setupSuperpowers(
       const sessionId = `${userId}${sessionSuffix}`;
       const response = await runAgentLoop(sessionId, `🎤 (Nota de Voz del Usuario): ${transcript}`, promptOfAgent);
       
+      try {
+        // Enviar aviso de que está "grabando nota de voz"
+        await ctx.replyWithChatAction("record_voice");
+        
+        // Generar el audio
+        const audioPath = await generateSpeechFromText(response);
+        
+        // Enviar el Audio (Voz) a Telegram
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        
+        // Borrar el archivo local para no llenar el servidor
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+        
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz:", voiceErr);
+        // Fallback: si falla la síntesis de voz, no pasa nada
+      }
+
+      // Además, como respaldo y cortesía, imprimimos el texto largo
       if (response.length > 4000) {
         const chunks = response.match(/.{1,4000}/g) || [];
         for (const chunk of chunks) await ctx.reply(chunk);
