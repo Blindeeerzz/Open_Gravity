@@ -52,7 +52,7 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "llama-3.2-11b-vision-preview",
+        model: "llama-3.2-11b-vision-instruct",
         messages: [
           {
             role: "user",
