@@ -1,10 +1,12 @@
 import { getCurrentTimeToolDef, executeGetCurrentTime } from "./get_current_time.js";
 import { postToMoltbookToolDef, executePostToMoltbook } from "./moltbook.js";
+import { navegarWebTool, executeNavegarWeb } from "./web_scraper.js";
 
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
   getCurrentTimeToolDef,
-  postToMoltbookToolDef
+  postToMoltbookToolDef,
+  navegarWebTool
 ];
 
 // Ejecutor unificado
@@ -16,6 +18,8 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeGetCurrentTime();
       case "post_to_moltbook":
         return await executePostToMoltbook(args.submolt, args.content);
+      case "navegar_web":
+        return await executeNavegarWeb(args.url);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }
