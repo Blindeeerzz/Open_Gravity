@@ -41,6 +41,15 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
   if (!config.GROQ_API_KEY) throw new Error("GROQ_API_KEY no está configurada.");
 
   try {
+    // 1. Descargar la imagen a buffer y pasar a Base64 (Groq requiere Base64, no URLs puras)
+    const imgResponse = await fetch(fileUrl);
+    if (!imgResponse.ok) throw new Error("No se pudo descargar la imagen de Telegram.");
+    
+    // Solo permitimos ciertos tipos para la cabecera data URI (por defecto asumimos jpeg)
+    const arrayBuffer = await imgResponse.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
+    const base64DataUri = `data:image/jpeg;base64,${base64}`;
+
     const prompt = caption 
       ? `Describe esta imagen en detalle y responde a este contexto del usuario: ${caption}`
       : "Describe esta imagen detalladamente.";
@@ -58,7 +67,7 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
             role: "user",
             content: [
               { type: "text", text: prompt },
-              { type: "image_url", image_url: { url: fileUrl } }
+              { type: "image_url", image_url: { url: base64DataUri } }
             ]
           }
         ]
