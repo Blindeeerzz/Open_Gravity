@@ -47,9 +47,9 @@ export function setupSuperpowers(
         // Borrar el archivo local para no llenar el servidor
         if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
         
-      } catch (voiceErr) {
+      } catch (voiceErr: any) {
         console.error("Error generando respuesta de voz:", voiceErr);
-        // Fallback: si falla la síntesis de voz, no pasa nada
+        await ctx.reply(`⚠️ Fallo de Síntesis de Voz: ${voiceErr.message || voiceErr}`);
       }
 
       // Además, como respaldo y cortesía, imprimimos el texto largo

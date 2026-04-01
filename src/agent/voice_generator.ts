@@ -30,23 +30,26 @@ function detectLanguage(text: string): string {
  */
 export async function generateSpeechFromText(text: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    // Detectamos el idioma del texto de forma dinámica para que los agentes muten de voz
-    const lang = detectLanguage(text);
-    
-    // Si el LLM devuelve un texto demasiado largo, gTTS suele manejar bien frases largas dividiendo internamente.
-    const gtts = new gTTS(text, lang);
-    
-    // Archivo temporal
-    const tmpFileName = `voice_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`;
-    const outputPath = path.join("/tmp", tmpFileName); // Directorio temporal universal
+    // 1. Limpiar el texto: quitar markdown (asteriscos, corchetes) y emojis que rompen el TTS de Google
+    const cleanText = text
+      .replace(/[*_#`~]/g, "") 
+      .replace(/<[^>]*>?/gm, '') // quitar HTML
+      .replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '') // quitar emojis
+      .trim();
 
-    // En Windows local, /tmp puede no existir, así que nos aseguramos usando process.cwd() si falla temporal 
-    const isWindows = process.platform === "win32";
-    const finalPath = isWindows ? path.join(process.cwd(), tmpFileName) : outputPath;
+    // Detectamos el idioma del texto limpio
+    const lang = detectLanguage(cleanText);
+    
+    // Generar TTS
+    const gtts = new gTTS(cleanText, lang);
+    
+    // Archivo temporal usando process.cwd() para asegurar permisos de escritura en servidor
+    const tmpFileName = `voice_${Date.now()}_${Math.floor(Math.random() * 1000)}.mp3`;
+    const finalPath = path.join(process.cwd(), tmpFileName);
 
     gtts.save(finalPath, (err: any) => {
       if (err) {
-        return reject(`Error generando voz: ${err}`);
+        return reject(`Error de guardado MP3: ${err.message || err}`);
       }
       resolve(finalPath);
     });
