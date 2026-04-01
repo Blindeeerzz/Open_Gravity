@@ -54,7 +54,7 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
       : "Describe esta imagen detalladamente.";
 
     // Usamos el endpoint oficial de Chat Comptetions de Hugging Face
-    const hfRes = await fetch("https://router.huggingface.co/hf-inference/v1/chat/completions", {
+    const hfRes = await fetch("https://router.huggingface.co/v1/chat/completions", {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${config.HUGGINGFACE_API_KEY}`,
