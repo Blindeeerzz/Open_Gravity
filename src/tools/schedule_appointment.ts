@@ -57,14 +57,16 @@ export async function executeScheduleAppointment(fecha_hora: string, asunto: str
 
     const event: any = {
       summary: `[Asesoría IA] ${asunto} con ${nombre_cliente}`,
-      description: `Reunión agendada automáticamente por Inteligencia Artificial.\n\nContratante: ${nombre_cliente}\nAsunto: ${asunto}`,
+      description: `Reunión agendada automáticamente por Inteligencia Artificial.\n\nContratante: ${nombre_cliente}\nEmail del Cliente: ${email_cliente || 'No proporcionado'}\nAsunto: ${asunto}`,
       start: {
         dateTime: startDate.toISOString(),
       },
       end: {
         dateTime: endDate.toISOString(),
-      },
-      attendees: email_cliente ? [{ email: email_cliente }] : [],
+      }
+      // NOTA: Las Cuentas de Servicio (Service Accounts) en correos @gmail.com gratuitos 
+      // NO tienen permiso para añadir "attendees" (invitados).
+      // Requieren Google Workspace + Domain-Wide Delegation. Por eso lo quitamos.
     };
 
     const res = await calendar.events.insert({
