@@ -73,6 +73,8 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
+setupSuperpowers(bot, CONST_PROMPT, "_const");
+
 bot.catch((err) => {
   console.error("🚨 Error global capturado para evitar cierre:", err.message || err);
 });

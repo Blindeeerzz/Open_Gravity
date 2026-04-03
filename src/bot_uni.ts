@@ -74,6 +74,8 @@ bot.on("message:text", async (ctx) => {
   }
 });
 
+setupSuperpowers(bot, UNI_PROMPT, "_uni");
+
 bot.catch((err) => {
   console.error("🚨 Error global capturado para evitar cierre:", err.message || err);
 });
