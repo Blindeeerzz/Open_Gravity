@@ -21,8 +21,11 @@ export async function runAgentLoop(sessionId: string, userMessage: string, syste
     return formatted;
   });
 
+  const currentDateTime = new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid", dateStyle: "full", timeStyle: "short" });
+  const augmentedSystemPrompt = `${systemPrompt}\n\n[INFO DEL SISTEMA]: La fecha y hora actual es ${currentDateTime}. Usa este dato absoluto para calcular "mañana", "el próximo martes", etc.`;
+
   const messages = [
-    { role: "system", content: systemPrompt },
+    { role: "system", content: augmentedSystemPrompt },
     ...messageHistory
   ];
 
