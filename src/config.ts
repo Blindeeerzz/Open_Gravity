@@ -9,7 +9,8 @@ const envSchema = z.object({
   OPENROUTER_MODEL: z.string().default("openrouter/free"),
   DB_PATH: z.string().default("./memory.db"),
   GROQ_API_KEY: z.string().optional(),
-  GEMINI_API_KEY: z.string().optional()
+  GEMINI_API_KEY: z.string().optional(),
+  WEBHOOK_CALENDAR_URL: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);
