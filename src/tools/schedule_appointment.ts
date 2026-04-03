@@ -68,7 +68,7 @@ export async function executeScheduleAppointment(fecha_hora: string, asunto: str
     };
 
     const res = await calendar.events.insert({
-      calendarId: config.GOOGLE_CALENDAR_ID,
+      calendarId: config.GOOGLE_CALENDAR_ID.trim().toLowerCase(),
       requestBody: event,
       sendUpdates: "all", // Envía correo automático si hay attendees
     });
