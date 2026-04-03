@@ -10,7 +10,9 @@ const envSchema = z.object({
   DB_PATH: z.string().default("./memory.db"),
   GROQ_API_KEY: z.string().optional(),
   GEMINI_API_KEY: z.string().optional(),
-  WEBHOOK_CALENDAR_URL: z.string().optional()
+  GOOGLE_CLIENT_EMAIL: z.string().optional(),
+  GOOGLE_PRIVATE_KEY: z.string().optional(),
+  GOOGLE_CALENDAR_ID: z.string().optional().default("primary")
 });
 
 export const config = envSchema.parse(process.env);
