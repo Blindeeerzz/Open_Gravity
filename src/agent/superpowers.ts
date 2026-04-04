@@ -1,6 +1,8 @@
 import { config } from "../config.js";
-// @ts-ignore
-import pdfParse from "pdf-parse";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const pdfParse = require("pdf-parse");
 
 // 1. Transcribir Audio (Whisper en Groq)
 export async function transcribeAudio(fileUrl: string): Promise<string> {
