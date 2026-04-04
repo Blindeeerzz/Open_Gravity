@@ -1,5 +1,6 @@
 import { initDB } from "./db/database.js";
 import { bot } from "./bot.js";
+import { setupServer } from "./server.js";
 
 async function bootstrap() {
   console.log("==========================================");
@@ -11,6 +12,9 @@ async function bootstrap() {
     console.log("⚙️  Verificando base de datos SQLite...");
     initDB();
     console.log("✅ Base de datos lista.");
+
+    // 1.5. Iniciar Servidor Express para escuchar Webhooks (TradingView)
+    setupServer();
 
     // 2. Iniciar el bot de Telegram
     console.log("🤖 Conectando a Telegram...");

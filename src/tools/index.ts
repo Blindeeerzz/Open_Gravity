@@ -4,6 +4,7 @@ import { navegarWebTool, executeNavegarWeb } from "./web_scraper.js";
 import { scheduleAppointmentToolDef, executeScheduleAppointment } from "./schedule_appointment.js";
 import { sendEmailToolDef, executeSendEmail } from "./send_email.js";
 import { crmSheetsToolDef, executeCrmSheets } from "./crm_sheets.js";
+import { getCryptoPriceToolDef, executeGetCryptoPrice } from "./get_crypto_price.js";
 
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
@@ -12,7 +13,8 @@ export const availableToolsDefinitions = [
   navegarWebTool,
   scheduleAppointmentToolDef,
   sendEmailToolDef,
-  crmSheetsToolDef
+  crmSheetsToolDef,
+  getCryptoPriceToolDef
 ];
 
 // Ejecutor unificado
@@ -32,6 +34,8 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeSendEmail(args);
       case "registrar_cliente_crm":
         return await executeCrmSheets(args.nombre, args.contacto, args.interes, args.agente_responsable, args.notas);
+      case "get_crypto_price":
+        return await executeGetCryptoPrice(args.symbol);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }
