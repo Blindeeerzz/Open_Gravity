@@ -95,11 +95,16 @@ export async function readPdf(fileUrl: string): Promise<string> {
     const arrayBuffer = await response.arrayBuffer();
     const dataBuffer = Buffer.from(arrayBuffer);
     
-    // Extraer texto usando pdf-parse (gestiona export default de ESM automáticamente)
-    const pdfExtractor = typeof pdfParse === "function" ? pdfParse : (pdfParse as any).default;
+    // Extraer texto usando pdf-parse (gestiona variaciones de ESM y CJS export)
+    let pdfExtractor: any = pdfParse;
+    if (typeof pdfExtractor !== "function") {
+      if (pdfExtractor && typeof pdfExtractor.default === "function") pdfExtractor = pdfExtractor.default;
+      else if (pdfExtractor && typeof pdfExtractor.PDFParse === "function") pdfExtractor = pdfExtractor.PDFParse;
+      else if (pdfExtractor && typeof pdfExtractor.pdfParse === "function") pdfExtractor = pdfExtractor.pdfParse;
+    }
     
     if (typeof pdfExtractor !== "function") {
-      throw new Error(`Incompatibilidad fatal: pdf-parse no devolvió una función ejecutable. Objeto devuelto: ${Object.keys(pdfParse).join(", ")}`);
+      throw new Error(`Incompatibilidad fatal: pdf-parse no devolvió una función ejecutable. Objeto devuelto: ${Object.keys(pdfParse).join(", ")}. typeof: ${typeof pdfParse}`);
     }
 
     const data = await pdfExtractor(dataBuffer);
