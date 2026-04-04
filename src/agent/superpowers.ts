@@ -95,7 +95,14 @@ export async function readPdf(fileUrl: string): Promise<string> {
     const arrayBuffer = await response.arrayBuffer();
     const dataBuffer = Buffer.from(arrayBuffer);
     
-    const data = await pdfParse(dataBuffer);
+    // Extraer texto usando pdf-parse (gestiona export default de ESM automáticamente)
+    const pdfExtractor = typeof pdfParse === "function" ? pdfParse : (pdfParse as any).default;
+    
+    if (typeof pdfExtractor !== "function") {
+      throw new Error(`Incompatibilidad fatal: pdf-parse no devolvió una función ejecutable. Objeto devuelto: ${Object.keys(pdfParse).join(", ")}`);
+    }
+
+    const data = await pdfExtractor(dataBuffer);
     
     let text = data.text || "";
     // Limpieza básica de saltos de página múltiples
