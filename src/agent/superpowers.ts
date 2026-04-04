@@ -93,7 +93,11 @@ export async function readPdf(fileUrl: string): Promise<string> {
     const arrayBuffer = await response.arrayBuffer();
     const dataBuffer = Buffer.from(arrayBuffer);
     
-    const data = await pdfParse(dataBuffer);
+    // Typescript strict mode bypass para librerias CommonJS/ESM
+    const extractor: any = pdfParse;
+    const executeParse = typeof extractor === "function" ? extractor : extractor.default;
+
+    const data = await executeParse(dataBuffer);
     
     let text = data.text || "";
     // Limpieza básica de saltos de página múltiples
