@@ -3,6 +3,7 @@ import { postToMoltbookToolDef, executePostToMoltbook } from "./moltbook.js";
 import { navegarWebTool, executeNavegarWeb } from "./web_scraper.js";
 import { scheduleAppointmentToolDef, executeScheduleAppointment } from "./schedule_appointment.js";
 import { sendEmailToolDef, executeSendEmail } from "./send_email.js";
+import { crmSheetsToolDef, executeCrmSheets } from "./crm_sheets.js";
 
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
@@ -10,7 +11,8 @@ export const availableToolsDefinitions = [
   postToMoltbookToolDef,
   navegarWebTool,
   scheduleAppointmentToolDef,
-  sendEmailToolDef
+  sendEmailToolDef,
+  crmSheetsToolDef
 ];
 
 // Ejecutor unificado
@@ -28,6 +30,8 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeScheduleAppointment(args.fecha_hora, args.asunto, args.nombre_cliente, args.email_cliente);
       case "enviar_correo":
         return await executeSendEmail(args);
+      case "registrar_cliente_crm":
+        return await executeCrmSheets(args.nombre, args.contacto, args.interes, args.agente_responsable, args.notas);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }

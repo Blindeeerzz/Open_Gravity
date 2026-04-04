@@ -17,7 +17,8 @@ const envSchema = z.object({
   SMTP_PORT: z.string().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  SMTP_FROM: z.string().optional()
+  SMTP_FROM: z.string().optional(),
+  GOOGLE_SHEET_ID: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);
