@@ -1,6 +1,10 @@
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import dns from "dns";
 import { config } from "../config.js";
+
+// Railwayker no tiene IPv6 bien configurado de salida. Forzamos DNS a IPv4 siempre.
+dns.setDefaultResultOrder("ipv4first");
 
 export const sendEmailSchema = z.object({
   destinatario: z.string().email("Debe ser un correo válido"),
