@@ -1,4 +1,5 @@
 import { config } from "../config.js";
+// @ts-ignore
 import pdfParse from "pdf-parse";
 
 // 1. Transcribir Audio (Whisper en Groq)
