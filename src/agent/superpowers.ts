@@ -1,4 +1,5 @@
 import { config } from "../config.js";
+import pdfParse from "pdf-parse";
 
 // 1. Transcribir Audio (Whisper en Groq)
 export async function transcribeAudio(fileUrl: string): Promise<string> {
@@ -78,5 +79,34 @@ export async function analyzeImage(fileUrl: string, caption: string = ""): Promi
   } catch (error: any) {
     console.error("[Superpower] Vision Error:", error.message);
     return `[Error al procesar imagen: ${error.message}]`;
+  }
+}
+
+// 3. Extraer Texto de PDF (Ligero y Nativo)
+export async function readPdf(fileUrl: string): Promise<string> {
+  try {
+    const response = await fetch(fileUrl);
+    if (!response.ok) throw new Error("No se pudo descargar el archivo PDF.");
+    
+    // Convertirlo a buffer para pasarlo a pdf-parse
+    const arrayBuffer = await response.arrayBuffer();
+    const dataBuffer = Buffer.from(arrayBuffer);
+    
+    const data = await pdfParse(dataBuffer);
+    
+    let text = data.text || "";
+    // Limpieza básica de saltos de página múltiples
+    text = text.replace(/\n{3,}/g, '\n\n').trim();
+    
+    // Si el texto es peligrosamente gigante (+15K chars), lo truncamos para no matar el LLM
+    const MAX_CHARS = 15000;
+    if (text.length > MAX_CHARS) {
+      text = text.slice(0, MAX_CHARS) + "\n\n... [El resto del documento fue truncado por longitud máxima]";
+    }
+
+    return text || "[Documento vacío o sin texto puro detectable]";
+  } catch (error: any) {
+    console.error(`[Superpower] PDF Error:`, error.message);
+    return `[Error escaneando PDF: ${error.message}]`;
   }
 }
