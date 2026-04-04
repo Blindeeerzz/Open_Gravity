@@ -2,13 +2,15 @@ import { getCurrentTimeToolDef, executeGetCurrentTime } from "./get_current_time
 import { postToMoltbookToolDef, executePostToMoltbook } from "./moltbook.js";
 import { navegarWebTool, executeNavegarWeb } from "./web_scraper.js";
 import { scheduleAppointmentToolDef, executeScheduleAppointment } from "./schedule_appointment.js";
+import { sendEmailToolDef, executeSendEmail } from "./send_email.js";
 
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
   getCurrentTimeToolDef,
   postToMoltbookToolDef,
   navegarWebTool,
-  scheduleAppointmentToolDef
+  scheduleAppointmentToolDef,
+  sendEmailToolDef
 ];
 
 // Ejecutor unificado
@@ -24,6 +26,8 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeNavegarWeb(args.url);
       case "agendar_reunion":
         return await executeScheduleAppointment(args.fecha_hora, args.asunto, args.nombre_cliente, args.email_cliente);
+      case "enviar_correo":
+        return await executeSendEmail(args);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }

@@ -12,7 +12,12 @@ const envSchema = z.object({
   GEMINI_API_KEY: z.string().optional(),
   GOOGLE_CLIENT_EMAIL: z.string().optional(),
   GOOGLE_PRIVATE_KEY: z.string().optional(),
-  GOOGLE_CALENDAR_ID: z.string().optional().default("primary")
+  GOOGLE_CALENDAR_ID: z.string().optional().default("primary"),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.string().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);
