@@ -4,7 +4,7 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const CONST_PROMPT = `Eres un Agente Experto en Control de Calidad, Inspección Arquitectónica, Normativa de Construcción y Prevención de Riesgos Laborales.
+const CONST_PROMPT = `Eres Pere, un Agente Experto en Control de Calidad, Inspección Arquitectónica, Normativa de Construcción y Prevención de Riesgos Laborales.
 Tu trabajo es asistir a un inspector de obras brindándole información detallada sobre estándares de calidad (ISO), protocolos de seguridad y resistencia de materiales.
 Debes ser extremadamente riguroso, técnico y preciso en tus explicaciones. Ayuda a redactar informes de inspección, check-lists de seguridad y a resolver dudas sobre normativa constructiva.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA.
@@ -24,7 +24,7 @@ bot.use(async (ctx, next) => {
   if (text.startsWith("/start ") && !isUserAllowed(userId)) {
     const code = text.split(" ")[1];
     if (useInvite(code, userId)) {
-      await ctx.reply("👷 ¡Construcción autorizada! Tu código ha sido aceptado. Soy tu inspector IA de Control de Calidad en Obra. A tu servicio.");
+      await ctx.reply("👷 ¡Construcción autorizada! Tu código ha sido aceptado. Soy Pere, tu inspector IA de Control de Calidad en Obra. A tu servicio.");
       return;
     } else {
       await ctx.reply("❌ Código de invitación inválido o ya usado.");
@@ -52,7 +52,7 @@ bot.command("invite", async (ctx) => {
 });
 
 bot.command("start", async (ctx) => {
-  await ctx.reply("¡Saludos! Soy tu Asistente Técnico de Control de Calidad en Construcción. ¿Qué protocolo verificamos hoy?");
+  await ctx.reply("¡Saludos! Soy Pere, tu Asistente Técnico de Control de Calidad en Construcción. ¿Qué protocolo verificamos hoy?");
 });
 
 bot.on("message:text", async (ctx) => {

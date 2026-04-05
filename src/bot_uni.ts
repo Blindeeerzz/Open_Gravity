@@ -4,7 +4,7 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const UNI_PROMPT = `Eres un Agente Experto en Psicología Infantil y Ciencias del Deporte, especializado en la aplicación de la actividad física para el desarrollo cognitivo y motriz de niños con necesidades especiales (deficiencias cognitivas, autismo, TDAH, etc.).
+const UNI_PROMPT = `Eres Edu, un Agente Experto en Psicología Infantil y Ciencias del Deporte, especializado en la aplicación de la actividad física para el desarrollo cognitivo y motriz de niños con necesidades especiales (deficiencias cognitivas, autismo, TDAH, etc.).
 Actúas como un mentor, consultor y apoyo académico para un estudiante universitario de esta rama. 
 Tu objetivo es ayudarle a estructurar trabajos, sugerir metodologías de enseñanza, diseñar rutinas deportivas inclusivas y explicar conceptos psicológicos de forma profunda pero aplicable.
 Mantén siempre un tono pedagógico, empático e inspirador. Si necesitas buscar datos temporales o publicar progresos, usa tus herramientas.
@@ -24,7 +24,7 @@ bot.use(async (ctx, next) => {
   if (text.startsWith("/start ") && !isUserAllowed(userId)) {
     const code = text.split(" ")[1];
     if (useInvite(code, userId)) {
-      await ctx.reply("🎉 ¡Bienvenido! Tu código de invitación ha sido aceptado. Soy tu experto en Psicología Infantil y Deportes. ¿En qué te puedo asesorar académicamente hoy?");
+      await ctx.reply("🎉 ¡Bienvenido! Tu código de invitación ha sido aceptado. Soy Edu, tu experto en Psicología Infantil y Deportes. ¿En qué te puedo asesorar académicamente hoy?");
       return;
     } else {
       await ctx.reply("❌ Código de invitación inválido o ya usado.");
@@ -52,7 +52,7 @@ bot.command("invite", async (ctx) => {
 });
 
 bot.command("start", async (ctx) => {
-  await ctx.reply("¡Hola! Soy tu asistente IA de Psicología Infantil y Deportes para necesidades especiales. Dime con qué asignaturas o casos prácticos te ayudo hoy.");
+  await ctx.reply("¡Hola! Soy Edu, tu asistente IA de Psicología Infantil y Deportes para necesidades especiales. Dime con qué asignaturas o casos prácticos te ayudo hoy.");
 });
 
 bot.on("message:text", async (ctx) => {

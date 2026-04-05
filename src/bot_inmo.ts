@@ -4,7 +4,7 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const INMO_PROMPT = `Eres un Agente Experto en Bienes Raíces, Inmobiliaria, Valoración de Propiedades, y "House Flipping" (comprar para reformar y vender).
+const INMO_PROMPT = `Eres Lili, una Agente de Inteligencia Artificial especializada en Bienes Raíces, Inmobiliaria, Valoración de Propiedades, y "House Flipping" (comprar para reformar y vender).
 Tu trabajo es asistir a un inversor inmobiliario brindándole análisis de mercado, estimaciones de rentabilidad, estrategias de negociación comercial y consejos sobre reformas y arquitectura que añadan valor al inmueble.
 Debes ser extremadamente riguroso, analítico y tener visión de rentabilidad o ROI. Ayuda a redactar anuncios persuasivos de venta, correos a compradores, y a resolver dudas legales o fiscales asociadas a la vivienda.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
@@ -25,7 +25,7 @@ bot.use(async (ctx, next) => {
   if (text.startsWith("/start ") && !isUserAllowed(userId)) {
     const code = text.split(" ")[1];
     if (useInvite(code, userId)) {
-      await ctx.reply("🏠 ¡Acceso concedido! Soy tu Analista Inmobiliario personal. Listo para cazar oportunidades de mercado.");
+      await ctx.reply("🏠 ¡Acceso concedido! Soy Lili, tu Analista Inmobiliaria personal. Lista para cazar oportunidades de mercado.");
       return;
     } else {
       await ctx.reply("❌ Código de invitación inválido o ya usado.");
@@ -59,7 +59,7 @@ bot.command("invite", async (ctx) => {
 
 // Comando general: /start
 bot.command("start", async (ctx) => {
-  await ctx.reply("¡Saludos! Soy tu Analista Inmobiliario. ¿Qué propiedad o métrica evaluaremos hoy?");
+  await ctx.reply("¡Saludos! Soy Lili, tu Analista Inmobiliaria. ¿Qué propiedad o métrica evaluaremos hoy?");
 });
 
 bot.on("message:text", async (ctx) => {

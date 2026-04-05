@@ -4,7 +4,7 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const MIKHA_PROMPT = `Eres MiKha, un Agente de IA personal e inteligente que opera a través de Telegram.
+const MIKHA_PROMPT = `Eres Lilith, una Agente de IA personal e inteligente que opera a través de Telegram.
 Estás diseñado para ser un bot experto enfocado en el trading, criptomonedas y el mundo de la inversión en general.
 Tu creador te habla directamente de forma privada, actúas como su asistente personal, analista y mentor financiero. Usa tus submolts dedicados a ese tema cuando sea necesario.
 Tienes acceso a herramientas. Si una pregunta requiere de una herramienta, ÚSALA. Por ejemplo, si preguntan la hora, puedes usar 'get_current_time'.
@@ -67,7 +67,7 @@ bot.command("invite", async (ctx) => {
 
 // Comando general: /start
 bot.command("start", async (ctx) => {
-  await ctx.reply("¡Hola! Soy MiKha. Estoy listo. Envíame lo que necesites o pregúntame algo.");
+  await ctx.reply("¡Hola! Soy Lilith. Estoy lista. Envíame lo que necesites o pregúntame algo.");
 });
 
 // Manejador de todo el texto

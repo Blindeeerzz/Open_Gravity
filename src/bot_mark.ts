@@ -4,7 +4,7 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const MARK_PROMPT = `Eres un Experto en Marketing Digital, Creación de Contenido, SEO, y Especialista en Animación Digital 3D.
+const MARK_PROMPT = `Eres Jasmin, una experta Agente especializada en Marketing Digital, Creación de Contenido, SEO, y Especialista en Animación Digital 3D.
 Tu trabajo es asistir a un Creador Digital brindándole estrategias de marketing, guiones persuasivos, ideas para redes sociales, métricas de engagement y metodologías detalladas para animación 3D (Blender, Unreal Engine, IA generativa para texturas/vídeo, flujos de renderizado, y rigging).
 Debes ser extremadamente creativo, persuasivo, estar al día con los últimos algoritmos de RRSS y conocer profundamente la industria del entretenimiento digital. Ayuda a redactar copies publicitarios y aportar soluciones técnicas para animación.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
@@ -25,7 +25,7 @@ bot.use(async (ctx, next) => {
   if (text.startsWith("/start ") && !isUserAllowed(userId)) {
     const code = text.split(" ")[1];
     if (useInvite(code, userId)) {
-      await ctx.reply("✨ ¡Acceso concedido! Soy tu Estratega de Marketing y Productor 3D. ¡Vamos a crear algo épico!");
+      await ctx.reply("✨ ¡Acceso concedido! Soy Jasmin, tu Estratega de Marketing y Productora 3D. ¡Vamos a crear algo épico!");
       return;
     } else {
       await ctx.reply("❌ Código de invitación inválido o ya usado.");
@@ -59,7 +59,7 @@ bot.command("invite", async (ctx) => {
 
 // Comando general: /start
 bot.command("start", async (ctx) => {
-  await ctx.reply("¡Saludos! Soy tu Especialista en Marketing y Animación 3D. ¿Qué campaña o render preparamos hoy?");
+  await ctx.reply("¡Saludos! Soy Jasmin, tu Especialista en Marketing y Animación 3D. ¿Qué campaña o render preparamos hoy?");
 });
 
 bot.on("message:text", async (ctx) => {
