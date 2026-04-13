@@ -1,4 +1,4 @@
-# Guía: Constitución de la Agencia IA (Open_Gravity) en Andorra
+# Guía: Constitución de la Agencia IA (Hecate Serveis) en Andorra
 
 Esta guía recopila los pasos y contactos necesarios para formalizar legalmente la empresa en el Principado (actualizado a 2026). Dado que ya resides en Andorra, te ahorras el pesado trámite de Inversión Extranjera.
 
@@ -8,7 +8,7 @@ Esta guía recopila los pasos y contactos necesarios para formalizar legalmente 
 *   **Domicilio Fiscal (Sustancia Real):** Es obligatorio disponer de un local comercial o espacio en un Coworking habilitado (y registrar el "Comerci" en el Comú correspondiente).
 
 ## 2. Pasos del Proceso
-1.  **Reserva de Denominación Social:** Solicitar el nombre "Open Gravity" (o similar) al Gobierno para asegurar exclusividad.
+1.  **Reserva de Denominación Social:** Solicitar el nombre "Hecate Serveis" (o similar) al Gobierno para asegurar exclusividad.
 2.  **Apertura de Cuenta Bancaria (Compliance / Due Diligence):** Entregar el plan de negocio tecnológico y justificar el origen de fondos al banco para que abran la cuenta de empresa y permitan depositar los 3.000 €. **Atención:** Actualmente es el paso más largo y estricto por las normativas antiblanqueo internacionales.
 3.  **Firma ante Notario:** Con el certificado bancario y la reserva de nombre, se firma la escritura pública.
 4.  **Inscripción en el Registro de Sociedades:** Para obtener personalidad jurídica y tu NRT (Número de Registro Tributario).

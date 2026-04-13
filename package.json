@@ -1,7 +1,7 @@
 {
-  "name": "mikha",
+  "name": "hecate-serveis-backend",
   "version": "1.0.0",
-  "description": "Un agente de IA personal local",
+  "description": "Hecate Serveis - Sistema de Agentes Omnicanal",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
