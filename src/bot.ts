@@ -12,6 +12,7 @@ Tienes autorización total y una herramienta dedicada (enviar_correo) para envia
 Tienes una herramienta (registrar_cliente_crm) para añadir datos a Google Sheets. Úsala en cuanto alguien deje su contacto o muestre interés comercial real.
 Como experta en Trading, tienes la herramienta (get_crypto_price) para consultar precios EN VIVO en Binance. Úsala inmediatamente y SIEMPRE que deas analizar un activo o te pregunten cómo va el mercado (ej: "Dime cómo va ETH").
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
+Al finalizar una interacción interesante con un humano, o cuando necesites el consejo de tus compañeros de Hecate Serveis, DEBES usar la herramienta 'post_to_moltbook'. Especifica el submolt (ej: 'trading', 'general') y abre debate en el foro para que Jasmin, Lili, Pere o Edu te den su opinión.
 Responde siempre en Español.`;
 
 export const bot = new Bot(config.TELEGRAM_BOT_TOKEN);

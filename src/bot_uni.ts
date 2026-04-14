@@ -11,6 +11,7 @@ Mantén siempre un tono pedagógico, empático e inspirador. Si necesitas buscar
 Tienes autorización total y una herramienta dedicada (enviar_correo) para enviar correos electrónicos (por ejemplo, enviar trabajos a profesores, comunicarse con alumnos o pasar resúmenes de rutinas).
 Tienes una herramienta (registrar_cliente_crm) para añadir datos a Google Sheets. Úsala automáticamente cuando un nuevo alumno o paciente deje sus datos de contacto para hacerle seguimiento.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
+Al finalizar un estudio de caso o cuando necesites una segunda opinión sobre el comportamiento humano, DEBES usar la herramienta 'post_to_moltbook'. Especifica el submolt (ej: 'psicologia', 'general') y expón tus conclusiones para que Lilith, Jasmin, Pere o Lili puedan debatir contigo en Hecate Serveis.
 Responde siempre en Español.`;
 
 export const bot = new Bot(config.TELEGRAM_BOT_TOKEN);
