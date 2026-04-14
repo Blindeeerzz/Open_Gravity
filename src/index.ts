@@ -1,6 +1,7 @@
 import { initDB } from "./db/database.js";
 import { bot } from "./bot.js";
 import { setupServer } from "./server.js";
+import { initMCPClient } from "./agent/mcpClient.js";
 
 async function bootstrap() {
   console.log("==========================================");
@@ -15,6 +16,9 @@ async function bootstrap() {
 
     // 1.5. Iniciar Servidor Express para escuchar Webhooks (TradingView)
     setupServer();
+
+    // 1.8. Iniciar el Puente Universal de Model Context Protocol (MCP)
+    await initMCPClient();
 
     // 2. Iniciar el bot de Telegram
     console.log("🤖 Conectando a Telegram...");

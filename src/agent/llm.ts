@@ -1,5 +1,5 @@
 import { config } from "../config.js";
-import { availableToolsDefinitions } from "../tools/index.js";
+import { getCombinedTools } from "../tools/index.js";
 
 /**
  * Llama al LLM usando la API tipo OpenAI hospedada en HuggingFace.
@@ -18,7 +18,7 @@ export async function callLLM(messages: any[], model: string = config.HUGGINGFAC
       body: JSON.stringify({
         model: model,
         messages: messages,
-        tools: availableToolsDefinitions,
+        tools: getCombinedTools(),
         tool_choice: "auto",
         max_tokens: 2000
       })
@@ -56,7 +56,7 @@ async function callOpenRouterFallback(messages: any[]) {
       body: JSON.stringify({
         model: config.OPENROUTER_MODEL,
         messages: messages,
-        tools: availableToolsDefinitions,
+        tools: getCombinedTools(),
         tool_choice: "auto"
       })
     });

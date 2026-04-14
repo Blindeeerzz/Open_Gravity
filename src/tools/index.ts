@@ -5,6 +5,7 @@ import { scheduleAppointmentToolDef, executeScheduleAppointment } from "./schedu
 import { sendEmailToolDef, executeSendEmail } from "./send_email.js";
 import { crmSheetsToolDef, executeCrmSheets } from "./crm_sheets.js";
 import { getCryptoPriceToolDef, executeGetCryptoPrice } from "./get_crypto_price.js";
+import { getMCPTools, executeMCPTool } from "../agent/mcpClient.js";
 
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
@@ -17,9 +18,21 @@ export const availableToolsDefinitions = [
   getCryptoPriceToolDef
 ];
 
+export function getCombinedTools() {
+  const mcpTools = getMCPTools();
+  return [...availableToolsDefinitions, ...mcpTools];
+}
+
 // Ejecutor unificado
 export async function executeToolWrapper(name: string, args: any): Promise<string> {
   console.log(`[ToolExecution] Executing ${name} with args: ${JSON.stringify(args)}`);
+  
+  // Verificar si es una herramienta MCP remota
+  const mcpTools = getMCPTools();
+  if (mcpTools.find(tool => tool.function.name === name)) {
+    return await executeMCPTool(name, args);
+  }
+
   try {
     switch (name) {
       case "get_current_time":
