@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx --env-file=.env src/index.ts",
+    "dev:api": "tsx --env-file=.env src/server_only.ts",
     "dev:uni": "tsx --env-file=.env.uni src/index_uni.ts",
     "dev:const": "tsx --env-file=.env.const src/index_const.ts",
     "dev:inmo": "tsx --env-file=.env.inmo src/index_inmo.ts",

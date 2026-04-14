@@ -54,6 +54,23 @@ body {
   display: flex;
   align-items: center;
   background: rgba(0, 0, 0, 0.2);
+  gap: 20px;
+}
+
+.back-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-3px);
 }
 
 .header-info h1 {

@@ -1,0 +1,222 @@
+/* Landing Container */
+.landing-container {
+  width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  color: #fff;
+  z-index: 1;
+}
+
+/* Background Glowing Orbs */
+.bg-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.5;
+  animation: float 15s infinite ease-in-out alternate;
+}
+
+.purple-glow {
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(circle, rgba(138,43,226,0.4) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+
+.pink-glow {
+  bottom: -20%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, rgba(255,0,127,0.3) 0%, transparent 70%);
+  animation-delay: -5s;
+}
+
+/* Header Section */
+.landing-header {
+  text-align: center;
+  max-width: 800px;
+  margin-top: 5vh;
+  margin-bottom: 60px;
+  animation: fadeInDown 1s ease-out forwards;
+}
+
+.main-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -1px;
+  background: linear-gradient(to right, #ffffff, #a8a8a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #8a2be2;
+  margin: 10px 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #b3b3b3;
+  margin-bottom: 40px;
+}
+
+/* Call to Action Button */
+.cta-button {
+  background: linear-gradient(135deg, #8a2be2 0%, #ff007f 100%);
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(255, 0, 127, 0.5);
+}
+
+.cta-button:hover::after {
+  left: 100%;
+}
+
+/* Agents Grid */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  margin-bottom: 60px;
+}
+
+/* Agent Card - Glassmorphism */
+.agent-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+/* Stagger animation for cards */
+.agent-card:nth-child(1) { animation-delay: 0.1s; }
+.agent-card:nth-child(2) { animation-delay: 0.2s; }
+.agent-card:nth-child(3) { animation-delay: 0.3s; }
+.agent-card:nth-child(4) { animation-delay: 0.4s; }
+.agent-card:nth-child(5) { animation-delay: 0.5s; }
+
+.agent-card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.agent-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.agent-card:hover .agent-icon {
+  transform: scale(1.1);
+}
+
+.agent-name {
+  font-size: 1.5rem;
+  margin: 0 0 5px 0;
+  font-weight: 700;
+}
+
+.agent-role {
+  font-size: 0.9rem;
+  color: #ccc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 15px 0;
+  font-weight: 500;
+}
+
+.agent-description {
+  font-size: 0.95rem;
+  color: #a0a0a0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Footer */
+.landing-footer {
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+/* Animations */
+@keyframes float {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(5%, 10%) scale(1.1); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-title { font-size: 2.8rem; }
+  .subtitle { font-size: 1.2rem; }
+  .agents-grid { grid-template-columns: 1fr; }
+}
