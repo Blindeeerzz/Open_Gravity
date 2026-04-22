@@ -11,14 +11,29 @@ function detectLanguage(text: string): string {
   const caMatches = text.match(/\b(amb|i|que|però|això|és|són|l'|d'|seva|un|una|com|si us plau|molt|bon dia|adéu|una|les|les|dels|als)\b/gi);
   const esMatches = text.match(/\b(con|y|que|pero|esto|es|son|su|un|una|como|por favor|mucho|hola|adiós|las|los|del|al)\b/gi);
   const enMatches = text.match(/\b(with|and|that|but|this|is|are|his|her|an|how|please|much|hello|goodbye|the|of|to)\b/gi);
+  const frMatches = text.match(/\b(avec|et|que|mais|ce|est|sont|son|sa|un|une|comme|pour|dans|bonjour|merci|des)\b/gi);
+  const ruMatches = text.match(/\b(с|и|что|но|это|является|его|ее|как|для|в|на|привет|спасибо|да|нет)\b/gi);
+  const zhMatches = text.match(/(和|的|在|是|有|我|你|他|这|个|们|了|不|好|请|谢谢)/g);
   
   const caCount = caMatches ? caMatches.length : 0;
   const esCount = esMatches ? esMatches.length : 0;
   const enCount = enMatches ? enMatches.length : 0;
+  const frCount = frMatches ? frMatches.length : 0;
+  const ruCount = ruMatches ? ruMatches.length : 0;
+  const zhCount = zhMatches ? zhMatches.length : 0;
   
-  if (caCount > esCount && caCount > enCount) return 'ca';
-  if (enCount > esCount && enCount > caCount) return 'en';
-  return 'es'; // Por defecto siempre asumimos español
+  const counts = [
+    { lang: 'ca', count: caCount },
+    { lang: 'en', count: enCount },
+    { lang: 'fr', count: frCount },
+    { lang: 'ru', count: ruCount },
+    { lang: 'zh-CN', count: zhCount },
+    { lang: 'es', count: esCount }
+  ];
+  
+  counts.sort((a, b) => b.count - a.count);
+  
+  return counts[0].count > 0 ? counts[0].lang : 'es'; // Por defecto español si no detecta nada
 }
 
 /**

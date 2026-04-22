@@ -12,10 +12,11 @@ export async function transcribeAudio(fileUrl: string): Promise<string> {
     if (!response.ok) throw new Error(`Error descargando audio: ${response.statusText}`);
     const blob = await response.blob();
 
+    console.log("[Superpower] Enviando audio a Groq Whisper...");
     // Enviar a Groq
     const formData = new FormData();
     formData.append("file", blob, "audio.ogg");
-    formData.append("model", "whisper-large-v3");
+    formData.append("model", "whisper-large-v3-turbo");
 
     const groqRes = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
       method: "POST",

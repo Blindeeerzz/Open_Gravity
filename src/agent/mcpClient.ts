@@ -2,20 +2,20 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { config } from "../config.js";
 
-interface McpServerConfig {
+export interface McpServerConfig {
   name: string;
   command: string;
   args: string[];
   env?: Record<string, string>;
 }
 
-// Cliente Singleton
-let mcpClient: Client | null = null;
-let mcpToolsCache: any[] = [];
+// Client Registry
+const mcpClients = new Map<string, Client>();
+let mcpToolsRegistry: { serverName: string, tool: any }[] = [];
 
 // Lista de servidores MCP a despertar. 
 // De momento solo instalaremos el de Brave Search para la fase piloto.
-const BRAVE_SEARCH_SERVER: McpServerConfig = {
+export const BRAVE_SEARCH_SERVER: McpServerConfig = {
   name: "brave-search",
   command: "npx",
   args: ["-y", "@modelcontextprotocol/server-brave-search"],
@@ -25,60 +25,76 @@ const BRAVE_SEARCH_SERVER: McpServerConfig = {
   }
 };
 
-export async function initMCPClient() {
-  if (mcpClient) return;
-  
-  if (!process.env.BRAVE_API_KEY) {
-    console.warn("⚠️ [MCP] BRAVE_API_KEY no detectada. El servidor MCP de Brave Search no funcionará correctamente.");
-  }
+export async function initMCPClient(servers: McpServerConfig[]) {
+  if (!servers || servers.length === 0) return;
 
-  console.log(`[MCP] Iniciando transporte hacia el servidor ${BRAVE_SEARCH_SERVER.name}...`);
-  
-  const transport = new StdioClientTransport({
-    command: BRAVE_SEARCH_SERVER.command,
-    args: BRAVE_SEARCH_SERVER.args,
-    env: BRAVE_SEARCH_SERVER.env
+  const initPromises = servers.map(async (serverConf) => {
+    if (mcpClients.has(serverConf.name)) return; // Evitar reconexión si ya existe
+
+    console.log(`[MCP] Iniciando transporte hacia el servidor ${serverConf.name}...`);
+    
+    if (serverConf.name === "brave-search" && (!serverConf.env || !serverConf.env.BRAVE_API_KEY)) {
+      console.warn("⚠️ [MCP] BRAVE_API_KEY no detectada. El servidor MCP de Brave Search no funcionará correctamente.");
+    }
+
+    const transport = new StdioClientTransport({
+      command: serverConf.command,
+      args: serverConf.args,
+      env: serverConf.env
+    });
+
+    const client = new Client({ name: "hecate-serveis-client", version: "1.0.0" }, { capabilities: {}});
+
+    try {
+      await client.connect(transport);
+      
+      // Guardar el cliente
+      mcpClients.set(serverConf.name, client);
+      console.log(`✅ [MCP] Conectado exitosamente al servidor: ${serverConf.name}`);
+      
+      // Consultar y registrar sus herramientas asincrónicamente
+      const { tools } = await client.listTools();
+      tools.forEach(t => mcpToolsRegistry.push({ serverName: serverConf.name, tool: t }));
+      
+      console.log(`✅ [MCP] ${tools.length} Herramientas detectadas en ${serverConf.name}.`);
+      
+    } catch (error) {
+      console.error(`❌ [MCP] Error conectando al servidor ${serverConf.name}:`, error);
+    }
   });
 
-  mcpClient = new Client({ name: "hecate-serveis-client", version: "1.0.0" }, { capabilities: {}});
-
-  try {
-    await mcpClient.connect(transport);
-    console.log(`✅ [MCP] Conectado exitosamente al servidor: ${BRAVE_SEARCH_SERVER.name}`);
-    
-    // Cachear herramientas
-    const { tools } = await mcpClient.listTools();
-    mcpToolsCache = tools;
-    console.log(`✅ [MCP] Herramientas detectadas: ${tools.map(t => t.name).join(", ")}`);
-    
-  } catch (error) {
-    console.error("❌ [MCP] Error conectando al servidor MCP:", error);
-    mcpClient = null;
-  }
+  await Promise.all(initPromises);
 }
 
 export function getMCPTools() {
-  if (!mcpClient || mcpToolsCache.length === 0) return [];
+  if (mcpToolsRegistry.length === 0) return [];
   
   // Mapeamos el esquema de JSON de MCP al formato "function" de OpenAI/Gemini
-  return mcpToolsCache.map(tool => ({
+  return mcpToolsRegistry.map(reg => ({
     type: "function" as const,
     function: {
-      name: tool.name,
-      description: tool.description || `Execute ${tool.name} via MCP`,
-      parameters: tool.inputSchema
+      name: reg.tool.name,
+      description: reg.tool.description || `Execute ${reg.tool.name} via MCP [Server: ${reg.serverName}]`,
+      parameters: reg.tool.inputSchema
     }
   }));
 }
 
 export async function executeMCPTool(toolName: string, args: any): Promise<string> {
-  if (!mcpClient) {
-    return "Error: Cliente MCP no está conectado o disponible.";
+  const toolEntry = mcpToolsRegistry.find(reg => reg.tool.name === toolName);
+  
+  if (!toolEntry) {
+    return `Error: Herramienta MCP no registrada en el ecosistema.`;
+  }
+
+  const client = mcpClients.get(toolEntry.serverName);
+  if (!client) {
+    return `Error: Servidor MCP asociado (${toolEntry.serverName}) inactivo u offline.`;
   }
 
   try {
-    console.log(`[MCP] Ejecutando herramienta remota: ${toolName}`);
-    const result = await mcpClient.callTool({
+    console.log(`[MCP] Ejecutando herramienta remota [${toolEntry.serverName}]: ${toolName}`);
+    const result = await client.callTool({
       name: toolName,
       arguments: args
     });
@@ -87,7 +103,6 @@ export async function executeMCPTool(toolName: string, args: any): Promise<strin
       return `Error interno de la herramienta MCP (${toolName}): ${JSON.stringify(result.content)}`;
     }
     
-    // Las herramientas MCP devuelven un arreglo "content" donde el primer item suele ser texto
     if (result.content && result.content.length > 0) {
       if (result.content[0].type === "text") {
         return result.content[0].text;

@@ -24,7 +24,7 @@ export function setupSuperpowers(
       // Obtener la URL pública del archivo en los servidores de Telegram
       const fileId = ctx.message.voice.file_id;
       const file = await ctx.api.getFile(fileId);
-      const fileUrl = `https://api.telegram.org/file/bot${config.TELEGRAM_BOT_TOKEN}/${file.file_path}`;
+      const fileUrl = `https://api.telegram.org/file/bot${bot.token}/${file.file_path}`;
       
       // Módulo de Audio (Groq Whisper)
       const transcript = await transcribeAudio(fileUrl);
@@ -74,7 +74,7 @@ export function setupSuperpowers(
       // Telegram manda varias resoluciones, cogemos la más grande
       const highestResPhoto = ctx.message.photo[ctx.message.photo.length - 1];
       const file = await ctx.api.getFile(highestResPhoto.file_id);
-      const fileUrl = `https://api.telegram.org/file/bot${config.TELEGRAM_BOT_TOKEN}/${file.file_path}`;
+      const fileUrl = `https://api.telegram.org/file/bot${bot.token}/${file.file_path}`;
       
       const userCaption = ctx.message.caption || "";
       
@@ -119,7 +119,7 @@ export function setupSuperpowers(
       const readingMsg = await ctx.reply("📑 *Leyendo documento PDF...*", { parse_mode: "Markdown" });
       
       const file = await ctx.api.getFile(doc.file_id);
-      const fileUrl = `https://api.telegram.org/file/bot${config.TELEGRAM_BOT_TOKEN}/${file.file_path}`;
+      const fileUrl = `https://api.telegram.org/file/bot${bot.token}/${file.file_path}`;
       
       const userCaption = ctx.message.caption || "";
       

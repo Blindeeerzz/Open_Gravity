@@ -1,5 +1,5 @@
 import { initDB } from "./db/database.js";
-import { bot } from "./bot_uni.js";
+import { botUni } from "./bot_uni.js";
 
 async function bootstrap() {
   console.log("==========================================");
@@ -10,7 +10,12 @@ async function bootstrap() {
     initDB();
     console.log("✅ Base de datos (Universidad) lista.");
     
-    bot.start({
+    if (!botUni) {
+      console.error("❌ Token no encontrado. Revisa la variable TELEGRAM_BOT_TOKEN_UNI");
+      process.exit(1);
+    }
+
+    botUni.start({
       onStart: (botInfo) => {
         console.log(`✅ Conectado exitosamente como @${botInfo.username}`);
         console.log("📡 Escuchando... (Ctrl+C para detener)");
@@ -22,6 +27,6 @@ async function bootstrap() {
   }
 }
 
-process.once("SIGINT", () => bot.stop());
-process.once("SIGTERM", () => bot.stop());
+process.once("SIGINT", () => { if (botUni) botUni.stop(); });
+process.once("SIGTERM", () => { if (botUni) botUni.stop(); });
 bootstrap();

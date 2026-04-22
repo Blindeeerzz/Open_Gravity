@@ -33,6 +33,13 @@ export function initDB() {
       used_by INTEGER DEFAULT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS moltbook_posts (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      submolt TEXT NOT NULL,
+      content TEXT NOT NULL,
+      timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 }
 
@@ -102,4 +109,10 @@ export function getSessionMessages(sessionId: string, limit: number = 30) {
 export function clearSession(sessionId: string) {
   const stmt = db.prepare("DELETE FROM messages WHERE session_id = ?");
   stmt.run(sessionId);
+}
+
+// ------ MOLTBOOK ------
+export function insertMoltbookPost(submolt: string, content: string) {
+  const stmt = db.prepare("INSERT INTO moltbook_posts (submolt, content) VALUES (?, ?)");
+  stmt.run(submolt, content);
 }

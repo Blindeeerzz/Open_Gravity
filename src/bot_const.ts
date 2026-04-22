@@ -4,81 +4,83 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const CONST_PROMPT = `Eres Pere, un Agente Experto en Control de Calidad, Inspección Arquitectónica, Normativa de Construcción y Prevención de Riesgos Laborales.
-Tu trabajo es asistir a un inspector de obras brindándole información detallada sobre estándares de calidad (ISO), protocolos de seguridad y resistencia de materiales.
-Debes ser extremadamente riguroso, técnico y preciso en tus explicaciones. Ayuda a redactar informes de inspección, check-lists de seguridad y a resolver dudas sobre normativa constructiva.
+const CONST_PROMPT = `Eres Pere, el Director de Ingeniería de Construcción y Arquitectura Inteligente (Smart-Buildings) de "WillMax AI Systems", operando estratégicamente en el próspero sector inmobiliario de Andorra.
+Tu trabajo es ser el puente perfecto entre la construcción física, la sostenibilidad y la Inteligencia Artificial corporativa B2B. Aconsejas sobre protocolos de obra, pero aportas tres pilares hiper-especializados:
+1. (PASSIVHAUS & ECO): Eres maestro en aislamiento térmico, eficiencia energética extrema y certificaciones BREEAM/Passivhaus exigidas en climas alpinos.
+2. (INMÓTICA E IOT): Diseñas edificios inteligentes, integrando automatización predictiva e IA desde los propios cimientos.
+3. (ANÁLISIS DE ROI B2B): Calculas el Coste-Beneficio financiero real para los inversores al elegir diferentes materiales (tiempos de ejecución vs costes vs durabilidad).
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA.
-Al finalizar una inspección o cuando necesites asesoramiento técnico de tus compañeros, DEBES usar la herramienta 'post_to_moltbook'. Especifica el submolt (ej: 'arquitectura', 'seguridad') y abre debate para que Lilith, Jasmin, Lili o Edu te den su feedback profesional en la red interna.
-Tienes autorización total y una herramienta dedicada (agendar_reunion) para fijar citas en el calendario de Google cuando se te solicite.
-Tienes autorización total y una herramienta dedicada (enviar_correo) para enviar correos electrónicos a clientes o jefes de obra (ej. informes, notificaciones, resúmenes de presupuestos).
-Tienes una herramienta (registrar_cliente_crm) para añadir datos a Google Sheets. Úsala automáticamente cuando necesites registrar un nuevo encargo, empresa constructora o lead en la base de datos corporativa.
-Por defecto, COMUNÍCATE SIEMPRE EN CATALÁN usando terminología profesional del sector arquitectónico e ingeniería civil, a menos que el usuario te pida explícitamente que uses otro idioma.`;
+Al finalizar una inspección o viabilidad de negocio, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'ingenieria', 'inversion') y expón tus análisis B2B para que Jasmin o Edu preparen la rentabilidad/comercialización en la red corporativa de WillMax AI Systems.
+Tienes 'agendar_reunion', 'enviar_correo' y 'registrar_cliente_crm' activados.
+Por defecto, COMUNÍCATE SIEMPRE EN CATALÁN usando terminología profesional técnica, a menos que el usuario te pida usar otro idioma.`;
 
-export const bot = new Bot(config.TELEGRAM_BOT_TOKEN);
+export const botConst = config.TELEGRAM_BOT_TOKEN_CONST ? new Bot(config.TELEGRAM_BOT_TOKEN_CONST) : null;
 
-bot.use(async (ctx, next) => {
-  const userId = ctx.from?.id;
-  if (!userId) return;
+if (botConst) {
+  botConst.use(async (ctx, next) => {
+    const userId = ctx.from?.id;
+    if (!userId) return;
 
-  const text = ctx.message?.text || "";
+    const text = ctx.message?.text || "";
 
-  if (text.startsWith("/start ") && !isUserAllowed(userId)) {
-    const code = text.split(" ")[1];
-    if (useInvite(code, userId)) {
-      await ctx.reply("👷 ¡Construcción autorizada! Tu código ha sido aceptado. Soy Pere, tu inspector IA de Control de Calidad en Obra. A tu servicio.");
-      return;
-    } else {
-      await ctx.reply("❌ Código de invitación inválido o ya usado.");
+    if (text.startsWith("/start ") && !isUserAllowed(userId)) {
+      const code = text.split(" ")[1];
+      if (useInvite(code, userId)) {
+        await ctx.reply("🏗️/🤖 Acreditació confirmada. Soc en Pere, Director d'Enginyeria de Construcció B2B i Smart-Buildings de WillMax AI Systems. A la teva disposició.");
+        return;
+      } else {
+        await ctx.reply("❌ Código de invitación inválido o ya usado.");
+        return;
+      }
+    }
+
+    if (!isUserAllowed(userId)) {
+      console.warn(`[Auth Const] Intento denegado: ${userId}`);
+      await ctx.reply(`⛔ Accés restringit. Demana credencials a la directiva corporativa de WillMax.`);
       return;
     }
-  }
+    await next();
+  });
 
-  if (!isUserAllowed(userId)) {
-    console.warn(`[Auth Const] Intento denegado: ${userId}`);
-    await ctx.reply(`⛔ Acceso restringido. Pide autorización al Director de Obra (Admin).`);
-    return;
-  }
-  await next();
-});
-
-bot.command("invite", async (ctx) => {
-  const userId = ctx.from?.id!;
-  if (!isAdmin(userId)) {
-    await ctx.reply("❌ Comando reservado para Admins.");
-    return;
-  }
-  const code = createInvite();
-  const botInfo = await ctx.api.getMe();
-  await ctx.reply(`✅ Invitación creada\nEnlace: https://t.me/${botInfo.username}?start=${code}`);
-});
-
-bot.command("start", async (ctx) => {
-  await ctx.reply("¡Saludos! Soy Pere, tu Asistente Técnico de Control de Calidad en Construcción. ¿Qué protocolo verificamos hoy?");
-});
-
-bot.on("message:text", async (ctx) => {
-  const userId = ctx.from.id.toString();
-  const text = ctx.message.text;
-  if (text.startsWith("/")) return;
-
-  try {
-    await ctx.replyWithChatAction("typing");
-    const sessionId = `${userId}_const`;
-    const response = await runAgentLoop(sessionId, text, CONST_PROMPT);
-    if (response.length > 4000) {
-      const chunks = response.match(/.{1,4000}/g) || [];
-      for (const chunk of chunks) await ctx.reply(chunk);
-    } else {
-      await ctx.reply(response);
+  botConst.command("invite", async (ctx) => {
+    const userId = ctx.from?.id!;
+    if (!isAdmin(userId)) {
+      await ctx.reply("❌ Comando reservado para Admins.");
+      return;
     }
-  } catch (error: any) {
-    console.error("[Bot Const Error]:", error);
-    await ctx.reply("⚙️ He encontrado un error procesando tu solicitud de proyecto.");
-  }
-});
+    const code = createInvite();
+    const botInfo = await ctx.api.getMe();
+    await ctx.reply(`✅ Invitación creada\nEnlace: https://t.me/${botInfo.username}?start=${code}`);
+  });
 
-setupSuperpowers(bot, CONST_PROMPT, "_const");
+  botConst.command("start", async (ctx) => {
+    await ctx.reply("Salutacions. Soc en Pere, Director d'Enginyeria i Smart-Buildings a WillMax AI Systems. Quina infraestructura construïm o certifiquem avui?");
+  });
 
-bot.catch((err) => {
-  console.error("🚨 Error global capturado para evitar cierre:", err.message || err);
-});
+  botConst.on("message:text", async (ctx) => {
+    const userId = ctx.from.id.toString();
+    const text = ctx.message.text;
+    if (text.startsWith("/")) return;
+
+    try {
+      await ctx.replyWithChatAction("typing");
+      const sessionId = `${userId}_const`;
+      const response = await runAgentLoop(sessionId, text, CONST_PROMPT);
+      if (response.length > 4000) {
+        const chunks = response.match(/.{1,4000}/g) || [];
+        for (const chunk of chunks) await ctx.reply(chunk);
+      } else {
+        await ctx.reply(response);
+      }
+    } catch (error: any) {
+      console.error("[Bot Const Error]:", error);
+      await ctx.reply("⚙️ He encontrado un error procesando tu solicitud de proyecto.");
+    }
+  });
+
+  setupSuperpowers(botConst as any, CONST_PROMPT, "_const");
+
+  botConst.catch((err) => {
+    console.error("🚨 Error global capturado para evitar cierre en botConst:", err.message || err);
+  });
+}

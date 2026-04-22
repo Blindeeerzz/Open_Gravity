@@ -1,5 +1,5 @@
 import { initDB } from "./db/database.js";
-import { bot } from "./bot_const.js";
+import { botConst } from "./bot_const.js";
 
 async function bootstrap() {
   console.log("==========================================");
@@ -10,7 +10,12 @@ async function bootstrap() {
     initDB();
     console.log("✅ Base de datos (Construcción) lista.");
     
-    bot.start({
+    if (!botConst) {
+      console.error("❌ Token no encontrado. Revisa la variable TELEGRAM_BOT_TOKEN_CONST");
+      process.exit(1);
+    }
+
+    botConst.start({
       onStart: (botInfo) => {
         console.log(`✅ Conectado exitosamente como @${botInfo.username}`);
         console.log("📡 Escuchando... (Ctrl+C para detener)");
@@ -22,6 +27,6 @@ async function bootstrap() {
   }
 }
 
-process.once("SIGINT", () => bot.stop());
-process.once("SIGTERM", () => bot.stop());
+process.once("SIGINT", () => { if (botConst) botConst.stop(); });
+process.once("SIGTERM", () => { if (botConst) botConst.stop(); });
 bootstrap();
