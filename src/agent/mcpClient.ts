@@ -25,7 +25,7 @@ export const BRAVE_SEARCH_SERVER: McpServerConfig = {
   }
 };
 
-export async function initMCPClient(servers: McpServerConfig[]) {
+export async function initMCPClient(servers: McpServerConfig[] = []) {
   if (!servers || servers.length === 0) return;
 
   const initPromises = servers.map(async (serverConf) => {
@@ -103,11 +103,12 @@ export async function executeMCPTool(toolName: string, args: any): Promise<strin
       return `Error interno de la herramienta MCP (${toolName}): ${JSON.stringify(result.content)}`;
     }
     
-    if (result.content && result.content.length > 0) {
-      if (result.content[0].type === "text") {
-        return result.content[0].text;
+    const content = result.content as any[];
+    if (content && content.length > 0) {
+      if (content[0].type === "text") {
+        return content[0].text;
       }
-      return JSON.stringify(result.content);
+      return JSON.stringify(content);
     }
     
     return "La herramienta se ejecutó pero no devolvió ninguna salida textual.";
