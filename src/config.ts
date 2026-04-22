@@ -6,6 +6,7 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN_MARK: z.string().optional(),
   TELEGRAM_BOT_TOKEN_UNI: z.string().optional(),
   TELEGRAM_BOT_TOKEN_CONST: z.string().optional(),
+  TELEGRAM_BOT_TOKEN_CYBER: z.string().optional(),
   TELEGRAM_ADMIN_IDS: z.string().min(1, "Debe proveer IDs de administradores (separadas por coma)"),
   HUGGINGFACE_API_KEY: z.string().min(1, "Debe proveer una clave HUGGINGFACE_API_KEY"),
   OPENROUTER_API_KEY: z.string().optional(),

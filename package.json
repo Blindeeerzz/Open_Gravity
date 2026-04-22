@@ -11,12 +11,14 @@
     "dev:const": "tsx --env-file=.env.const src/index_const.ts",
     "dev:inmo": "tsx --env-file=.env.inmo src/index_inmo.ts",
     "dev:mark": "tsx --env-file=.env.mark src/index_mark.ts",
+    "dev:cyber": "tsx --env-file=.env.cyber src/index_cyber.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "start:uni": "node dist/index_uni.js",
     "start:const": "node dist/index_const.js",
     "start:inmo": "node dist/index_inmo.js",
-    "start:mark": "node dist/index_mark.js"
+    "start:mark": "node dist/index_mark.js",
+    "start:cyber": "node dist/index_cyber.js"
   },
   "dependencies": {
     "@grammyjs/files": "^1.2.0",

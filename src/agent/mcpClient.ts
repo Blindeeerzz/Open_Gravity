@@ -25,6 +25,25 @@ export const BRAVE_SEARCH_SERVER: McpServerConfig = {
   }
 };
 
+export const FETCH_SERVER: McpServerConfig = {
+  name: "fetch",
+  command: "npx",
+  args: ["-y", "@modelcontextprotocol/server-fetch"],
+  env: {
+    PATH: process.env.PATH || ""
+  }
+};
+
+export const GITHUB_SERVER: McpServerConfig = {
+  name: "github",
+  command: "npx",
+  args: ["-y", "@modelcontextprotocol/server-github"],
+  env: {
+    GITHUB_PERSONAL_ACCESS_TOKEN: process.env.GITHUB_PERSONAL_ACCESS_TOKEN || "",
+    PATH: process.env.PATH || ""
+  }
+};
+
 export async function initMCPClient(servers: McpServerConfig[] = []) {
   if (!servers || servers.length === 0) return;
 
