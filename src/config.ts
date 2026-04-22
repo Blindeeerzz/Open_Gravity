@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const envSchema = z.object({
   TELEGRAM_BOT_TOKEN: z.string().min(1, "Debe proveer un TELEGRAM_BOT_TOKEN base"),
+  TELEGRAM_BOT_TOKEN_INMO: z.string().optional(),
   TELEGRAM_BOT_TOKEN_MARK: z.string().optional(),
   TELEGRAM_BOT_TOKEN_UNI: z.string().optional(),
   TELEGRAM_BOT_TOKEN_CONST: z.string().optional(),

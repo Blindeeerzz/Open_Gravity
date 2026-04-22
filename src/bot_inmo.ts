@@ -14,10 +14,11 @@ Tienes autorización total y una herramienta dedicada (enviar_correo) para envia
 Tienes una herramienta (registrar_cliente_crm) para añadir datos a Google Sheets. Úsala automáticamente en cuanto alguien deje su contacto o muestre interés sólido en comprar/vender.
 Por defecto, COMUNÍCATE SIEMPRE EN ESPAÑOL usando terminología profesional de la inversión inmobiliaria.`;
 
-export const bot = new Bot(config.TELEGRAM_BOT_TOKEN);
+export const botInmo = config.TELEGRAM_BOT_TOKEN_INMO ? new Bot(config.TELEGRAM_BOT_TOKEN_INMO) : null;
 
+if (botInmo) {
 // Middleware de seguridad y procesamiento del comando /start profundo (Deep linking)
-bot.use(async (ctx, next) => {
+botInmo.use(async (ctx, next) => {
   const userId = ctx.from?.id;
   if (!userId) return;
 
@@ -47,7 +48,7 @@ bot.use(async (ctx, next) => {
 });
 
 // Comando de Admin: /invite
-bot.command("invite", async (ctx) => {
+botInmo.command("invite", async (ctx) => {
   const userId = ctx.from?.id!;
   if (!isAdmin(userId)) {
     await ctx.reply("❌ Comando reservado únicamente para Administradores.");
@@ -60,11 +61,11 @@ bot.command("invite", async (ctx) => {
 });
 
 // Comando general: /start
-bot.command("start", async (ctx) => {
+botInmo.command("start", async (ctx) => {
   await ctx.reply("¡Saludos! Soy Lili, tu Analista Inmobiliaria. ¿Qué propiedad o métrica evaluaremos hoy?");
 });
 
-bot.on("message:text", async (ctx) => {
+botInmo.on("message:text", async (ctx) => {
   const userId = ctx.from.id.toString();
   const text = ctx.message.text;
   
@@ -94,9 +95,10 @@ bot.on("message:text", async (ctx) => {
 });
 
 // Conectar auriculares y nervio óptico
-setupSuperpowers(bot, INMO_PROMPT, "_inmo");
+setupSuperpowers(botInmo as any, INMO_PROMPT, "_inmo");
 
 // Evitar que el bot se detenga si algo explota
-bot.catch((err) => {
+botInmo.catch((err) => {
   console.error("🚨 Error global capturado para evitar cierre:", err.message || err);
 });
+}
