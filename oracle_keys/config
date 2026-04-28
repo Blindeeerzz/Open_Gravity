@@ -3,4 +3,4 @@ user=ocid1.user.oc1..aaaaaaaarqr45zy6mn4k7lt3kimdmvv43j3gmmxtjjwyt5eb7bxwubsmpxz
 fingerprint=f2:5a:81:ef:1e:d1:34:09:a4:d9:e2:2d:9b:67:fd:82
 tenancy=ocid1.tenancy.oc1..aaaaaaaamdulewwzuw4ars3cqfnwnpmqxhz3rt5uwp6pyyge2hwibj6euyba
 region=eu-madrid-1
-key_file=c:\Users\hachi\OneDrive\Escritorio\Open_Gravity\oracle_keys\oracle_key.pem
+key_file=c:\Users\hachi\OneDrive\Escritorio\Hecate_Serveis\oracle_keys\oracle_key.pem

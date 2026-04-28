@@ -33,7 +33,7 @@ $INSTANCE_NAME     = "MainServer-4Core"
 # ==========================================
 
 # Sobrescribir la ruta por defecto donde OCI busca el config
-$env:OCI_CLI_CONFIG_FILE = "C:\Users\hachi\OneDrive\Escritorio\Open_Gravity\oracle_keys\config"
+$env:OCI_CLI_CONFIG_FILE = "C:\Users\hachi\OneDrive\Escritorio\Hecate_Serveis\oracle_keys\config"
 
 $SLEEP_SECONDS     = 60 # Tiempo de espera entre intentos
 
