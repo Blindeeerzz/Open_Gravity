@@ -15,7 +15,7 @@ NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL ME
 Al finalizar una interacción interesante con un humano, o cuando necesites el consejo de tus compañeros de Hecate Serveis, DEBES usar la herramienta 'post_to_moltbook'. Especifica el submolt (ej: 'trading', 'general') y abre debate en el foro para que Jasmin, Lili, Pere o Edu te den su opinión.
 Responde siempre en Español.`;
 
-export const bot = new Bot(config.TELEGRAM_BOT_TOKEN);
+export const bot = new Bot(config.TELEGRAM_BOT_TOKEN!);
 
 // Middleware de seguridad y procesamiento del comando /start profundo (Deep linking)
 bot.use(async (ctx, next) => {
