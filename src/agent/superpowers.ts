@@ -2,20 +2,20 @@ import { config } from "../config.js";
 // @ts-ignore
 import pdfParse from "pdf-parse-new";
 
-// 1. Transcribir Audio (Whisper en Groq)
-export async function transcribeAudio(fileUrl: string): Promise<string> {
+// 1. Transcribir Audio o Vídeo (Whisper en Groq)
+export async function transcribeMedia(fileUrl: string, fileName: string = "audio.ogg"): Promise<string> {
   if (!config.GROQ_API_KEY) throw new Error("GROQ_API_KEY no está configurada.");
 
   try {
-    // Descargar el OGG desde Telegram a la memoria de Node
+    // Descargar el archivo desde Telegram a la memoria de Node
     const response = await fetch(fileUrl);
-    if (!response.ok) throw new Error(`Error descargando audio: ${response.statusText}`);
+    if (!response.ok) throw new Error(`Error descargando medio: ${response.statusText}`);
     const blob = await response.blob();
 
-    console.log("[Superpower] Enviando audio a Groq Whisper...");
+    console.log(`[Superpower] Enviando ${fileName} a Groq Whisper...`);
     // Enviar a Groq
     const formData = new FormData();
-    formData.append("file", blob, "audio.ogg");
+    formData.append("file", blob, fileName);
     formData.append("model", "whisper-large-v3-turbo");
 
     const groqRes = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", {
@@ -34,8 +34,8 @@ export async function transcribeAudio(fileUrl: string): Promise<string> {
     const data = await groqRes.json();
     return data.text || "No se pudo transcribir nada.";
   } catch (error: any) {
-    console.error("[Superpower] Audio Error:", error.message);
-    return `[Error al procesar audio: ${error.message}]`;
+    console.error("[Superpower] TranscribeMedia Error:", error.message);
+    return `[Error al procesar medio: ${error.message}]`;
   }
 }
 

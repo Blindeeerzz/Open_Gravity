@@ -31,7 +31,8 @@ const translations = {
       lili: { role: "VP Real Estate", desc: "Analítica de activos, prospectiva de zonas candentes y rentabilidades automáticas.", skills: ["Flipping", "Tasación", "Scraping"] },
       jasmin: { role: "Dir. Marketing & 3D", desc: "Generación de pipelines SEO, renders procedurales y copys virales mediante LLMs.", skills: ["Blender API", "SEO", "Ads"] },
       pere: { role: "Inspector Civil", desc: "Auditoría en tiempo real de códigos de planeamiento urbano y licencias constructivas.", skills: ["CTE", "BIM", "Safety ISO"] },
-      edu: { role: "Lead Psicología", desc: "Modelado psicométrico de usuarios para adaptar estrategias e interacciones.", skills: ["TCC", "Neurología", "Data"] }
+      edu: { role: "Lead Psicología", desc: "Modelado psicométrico de usuarios para adaptar estrategias e interacciones.", skills: ["TCC", "Neurología", "Data"] },
+      aegis: { role: "Director de Ciberseguridad", desc: "Auditoría preventiva, blindaje contra ransomware y Pentesting OSINT continuo.", skills: ["Zero-Trust", "OSINT", "Pentesting"] }
     }
   },
   ca: {
@@ -47,7 +48,8 @@ const translations = {
       lili: { role: "VP Real Estate", desc: "Analítica d'actius, prospectiva de zones calentes i rendibilitats automàtiques.", skills: ["Flipping", "Taxació", "Scraping"] },
       jasmin: { role: "Dir. Màrqueting & 3D", desc: "Generació de pipelines SEO, renders procedurals i copys virals mitjançant LLMs.", skills: ["Blender API", "SEO", "Ads"] },
       pere: { role: "Inspector Civil", desc: "Auditoria en temps real de codis de planejament urbà i llicències constructives.", skills: ["CTE", "BIM", "Safety ISO"] },
-      edu: { role: "Lead Psicologia", desc: "Modelatge psicomètric d'usuaris per adaptar estratègies i interaccions.", skills: ["TCC", "Neurologia", "Data"] }
+      edu: { role: "Lead Psicologia", desc: "Modelatge psicomètric d'usuaris per adaptar estratègies i interaccions.", skills: ["TCC", "Neurologia", "Data"] },
+      aegis: { role: "Director de Ciberseguretat", desc: "Auditoria preventiva, blindatge contra ransomware i Pentesting OSINT continu.", skills: ["Zero-Trust", "OSINT", "Pentesting"] }
     }
   },
   en: {
@@ -63,7 +65,8 @@ const translations = {
       lili: { role: "VP Real Estate", desc: "Asset analytics, hot zone forecasting, and automated quantitative yields.", skills: ["Flipping", "Appraisal", "Scraping"] },
       jasmin: { role: "Dir. Marketing & 3D", desc: "SEO pipeline generation, procedural renders, and viral copywriting via LLMs.", skills: ["Blender API", "SEO", "Ads"] },
       pere: { role: "Civil Inspector", desc: "Real-time auditing of urban planning codes and construction licensing.", skills: ["Building Codes", "BIM", "Safety ISO"] },
-      edu: { role: "Lead Psychology", desc: "Psychometric user modeling for highly adaptive interactions and strategy.", skills: ["CBT", "Neurology", "Data"] }
+      edu: { role: "Lead Psychology", desc: "Psychometric user modeling for highly adaptive interactions and strategy.", skills: ["CBT", "Neurology", "Data"] },
+      aegis: { role: "Director of Cybersecurity", desc: "Preventive auditing, ransomware shielding, and continuous OSINT pentesting.", skills: ["Zero-Trust", "OSINT", "Pentesting"] }
     }
   },
   fr: {
@@ -79,7 +82,8 @@ const translations = {
       lili: { role: "VP Immobilier", desc: "Analyse d'actifs, prospective de zones chaudes et rendements quantitatifs automatisés.", skills: ["Flipping", "Évaluation", "Scraping"] },
       jasmin: { role: "Dir. Marketing & 3D", desc: "Génération de pipelines SEO, rendus procéduraux et rédaction virale via LLMs.", skills: ["API Blender", "SEO", "Publicités"] },
       pere: { role: "Inspecteur Civil", desc: "Audit en temps réel des codes d'urbanisme et des permis de construire.", skills: ["Codes Bâtiment", "BIM", "Sécurité ISO"] },
-      edu: { role: "Lead Psychologie", desc: "Modélisation psychométrique des utilisateurs pour adapter les stratégies et les interactions.", skills: ["TCC", "Neurologie", "Données"] }
+      edu: { role: "Lead Psychologie", desc: "Modélisation psychométrique des utilisateurs pour adapter les stratégies et les interactions.", skills: ["TCC", "Neurologie", "Données"] },
+      aegis: { role: "Directeur de Cybersécurité", desc: "Audit préventif, blindage contre les ransomwares et pentesting OSINT continu.", skills: ["Zero-Trust", "OSINT", "Pentesting"] }
     }
   },
   ru: {
@@ -95,7 +99,8 @@ const translations = {
       lili: { role: "VP Недвижимость", desc: "Аналитика активов, прогнозирование горячих зон и автоматизированная доходность.", skills: ["Флиппинг", "Оценка", "Скрапинг"] },
       jasmin: { role: "Dir. Маркетинг & 3D", desc: "Генерация SEO-воронок, процедурные рендеры и виральный копирайтинг с помощью LLM.", skills: ["Blender API", "SEO", "Реклама"] },
       pere: { role: "Гражданский Инспектор", desc: "Аудит градостроительных кодексов и разрешений на строительство в реальном времени.", skills: ["СНиП", "BIM", "Безопасность ISO"] },
-      edu: { role: "Lead Психология", desc: "Психометрическое моделирование пользователей для адаптации стратегий и взаимодействий.", skills: ["КПТ", "Неврология", "Данные"] }
+      edu: { role: "Lead Психология", desc: "Психометрическое моделирование пользователей для адаптации стратегий и взаимодействий.", skills: ["КПТ", "Неврология", "Данные"] },
+      aegis: { role: "Директор по Кибербезопасности", desc: "Превентивный аудит, защита от программ-вымогателей и непрерывный OSINT-пентестинг.", skills: ["Zero-Trust", "OSINT", "Пентестинг"] }
     }
   },
   zh: {
@@ -111,7 +116,8 @@ const translations = {
       lili: { role: "VP 房地产", desc: "资产分析，热点区域预测以及自动量化收益。", skills: ["炒房", "房屋估价", "数据抓取"] },
       jasmin: { role: "Dir. 营销 & 3D", desc: "通过 LLM 生成 SEO 漏斗、程序化渲染和病毒式文案。", skills: ["Blender API", "搜索引擎优化", "广告"] },
       pere: { role: "民事监督员", desc: "实时审计城市规划法规和建筑许可。", skills: ["建筑规范", "BIM", "安全 ISO"] },
-      edu: { role: "Lead 心理学", desc: "进行用户心理建模，以调整策略和交互模式。", skills: ["认知行为疗法", "神经学", "数据"] }
+      edu: { role: "Lead 心理学", desc: "进行用户心理建模，以调整策略和交互模式。", skills: ["认知行为疗法", "神经学", "数据"] },
+      aegis: { role: "网络安全总监", desc: "预防性审计，防御勒索软件和持续的开源情报（OSINT）渗透测试。", skills: ["零信任架构", "OSINT", "渗透测试"] }
     }
   }
 };
@@ -127,7 +133,8 @@ function Landing({ onEnterChat }: LandingProps) {
     { id: 'lili', name: 'Lili', icon: <Home size={28} color="#ff4dc4" />, accent: '#ff007f', skills: ['Flipping', 'Tasación', 'Scraping'] },
     { id: 'jasmin', name: 'Jasmin', icon: <Megaphone size={28} color="#4dffb8" />, accent: '#00ff88', skills: ['Blender API', 'SEO', 'Ads'] },
     { id: 'pere', name: 'Pere', icon: <HardHat size={28} color="#ffb34d" />, accent: '#ff8c00', skills: ['CTE', 'BIM', 'Safety ISO'] },
-    { id: 'edu', name: 'Edu', icon: <BrainCircuit size={28} color="#4dffff" />, accent: '#00bfff', skills: ['TCC', 'Neurología', 'Data'] }
+    { id: 'edu', name: 'Edu', icon: <BrainCircuit size={28} color="#4dffff" />, accent: '#00bfff', skills: ['TCC', 'Neurología', 'Data'] },
+    { id: 'aegis', name: 'Aegis', icon: <ShieldCheck size={28} color="#ff3333" />, accent: '#ff0000', skills: ['Zero-Trust', 'OSINT', 'Pentesting'] }
   ];
 
   return (

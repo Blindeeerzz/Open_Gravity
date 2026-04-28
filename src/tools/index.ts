@@ -5,8 +5,16 @@ import { scheduleAppointmentToolDef, executeScheduleAppointment } from "./schedu
 import { sendEmailToolDef, executeSendEmail } from "./send_email.js";
 import { crmSheetsToolDef, executeCrmSheets } from "./crm_sheets.js";
 import { getCryptoPriceToolDef, executeGetCryptoPrice } from "./get_crypto_price.js";
+import { shodanToolDef, executeShodanSearch } from "./shodan.js";
+import { 
+  whoisLookupToolDef, executeWhoisLookup,
+  dnsLookupToolDef, executeDnsLookup,
+  portScannerToolDef, executePortScanner,
+  httpHeadersScannerToolDef, executeHttpHeadersScanner,
+  subdomainSearchToolDef, executeSubdomainSearch,
+  nmapToolDef, executeNmap
+} from "./cyber_tools.js";
 import { getMCPTools, executeMCPTool } from "../agent/mcpClient.js";
-
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
   getCurrentTimeToolDef,
@@ -15,7 +23,14 @@ export const availableToolsDefinitions = [
   scheduleAppointmentToolDef,
   sendEmailToolDef,
   crmSheetsToolDef,
-  getCryptoPriceToolDef
+  getCryptoPriceToolDef,
+  shodanToolDef,
+  whoisLookupToolDef,
+  dnsLookupToolDef,
+  portScannerToolDef,
+  httpHeadersScannerToolDef,
+  subdomainSearchToolDef,
+  nmapToolDef
 ];
 
 export function getCombinedTools() {
@@ -49,6 +64,20 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeCrmSheets(args.nombre, args.contacto, args.interes, args.agente_responsable, args.notas);
       case "get_crypto_price":
         return await executeGetCryptoPrice(args.symbol);
+      case "shodan_search":
+        return await executeShodanSearch(args.query, args.type);
+      case "whois_lookup":
+        return await executeWhoisLookup(args.domain);
+      case "dns_lookup":
+        return await executeDnsLookup(args.domain);
+      case "port_scanner":
+        return await executePortScanner(args.target);
+      case "http_headers_scanner":
+        return await executeHttpHeadersScanner(args.url);
+      case "subdomain_search":
+        return await executeSubdomainSearch(args.domain);
+      case "nmap_scan":
+        return await executeNmap(args.target, args.flags);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }

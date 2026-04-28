@@ -4,6 +4,9 @@ FROM node:20-alpine
 # Crear el directorio de la aplicación
 WORKDIR /usr/src/app
 
+# Instalar Nmap y TShark (Wireshark) en el entorno Alpine
+RUN apk update && apk add --no-cache nmap tshark
+
 # Copiar configuración de paquetes e instalar
 COPY package*.json ./
 RUN npm install

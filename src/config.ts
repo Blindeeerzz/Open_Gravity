@@ -1,12 +1,13 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  TELEGRAM_BOT_TOKEN: z.string().min(1, "Debe proveer un TELEGRAM_BOT_TOKEN base"),
+  TELEGRAM_BOT_TOKEN: z.string().optional(),
   TELEGRAM_BOT_TOKEN_INMO: z.string().optional(),
   TELEGRAM_BOT_TOKEN_MARK: z.string().optional(),
   TELEGRAM_BOT_TOKEN_UNI: z.string().optional(),
   TELEGRAM_BOT_TOKEN_CONST: z.string().optional(),
   TELEGRAM_BOT_TOKEN_CYBER: z.string().optional(),
+  TELEGRAM_BOT_TOKEN_KENDO: z.string().optional(),
   TELEGRAM_ADMIN_IDS: z.string().min(1, "Debe proveer IDs de administradores (separadas por coma)"),
   HUGGINGFACE_API_KEY: z.string().min(1, "Debe proveer una clave HUGGINGFACE_API_KEY"),
   OPENROUTER_API_KEY: z.string().optional(),
@@ -23,7 +24,8 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().optional(),
-  GOOGLE_SHEET_ID: z.string().optional()
+  GOOGLE_SHEET_ID: z.string().optional(),
+  SHODAN_API_KEY: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);

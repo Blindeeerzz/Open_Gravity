@@ -1,8 +1,8 @@
 # 🚀 ROADMAP Y PROYECTOS EN COLA
 Registro oficial para llevar la trazabilidad de los desarrollos pendientes en los sistemas de IA.
 
-> ⚠️ **TAREA PENDIENTE CRÍTICA (AUDIO)**
-> Utilizar ProtonVPN con servidor aleatorio hasta cazar Estados Unidos (USA). Una vez conectado, entrar a [console.groq.com](https://console.groq.com), crear cuenta gratuita y conseguir la `GROQ_API_KEY` para pegarla en el `.env`. Esto es obligatorio para desbloquear la máxima velocidad de transcripción de audio (Whisper).
+> ✅ **TAREA CRÍTICA (AUDIO) COMPLETADA**
+> `GROQ_API_KEY` añadida al `.env`. La máxima velocidad de transcripción de audio (Whisper) está desbloqueada.
 
 ## 0. WillMax AI Systems (Prioridad Absoluta)
 **Misión:** Creación de ecosistemas Multi-Agente enfocados 100% a la automatización administrativa, comercial y operativa de empresas (B2B).
