@@ -14,7 +14,9 @@ import {
   subdomainSearchToolDef, executeSubdomainSearch,
   nmapToolDef, executeNmap
 } from "./cyber_tools.js";
+import { calculateTaskCostToolDef, executeCalculateTaskCost } from "./self_sustain.js";
 import { getMCPTools, executeMCPTool } from "../agent/mcpClient.js";
+
 // Lista de definiciones para enviarle al LLM
 export const availableToolsDefinitions = [
   getCurrentTimeToolDef,
@@ -30,7 +32,8 @@ export const availableToolsDefinitions = [
   portScannerToolDef,
   httpHeadersScannerToolDef,
   subdomainSearchToolDef,
-  nmapToolDef
+  nmapToolDef,
+  calculateTaskCostToolDef
 ];
 
 export function getCombinedTools() {
@@ -39,8 +42,8 @@ export function getCombinedTools() {
 }
 
 // Ejecutor unificado
-export async function executeToolWrapper(name: string, args: any): Promise<string> {
-  console.log(`[ToolExecution] Executing ${name} with args: ${JSON.stringify(args)}`);
+export async function executeToolWrapper(name: string, args: any, sessionId: string = ""): Promise<string> {
+  console.log(`[ToolExecution] Executing ${name} with args: ${JSON.stringify(args)} for session ${sessionId}`);
   
   // Verificar si es una herramienta MCP remota
   const mcpTools = getMCPTools();
@@ -78,6 +81,8 @@ export async function executeToolWrapper(name: string, args: any): Promise<strin
         return await executeSubdomainSearch(args.domain);
       case "nmap_scan":
         return await executeNmap(args.target, args.flags);
+      case "calculate_task_cost":
+        return await executeCalculateTaskCost(args.task_type, args.units, sessionId);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }

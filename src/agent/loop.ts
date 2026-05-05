@@ -22,7 +22,7 @@ export async function runAgentLoop(sessionId: string, userMessage: string, syste
   });
 
   const currentDateTime = new Date().toLocaleString("es-ES", { timeZone: "Europe/Madrid", dateStyle: "full", timeStyle: "short" });
-  const augmentedSystemPrompt = `${systemPrompt}\n\n[INFO DEL SISTEMA]: La fecha y hora actual es ${currentDateTime}. Usa este dato absoluto para calcular "mañana", "el próximo martes", etc.`;
+  const augmentedSystemPrompt = `${systemPrompt}\n\n[INFO DEL SISTEMA]: La fecha y hora actual es ${currentDateTime}. Usa este dato absoluto para calcular "mañana", "el próximo martes", etc.\n[IMPORTANTE - SELF-SUSTAIN]: Tienes acceso a la herramienta 'calculate_task_cost'. Si el usuario te pide analizar documentos, procesar audios, buscar datos en masa o generar textos muy largos, DEBES usar obligatoriamente 'calculate_task_cost' antes de proceder para verificar si tiene saldo de tokens suficiente. Si el saldo es insuficiente, deniega educadamente el servicio o sugiere una alternativa más corta.`;
 
   const messages = [
     { role: "system", content: augmentedSystemPrompt },
@@ -70,7 +70,7 @@ export async function runAgentLoop(sessionId: string, userMessage: string, syste
         } catch(e) { /* Ignorar error de JSON */ }
         
         // Ejecutar tool
-        const toolResult = await executeToolWrapper(functionName, toolArgs);
+        const toolResult = await executeToolWrapper(functionName, toolArgs, sessionId);
         
         // Formatear la respuesta
         const toolMessage = {

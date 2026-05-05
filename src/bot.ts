@@ -1,7 +1,7 @@
 import { Bot } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, getUserBalance, addTokens } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
 const MIKHA_PROMPT = `Eres Lilith, una Agente de IA personal e inteligente que opera a través de Telegram.
@@ -64,6 +64,58 @@ bot.command("invite", async (ctx) => {
     `*(Ese enlace solo puede ser utilizado una vez)*`,
     { parse_mode: "Markdown" }
   );
+});
+
+// Comando de Admin: /addtokens
+bot.command("addtokens", async (ctx) => {
+  const userId = ctx.from?.id!;
+  if (!isAdmin(userId)) {
+    await ctx.reply("❌ Comando reservado para administradores.");
+    return;
+  }
+
+  const text = ctx.message?.text || "";
+  const parts = text.split(" ");
+  if (parts.length !== 3) {
+    await ctx.reply("📝 Uso correcto: /addtokens <user_id> <cantidad>\nEjemplo: `/addtokens 123456789 50000`", { parse_mode: "Markdown" });
+    return;
+  }
+
+  const targetId = parseInt(parts[1], 10);
+  const amount = parseInt(parts[2], 10);
+
+  if (isNaN(targetId) || isNaN(amount)) {
+    await ctx.reply("❌ Formato numérico inválido.");
+    return;
+  }
+
+  addTokens(targetId, amount);
+  const newBalance = getUserBalance(targetId);
+  await ctx.reply(`✅ Se han añadido ${amount} tokens al usuario ${targetId}.\n💰 Nuevo saldo: **${newBalance}** tokens.`, { parse_mode: "Markdown" });
+});
+
+// Comando: /balance
+bot.command("balance", async (ctx) => {
+  const userId = ctx.from?.id!;
+  const text = ctx.message?.text || "";
+  const parts = text.split(" ");
+  
+  if (parts.length > 1 && isAdmin(userId)) {
+    // Buscar balance de otro usuario
+    const targetId = parseInt(parts[1], 10);
+    if (isNaN(targetId)) return ctx.reply("❌ ID de usuario inválido.");
+    const balance = getUserBalance(targetId);
+    await ctx.reply(`💰 El saldo del usuario ${targetId} es de **${balance}** tokens.`, { parse_mode: "Markdown" });
+    return;
+  }
+
+  // Ver propio balance
+  const balance = getUserBalance(userId);
+  if (balance >= 999999999) {
+    await ctx.reply("💰 Tienes **saldo ilimitado** (Administrador).", { parse_mode: "Markdown" });
+    return;
+  }
+  await ctx.reply(`💰 Tu saldo actual es de **${balance}** tokens.`, { parse_mode: "Markdown" });
 });
 
 // Comando general: /start

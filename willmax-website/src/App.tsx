@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Bot, Shield, Zap, Building2, ChevronRight, Lock, Globe, Server, Network } from 'lucide-react';
+import { useState } from 'react';
+import { Bot, Shield, Zap, Building2, ChevronRight, Lock, Globe, Network } from 'lucide-react';
 import './index.css';
 
 const translations = {

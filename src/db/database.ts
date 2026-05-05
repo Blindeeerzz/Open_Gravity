@@ -25,7 +25,8 @@ export function initDB() {
     CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id);
 
     CREATE TABLE IF NOT EXISTS users (
-      telegram_id INTEGER PRIMARY KEY
+      telegram_id INTEGER PRIMARY KEY,
+      token_balance INTEGER DEFAULT 50000
     );
 
     CREATE TABLE IF NOT EXISTS invites (
@@ -41,6 +42,13 @@ export function initDB() {
       timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
     );
   `);
+
+  // Migración para bases de datos existentes: intentar añadir la columna token_balance si no existe
+  try {
+    db.exec(`ALTER TABLE users ADD COLUMN token_balance INTEGER DEFAULT 50000;`);
+  } catch (e) {
+    // Si la columna ya existe, SQLite lanzará un error que ignoramos.
+  }
 }
 
 // ------ AUTORIZACIÓN E INVITACIONES ------
@@ -68,11 +76,36 @@ export function useInvite(code: string, userId: number): boolean {
 
   const transaction = db.transaction(() => {
     db.prepare("UPDATE invites SET used_by = ? WHERE code = ?").run(userId, code);
-    db.prepare("INSERT OR IGNORE INTO users (telegram_id) VALUES (?)").run(userId);
+    db.prepare("INSERT OR IGNORE INTO users (telegram_id, token_balance) VALUES (?, 50000)").run(userId);
   });
   
   transaction();
   return true;
+}
+
+// ------ SELF SUSTAIN / ECONOMÍA ------
+
+export function getUserBalance(userId: number): number {
+  if (isAdmin(userId)) return 999999999; // Administradores tienen saldo infinito
+  const stmt = db.prepare("SELECT token_balance FROM users WHERE telegram_id = ?");
+  const row = stmt.get(userId) as any;
+  return row ? row.token_balance : 0;
+}
+
+export function deductTokens(userId: number, amount: number): boolean {
+  if (isAdmin(userId)) return true;
+  
+  const currentBalance = getUserBalance(userId);
+  if (currentBalance < amount) return false; // Saldo insuficiente
+
+  const stmt = db.prepare("UPDATE users SET token_balance = token_balance - ? WHERE telegram_id = ?");
+  stmt.run(amount, userId);
+  return true;
+}
+
+export function addTokens(userId: number, amount: number) {
+  const stmt = db.prepare("UPDATE users SET token_balance = token_balance + ? WHERE telegram_id = ?");
+  stmt.run(amount, userId);
 }
 
 // ------ MENSAJES ------
