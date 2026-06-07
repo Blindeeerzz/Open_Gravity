@@ -175,14 +175,20 @@ export default function Home() {
             { id: 'edu', name: 'Edu', img: '/avatars/edu.png', title: t.team.t2title, sub: t.team.t2sub, lore: "Forjado en los simuladores de teoría de juegos de Wall Street. Un estratega implacable que no conoce la palabra 'imposible'.", color: 'var(--accent-cyan)' },
             { id: 'pere', name: 'Pere', img: '/avatars/pere.png', title: t.team.t3title, sub: t.team.t3sub, lore: "Arquitecto de sistemas nacido de los modelos Passivhaus más estrictos. Ve el mundo como una matriz de eficiencia energética pura.", color: 'var(--accent-cyan)' },
             { id: 'chloe', name: 'Chloe', img: '/avatars/chloe.png', title: t.team.t5title, sub: t.team.t5sub, lore: "Una IA analítica con un toque de calidez humana. Procesa millones de transacciones mientras mantiene una sonrisa virtual impecable.", color: 'var(--accent-cyan)' },
-            { id: 'aegis', name: 'Aegis', img: null, icon: <ShieldCheck size={40} color="#ff3333" />, title: t.team.t4title, sub: t.team.t4sub, lore: "Entidad de grado militar. Desarrollado originalmente para contraespionaje corporativo, ahora es el guardián definitivo de la red.", color: '#ff3333' }
+            { id: 'aegis', name: 'Aegis', img: '/avatars/aegis.png', title: t.team.t4title, sub: t.team.t4sub, lore: "Entidad de grado militar. Desarrollado originalmente para contraespionaje corporativo, ahora es el guardián definitivo de la red.", color: '#ff3333' }
           ].map((agent) => (
             <div 
               key={agent.id}
               className="glass-panel" 
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', cursor: 'pointer', transition: 'all 0.3s ease', transform: expandedAgent === agent.id ? 'scale(1.05)' : 'scale(1)', zIndex: expandedAgent === agent.id ? 10 : 1, borderColor: expandedAgent === agent.id ? agent.color : 'var(--border-light)' }}
+              style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', cursor: 'pointer', transition: 'all 0.3s ease', transform: expandedAgent === agent.id ? 'scale(1.05)' : 'scale(1)', zIndex: expandedAgent === agent.id ? 10 : 1, borderColor: expandedAgent === agent.id ? agent.color : 'var(--border-light)' }}
               onClick={() => setExpandedAgent(expandedAgent === agent.id ? null : agent.id)}
             >
+              {/* Online Badge */}
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'rgba(0,0,0,0.5)', padding: '0.2rem 0.5rem', borderRadius: '12px', border: '1px solid rgba(0, 243, 255, 0.2)' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: agent.color, boxShadow: `0 0 8px ${agent.color}`, animation: 'pulse 2s infinite' }}></div>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Online</span>
+              </div>
+
               <div style={{ width: expandedAgent === agent.id ? '120px' : '80px', height: expandedAgent === agent.id ? '120px' : '80px', borderRadius: '50%', background: 'var(--bg-panel)', border: `2px solid ${agent.color}`, display: 'grid', placeItems: 'center', marginBottom: '1.5rem', overflow: 'hidden', transition: 'all 0.3s ease' }}>
                 {agent.img ? <img src={agent.img} alt={agent.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.3s ease' }} /> : agent.icon}
               </div>
@@ -198,6 +204,20 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Contact Box */}
+      <section id="contacto" className="container" style={{ padding: '6rem 2rem' }}>
+        <div className="glass-panel" style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', padding: '4rem 2rem', border: '1px solid var(--accent-cyan)', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'var(--accent-cyan)', boxShadow: '0 0 15px var(--accent-cyan)' }}></div>
+          <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Auditoría Estratégica Gratuita</h2>
+          <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '1.1rem' }}>Conecta con nuestro equipo de ingenieros para evaluar cómo la inteligencia de enjambre de WM Ai System puede revolucionar tus márgenes B2B.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px', margin: '0 auto' }}>
+            <input type="email" placeholder="Correo Corporativo" style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '1px solid var(--border-light)', background: 'var(--bg-dark)', color: 'var(--text-main)', outline: 'none' }} />
+            <button className="btn-primary" style={{ width: '100%', padding: '1rem' }}>Solicitar Acceso</button>
+          </div>
+          <p style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}><ShieldCheck size={12} style={{ display: 'inline', verticalAlign: 'middle', color: 'var(--accent-cyan)' }}/> Arquitectura Zero-Trust implementada por Aegis.</p>
         </div>
       </section>
 
