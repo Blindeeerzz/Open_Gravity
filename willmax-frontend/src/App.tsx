@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Contract from './pages/Contract';
 import Checkout from './pages/Checkout';
 import Dashboard from './pages/Dashboard';
+import CitizenOsint from './pages/CitizenOsint';
 import './index.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/contract" element={<Contract />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/osint-ciudadano" element={<CitizenOsint />} />
       </Routes>
     </BrowserRouter>
   );
