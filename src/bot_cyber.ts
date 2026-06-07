@@ -79,6 +79,36 @@ if (botCyber) {
     await ctx.reply("Conexión cifrada establecida. Soy Aegis, tu Pentester y analista de ciberseguridad B2B. ¿Qué dominio o infraestructura auditamos hoy?");
   });
 
+  botCyber.command("raw_report", async (ctx) => {
+    const text = ctx.message?.text || "";
+    const rawData = text.replace("/raw_report", "").trim();
+    if (!rawData) {
+      await ctx.reply("❌ Error: No se proporcionaron datos crudos para analizar.");
+      return;
+    }
+    
+    await ctx.reply("🔄 [INTEGRACIÓN AGENT ZERO] Datos crudos recibidos. Iniciando análisis y formateo Pentestify...");
+    try {
+      await ctx.replyWithChatAction("typing");
+      const userId = ctx.from?.id.toString();
+      const sessionId = `${userId}_cyber_report`;
+      
+      const promptToAegis = `He recibido estos datos crudos de un escaneo automatizado de Agent Zero:\n\n${rawData}\n\nPor favor, analiza estos resultados y genera un reporte profesional bajo el estándar Pentestify. Si hay vulnerabilidades claras, destácalas. Si son falsos positivos, menciónalo brevemente.`;
+      
+      const response = await runAgentLoop(sessionId, promptToAegis, CYBER_PROMPT);
+      
+      if (response.length > 4000) {
+        const chunks = response.match(/.{1,4000}/g) || [];
+        for (const chunk of chunks) await ctx.reply(chunk);
+      } else {
+        await ctx.reply(response);
+      }
+    } catch (error: any) {
+      console.error("[Bot Cyber Error Raw Report]:", error);
+      await ctx.reply("⚠️ Fallo en el análisis automatizado de Aegis.");
+    }
+  });
+
   botCyber.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
