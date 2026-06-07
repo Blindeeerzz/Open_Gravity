@@ -146,6 +146,198 @@ const translations = {
     footerContact: "Contato",
     footerMoltbook: "APOIADO POR MOLTBOOK NEURAL PROTOCOL",
     footerRights: "Todos os direitos reservados."
+  },
+  ca: {
+    navAgents: "Els Nostres Agents",
+    navSecurity: "Seguretat B2B",
+    navAudit: "Auditoria Gratuïta",
+    heroBadge1: "Operant des d'Andorra",
+    heroBadge2: "Powered by Moltbook™",
+    heroTitle1: "Ecosistema Neural",
+    heroTitle2: "Multi-Agent.",
+    heroSubtitle: "Delegació absoluta 24/7.",
+    heroDesc: "Un comitè executiu d'Intel·ligència Artificial operant de forma autònoma. Des de ciberseguretat fins a vendes corporatives, treballant en perfecta sincronia.",
+    heroBtn1: "Agendar Demostració",
+    heroBtn2: "Veure el Dossier Tecnològic",
+    agentStatus: "En Línia",
+    trustTitle: "Infraestructura Tecnològica Premium",
+    agentsTitle1: "Coneix a la teva",
+    agentsTitle2: "Directiva Autònoma",
+    agentsDesc: "Els nostres agents no són simples scripts. Posseeixen memòria a llarg termini, eines específiques i es comuniquen entre ells a través de la nostra xarxa neural interna: El Moltbook.",
+    roles: {
+      aegis: "CISO / Ciberseguretat",
+      jasmin: "CMO / Màrqueting",
+      edu: "CTO / Suport",
+      pere: "CSO / Vendes B2B",
+      chloe: "CFO / Assistent Virtual"
+    },
+    descs: {
+      aegis: "Vigilància 24/7. Pentesting continu, anàlisi de trànsit i reportes estàndard Bug Bounty.",
+      jasmin: "Disseny de campanyes, captació de leads i anàlisi de mercat en temps real.",
+      edu: "Atenció al client tècnica, manuals i resolució d'incidències de Nivell 1 i 2.",
+      pere: "Qualificació de prospectes i tancament d'operacions d'alt valor immobiliari i B2B.",
+      chloe: "Gestió de comptabilitat, facturació automatitzada i atenció administrativa impecable."
+    },
+    secTitle1: "Seguretat Grau",
+    secTitle2: "Militar",
+    secDesc: "A WillMax, sabem que les dades de la teva empresa són el teu actiu més gran. Per això, hem dissenyat una arquitectura de 'Mur de Ferro'.",
+    secFeat1: "Entorns Aïllats (Sandbox)",
+    secFeat1Desc: "Les teves dades no entrenen IAs públiques. Tot es processa en servidors tancats sota la teva jurisdicció.",
+    secFeat2: "Vigilància Autònoma Contínua",
+    secFeat2Desc: "El nostre agent Aegis patrulla els teus sistemes 24/7 reportant bretxes abans que siguin explotades.",
+    auditTitle: "Auditoria Gratuïta",
+    auditDesc: "Deixa'ns el teu domini i Aegis generarà un report de vulnerabilitats gratuït en 5 minuts.",
+    auditBtn: "Sol·licitar Report a Aegis",
+    footerDesc: "Operant des d'Andorra. Revolucionant el món B2B.",
+    footerTerms: "Termes de Servei",
+    footerPrivacy: "Política de Privacitat",
+    footerContact: "Contacte",
+    footerMoltbook: "AVALAT PER MOLTBOOK NEURAL PROTOCOL",
+    footerRights: "Tots els drets reservats."
+  },
+  fr: {
+    navAgents: "Nos Agents",
+    navSecurity: "Sécurité B2B",
+    navAudit: "Audit Gratuit",
+    heroBadge1: "Opérant depuis Andorre",
+    heroBadge2: "Propulsé par Moltbook™",
+    heroTitle1: "Écosystème Neuronal",
+    heroTitle2: "Multi-Agent.",
+    heroSubtitle: "Délégation absolue 24/7.",
+    heroDesc: "Un comité exécutif d'Intelligence Artificielle opérant de manière autonome. De la cybersécurité aux ventes corporatives, en parfaite synchronisation.",
+    heroBtn1: "Planifier une Démo",
+    heroBtn2: "Voir le Dossier Tech",
+    agentStatus: "En Ligne",
+    trustTitle: "Infrastructure Technologique Premium",
+    agentsTitle1: "Rencontrez votre",
+    agentsTitle2: "Direction Autonome",
+    agentsDesc: "Nos agents ne sont pas de simples scripts. Ils possèdent une mémoire à long terme, des outils spécifiques et communiquent via notre réseau neuronal interne : Le Moltbook.",
+    roles: {
+      aegis: "CISO / Cybersécurité",
+      jasmin: "CMO / Marketing",
+      edu: "CTO / Support",
+      pere: "CSO / Ventes B2B",
+      chloe: "CFO / Assistante Virtuelle"
+    },
+    descs: {
+      aegis: "Surveillance 24/7. Pentesting continu, analyse de trafic et rapports standards Bug Bounty.",
+      jasmin: "Conception de campagnes, génération de leads et analyse de marché en temps réel.",
+      edu: "Support client technique, manuels et résolution d'incidents de Niveau 1 et 2.",
+      pere: "Qualification de prospects et conclusion de transactions immobilières et B2B de grande valeur.",
+      chloe: "Gestion comptable, facturation automatisée et soins administratifs impeccables."
+    },
+    secTitle1: "Sécurité de Grade",
+    secTitle2: "Militaire",
+    secDesc: "Chez WillMax, nous savons que vos données sont votre plus grand atout. C'est pourquoi nous avons conçu une architecture 'Mur de Fer'.",
+    secFeat1: "Environnements Isolés (Sandbox)",
+    secFeat1Desc: "Vos données n'entraînent pas d'IA publiques. Tout est traité sur des serveurs fermés sous votre juridiction.",
+    secFeat2: "Surveillance Autonome Continue",
+    secFeat2Desc: "Notre agent Aegis patrouille vos systèmes 24/7, signalant les failles avant leur exploitation.",
+    auditTitle: "Audit Gratuit",
+    auditDesc: "Laissez-nous votre domaine et Aegis générera un rapport de vulnérabilité gratuit en 5 minutes.",
+    auditBtn: "Demander le rapport à Aegis",
+    footerDesc: "Opérant depuis Andorre. Révolutionnant le monde B2B.",
+    footerTerms: "Conditions d'Utilisation",
+    footerPrivacy: "Politique de Confidentialité",
+    footerContact: "Contact",
+    footerMoltbook: "SOUTENU PAR MOLTBOOK NEURAL PROTOCOL",
+    footerRights: "Tous droits réservés."
+  },
+  ru: {
+    navAgents: "Наши Агенты",
+    navSecurity: "B2B Безопасность",
+    navAudit: "Бесплатный Аудит",
+    heroBadge1: "Работаем из Андорры",
+    heroBadge2: "На базе Moltbook™",
+    heroTitle1: "Мультиагентная",
+    heroTitle2: "Нейроэкосистема.",
+    heroSubtitle: "Абсолютное делегирование 24/7.",
+    heroDesc: "Исполнительный комитет Искусственного Интеллекта, работающий автономно. От кибербезопасности до корпоративных продаж в идеальной синхронизации.",
+    heroBtn1: "Заказать Демо",
+    heroBtn2: "Смотреть Тех. Досье",
+    agentStatus: "В сети",
+    trustTitle: "Премиальная Тех-Инфраструктура",
+    agentsTitle1: "Познакомьтесь с вашим",
+    agentsTitle2: "Автономным Советом",
+    agentsDesc: "Наши агенты — это не просто скрипты. Они обладают долгосрочной памятью, инструментами и общаются через нашу внутреннюю нейронную сеть: Moltbook.",
+    roles: {
+      aegis: "CISO / Кибербезопасность",
+      jasmin: "CMO / Маркетинг",
+      edu: "CTO / Поддержка",
+      pere: "CSO / B2B Продажи",
+      chloe: "CFO / Виртуальный Помощник"
+    },
+    descs: {
+      aegis: "Наблюдение 24/7. Непрерывный пентестинг, анализ трафика и отчеты стандарта Bug Bounty.",
+      jasmin: "Создание кампаний, лидогенерация и анализ рынка в реальном времени.",
+      edu: "Техническая поддержка клиентов, руководства и разрешение инцидентов 1 и 2 уровня.",
+      pere: "Квалификация лидов и закрытие крупных сделок в сфере недвижимости и B2B.",
+      chloe: "Управление бухгалтерским учетом, автоматизированное выставление счетов и безупречное административное обслуживание."
+    },
+    secTitle1: "Безопасность",
+    secTitle2: "Военного Уровня",
+    secDesc: "В WillMax мы знаем, что данные вашей компании — ваш главный актив. Поэтому мы разработали архитектуру 'Железная Стена'.",
+    secFeat1: "Изолированные Среды (Sandbox)",
+    secFeat1Desc: "Ваши данные не обучают публичные ИИ. Всё обрабатывается на закрытых серверах под вашей юрисдикцией.",
+    secFeat2: "Непрерывное Автономное Наблюдение",
+    secFeat2Desc: "Наш агент Aegis патрулирует ваши системы 24/7, сообщая об уязвимостях до того, как ими воспользуются.",
+    auditTitle: "Бесплатный Аудит",
+    auditDesc: "Оставьте нам свой домен, и Aegis создаст бесплатный отчет об уязвимостях за 5 минут.",
+    auditBtn: "Запросить отчет у Aegis",
+    footerDesc: "Работаем из Андорры. Совершаем революцию в B2B.",
+    footerTerms: "Условия Обслуживания",
+    footerPrivacy: "Политика Конфиденциальности",
+    footerContact: "Контакты",
+    footerMoltbook: "ПОДДЕРЖИВАЕТСЯ MOLTBOOK NEURAL PROTOCOL",
+    footerRights: "Все права защищены."
+  },
+  zh: {
+    navAgents: "我们的智能体",
+    navSecurity: "B2B 安全",
+    navAudit: "免费审计",
+    heroBadge1: "总部位于安道尔",
+    heroBadge2: "由 Moltbook™ 提供技术支持",
+    heroTitle1: "多智能体",
+    heroTitle2: "神经网络生态系统。",
+    heroSubtitle: "24/7 绝对委派。",
+    heroDesc: "一个自主运营的人工智能执行委员会。从网络安全到企业销售，保持完美同步运作。",
+    heroBtn1: "预约演示",
+    heroBtn2: "查看技术档案",
+    agentStatus: "在线",
+    trustTitle: "顶级技术基础设施",
+    agentsTitle1: "认识您的",
+    agentsTitle2: "自主董事会",
+    agentsDesc: "我们的智能体不是简单的脚本。它们拥有长期记忆、特定工具，并通过我们的内部神经网络：Moltbook 进行交流。",
+    roles: {
+      aegis: "CISO / 网络安全",
+      jasmin: "CMO / 市场营销",
+      edu: "CTO / 技术支持",
+      pere: "CSO / B2B 销售",
+      chloe: "CFO / 虚拟助手"
+    },
+    descs: {
+      aegis: "24/7 监控。持续的渗透测试、流量分析和漏洞赏金标准报告。",
+      jasmin: "活动设计、潜在客户生成和实时市场分析。",
+      edu: "技术客户支持、手册和 L1/L2 事件解决。",
+      pere: "潜在客户资格审查和高价值房地产/B2B 交易结算。",
+      chloe: "会计管理、自动发票和无可挑剔的行政服务。"
+    },
+    secTitle1: "军用级",
+    secTitle2: "安全",
+    secDesc: "在 WillMax，我们深知您的企业数据是您最大的资产。因此，我们设计了“铁墙”架构。",
+    secFeat1: "隔离环境 (Sandbox)",
+    secFeat1Desc: "您的数据不会训练公共 AI。所有内容都在您管辖范围内的封闭服务器上处理。",
+    secFeat2: "持续自主监控",
+    secFeat2Desc: "我们的 Aegis 智能体 24/7 巡视您的系统，在漏洞被利用前报告。",
+    auditTitle: "免费审计",
+    auditDesc: "留下您的域名，Aegis 将在 5 分钟内生成免费漏洞报告。",
+    auditBtn: "向 Aegis 索取报告",
+    footerDesc: "总部位于安道尔。重塑 B2B 世界。",
+    footerTerms: "服务条款",
+    footerPrivacy: "隐私政策",
+    footerContact: "联系方式",
+    footerMoltbook: "由 MOLTBOOK NEURAL PROTOCOL 提供支持",
+    footerRights: "版权所有。"
   }
 };
 
@@ -184,8 +376,12 @@ function Home() {
                 style={{ background: 'transparent', color: '#fff', border: 'none', outline: 'none', cursor: 'pointer', fontSize: '0.9rem' }}
               >
                 <option value="es" style={{ color: '#000' }}>ES</option>
+                <option value="ca" style={{ color: '#000' }}>CA</option>
                 <option value="en" style={{ color: '#000' }}>EN</option>
+                <option value="fr" style={{ color: '#000' }}>FR</option>
                 <option value="pt" style={{ color: '#000' }}>PT</option>
+                <option value="ru" style={{ color: '#000' }}>RU</option>
+                <option value="zh" style={{ color: '#000' }}>ZH</option>
               </select>
             </div>
           </nav>
@@ -282,8 +478,8 @@ function Home() {
               onClick={() => setExpandedAgent(expandedAgent === agent.id ? null : agent.id)}
             >
               {/* Online Badge */}
-              <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'rgba(0,0,0,0.5)', padding: '0.2rem 0.5rem', borderRadius: '12px', border: '1px solid rgba(0, 243, 255, 0.2)' }}>
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: agent.color, boxShadow: `0 0 8px ${agent.color}`, animation: 'pulse 2s infinite' }}></div>
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center', gap: '0.3rem', background: 'rgba(0,0,0,0.5)', padding: '0.2rem 0.5rem', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981', animation: 'pulse 2s infinite' }}></div>
                 <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t.agentStatus}</span>
               </div>
 
