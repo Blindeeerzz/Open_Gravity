@@ -491,7 +491,7 @@ function Home() {
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', display: expandedAgent === agent.id ? 'none' : 'block' }}>{agent.desc}</p>
               
               {/* Lore expansible */}
-              <div style={{ maxHeight: expandedAgent === agent.id ? '150px' : '0', overflow: 'hidden', transition: 'all 0.4s ease', opacity: expandedAgent === agent.id ? 1 : 0 }}>
+              <div style={{ maxHeight: expandedAgent === agent.id ? '500px' : '0', overflow: 'hidden', transition: 'all 0.4s ease', opacity: expandedAgent === agent.id ? 1 : 0 }}>
                 <div style={{ background: 'rgba(0,0,0,0.4)', padding: '1rem', borderRadius: '8px', borderLeft: `2px solid ${agent.color}`, fontStyle: 'italic', fontSize: '0.9rem', color: 'var(--text-secondary)', marginTop: '1rem' }}>
                   "{agent.lore}"
                 </div>
