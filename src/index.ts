@@ -32,33 +32,6 @@ async function bootstrap() {
       }
     });
 
-    // 3. Iniciar el bot Marketer (Jasmin) si el token está definido
-    if (botMark) {
-      botMark.start({
-        onStart: (botInfo) => console.log(`✅ Agente Marketer (Jasmin) conectada: @${botInfo.username}`)
-      });
-    } else {
-      console.warn("⚠️ [Skip] Token de Jasmin (MARK) ausente. Agente en suspensión.");
-    }
-
-    // 4. Iniciar el bot Estratega de Ventas (Edu) si el token está definido
-    if (botUni) {
-      botUni.start({
-        onStart: (botInfo) => console.log(`✅ Agente Ventas B2B (Edu) conectado: @${botInfo.username}`)
-      });
-    } else {
-      console.warn("⚠️ [Skip] Token de Edu (UNI) ausente. Agente en suspensión.");
-    }
-
-    // 5. Iniciar el bot de Ingeniería Civil (Pere) si el token está definido
-    if (botConst) {
-      botConst.start({
-        onStart: (botInfo) => console.log(`✅ Agente Ing. Construcción (Pere) conectado: @${botInfo.username}`)
-      });
-    } else {
-      console.warn("⚠️ [Skip] Token de Pere (CONST) ausente. Agente en suspensión.");
-    }
-
     console.log("📡 Escuchando red WillMax AI Systems... (Ctrl+C para detener)");
 
   } catch (error) {
@@ -68,7 +41,7 @@ async function bootstrap() {
 }
 
 // Interceptar señales de cierre para limpiar procesos
-process.once("SIGINT", () => { bot.stop(); if(botMark) botMark.stop(); if(botUni) botUni.stop(); if(botConst) botConst.stop(); });
-process.once("SIGTERM", () => { bot.stop(); if(botMark) botMark.stop(); if(botUni) botUni.stop(); if(botConst) botConst.stop(); });
+process.once("SIGINT", () => { bot.stop(); });
+process.once("SIGTERM", () => { bot.stop(); });
 
 bootstrap();
