@@ -465,6 +465,16 @@ const securityStats: Record<string, {
   }
 };
 
+const ecoLabels = {
+  es: { title: "Monitor de IA", status: "Ecosistema", statusVal: "Activo", agents: "Agentes Activos", agentsVal: "7 Autónomos", protocol: "Red Neuronal", protocolVal: "Moltbook™ Online", security: "Seguridad", securityVal: "Protegido" },
+  ca: { title: "Monitor d'IA", status: "Ecosistema", statusVal: "Actiu", agents: "Agents Actius", agentsVal: "7 Autònoms", protocol: "Xarxa Neuronal", protocolVal: "Moltbook™ Online", security: "Seguretat", securityVal: "Protegit" },
+  en: { title: "AI Monitor", status: "Ecosystem", statusVal: "Active", agents: "Active Agents", agentsVal: "7 Autonomous", protocol: "Neural Network", protocolVal: "Moltbook™ Online", security: "Security", securityVal: "Protected" },
+  fr: { title: "Moniteur d'IA", status: "Écosystème", statusVal: "Actif", agents: "Agents Actifs", agentsVal: "7 Autonomes", protocol: "Réseau Neuronal", protocolVal: "Moltbook™ Online", security: "Sécurité", securityVal: "Protégé" },
+  pt: { title: "Monitor de IA", status: "Ecossistema", statusVal: "Ativo", agents: "Agentes Ativos", agentsVal: "7 Autónomos", protocol: "Rede Neural", protocolVal: "Moltbook™ Online", security: "Segurança", securityVal: "Protegido" },
+  ru: { title: "Монитор ИИ", status: "Экосистема", statusVal: "Активна", agents: "Активные Агенты", agentsVal: "7 Автономных", protocol: "Нейросеть", protocolVal: "Moltbook™ Online", security: "Безопасность", securityVal: "Защищено" },
+  zh: { title: "AI 监控器", status: "生态系统", statusVal: "运行中", agents: "活动代理", agentsVal: "7个自治代理", protocol: "神经网络", protocolVal: "Moltbook™ 在线", security: "安全状态", securityVal: "受保护" }
+};
+
 function App() {
   const [lang, setLang] = useState<LangKey>('es');
   const t = translations[lang] || translations['es'];
@@ -566,29 +576,55 @@ function App() {
           </div>
           
           <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-            <div className="glass-panel" style={{ position: 'relative', zIndex: 2, padding: '3rem', width: '100%', maxWidth: '400px' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Shield className="text-accent" size={24} />
-                    <span style={{ fontWeight: 600 }}>Aegis</span>
+            <div className="glass-panel" style={{ position: 'relative', zIndex: 2, padding: '2.5rem', width: '100%', maxWidth: '400px' }}>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.75rem', letterSpacing: '1px', textTransform: 'uppercase', color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Bot size={20} />
+                {ecoLabels[lang]?.title || ecoLabels['es'].title}
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                
+                {/* Status */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
+                    <Zap size={18} className="text-accent" />
+                    <span style={{ fontSize: '0.95rem' }}>{ecoLabels[lang]?.status || ecoLabels['es'].status}</span>
                   </div>
-                  <span style={{ color: '#10b981', fontSize: '0.85rem' }}>{t.agentStatus}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)', paddingBottom: '1rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Building2 className="text-accent" size={24} />
-                    <span style={{ fontWeight: 600 }}>Pere</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981', animation: 'pulse 2s infinite' }}></div>
+                    <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#10b981' }}>{ecoLabels[lang]?.statusVal || ecoLabels['es'].statusVal}</span>
                   </div>
-                  <span style={{ color: '#10b981', fontSize: '0.85rem' }}>{t.agentStatus}</span>
                 </div>
+
+                {/* Agents */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
+                    <Bot size={18} className="text-accent" />
+                    <span style={{ fontSize: '0.95rem' }}>{ecoLabels[lang]?.agents || ecoLabels['es'].agents}</span>
+                  </div>
+                  <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#fff' }}>{ecoLabels[lang]?.agentsVal || ecoLabels['es'].agentsVal}</span>
+                </div>
+
+                {/* Network */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', paddingBottom: '0.75rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
+                    <Network size={18} className="text-accent" />
+                    <span style={{ fontSize: '0.95rem' }}>{ecoLabels[lang]?.protocol || ecoLabels['es'].protocol}</span>
+                  </div>
+                  <span style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--accent-cyan)' }}>{ecoLabels[lang]?.protocolVal || ecoLabels['es'].protocolVal}</span>
+                </div>
+
+                {/* Security */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Globe className="text-accent" size={24} />
-                    <span style={{ fontWeight: 600 }}>Jasmin</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
+                    <Shield size={18} className="text-accent" />
+                    <span style={{ fontSize: '0.95rem' }}>{ecoLabels[lang]?.security || ecoLabels['es'].security}</span>
                   </div>
-                  <span style={{ color: '#10b981', fontSize: '0.85rem' }}>{t.agentStatus}</span>
+                  <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                    <Lock size={14} style={{ display: 'inline' }} />
+                    {ecoLabels[lang]?.securityVal || ecoLabels['es'].securityVal}
+                  </span>
                 </div>
+
               </div>
             </div>
             {/* Decorative elements */}
