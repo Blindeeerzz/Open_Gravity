@@ -9,6 +9,9 @@ Registro oficial para llevar la trazabilidad de los desarrollos pendientes en lo
 
 **Tareas Críticas Inmediatas:**
 - [ ] **(MAÑANA) Actualizar cuenta de Oracle a Pay-As-You-Go** para obtener acceso instantáneo (y gratuito) a la instancia ARM de 24GB.
+- [ ] **Correo Corporativo:** Registrar cuenta de pago en Google Workspace (https://workspace.google.com) y configurar los registros DNS (MX/TXT) para el dominio `willmax.ai`.
+- [ ] **Configuración de Cuentas B2B:** Actualizar el correo electrónico de contacto en todos los proveedores y plataformas de la empresa (Vercel, Railway, etc.) con la nueva dirección `@willmax.ai`.
+- [ ] **Vídeo Demo:** Finalizar la edición del vídeo corto de presentación para el home (progreso a ritmo del usuario).
 
 **Tareas de Infraestructura:**
 - [x] Clonar e independizar el Hub Monolítico para que actúe bajo la red de "WillMax".
@@ -17,7 +20,11 @@ Registro oficial para llevar la trazabilidad de los desarrollos pendientes en lo
   - **Edu:** Perfilado para Atención al Cliente Técnico, Consultoría de IA y Formación Empresarial.
   - **Pere:** Perfilado para Ventas, Inmobiliaria B2B y Arquitectura Inteligente (Smart-Buildings).
 - [ ] Configurar los Superpoderes de Audio y Visión para los agentes corporativos.
+- [ ] **Contabilidad y Finanzas (Chloe):** Diseñar una plantilla de Excel o Google Sheet de control financiero para registrar gastos iniciales (tasas de gobierno de Andorra, certificado del electricista, etc.) y costes fijos recurrentes (Workspace, dominio, suscripción de Antigravity, etc.).
 - [ ] **Despliegue TTS Híbrido:** Configurar Voicebox/Kokoro (gratuito) en el servidor Oracle para el 90% de operaciones diarias, reservando ElevenLabs solo para campañas de Marketing Premium.
+- [ ] **Soporte Multilingüe de Voz:** Configurar múltiples voces para cada agente (por idioma de respuesta) ampliando `generateSpeechFromText` en `voice_generator.ts`.
+- [ ] **Ciberseguridad:** Solicitar a **Aegis** una auditoría / análisis completo del dominio live `willmax.ai` para asegurar que está 100% blindado contra accesos no autorizados.
+- [ ] **Campañas de Marketing:** Compilar y estructurar la información/estrategia dada por **Jasmin** para empezar a configurar las campañas publicitarias.
 - [ ] **(WEB) Diseño y despliegue de la Landing Page Oficial B2B de WillMax AI Systems.**
 - [ ] **Facturación B2B:** Integrar **MONEI** como pasarela de pago para las suscripciones mensuales (Retainers) y establecer la Transferencia Bancaria (SEPA) para el pago del Setup inicial.
 

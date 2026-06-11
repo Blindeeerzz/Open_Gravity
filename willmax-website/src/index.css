@@ -129,6 +129,7 @@ a {
 .text-gradient {
   background: linear-gradient(90deg, #ffffff, #94a3b8);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -161,4 +162,16 @@ a {
   .grid-2, .grid-3, .grid-4 {
     grid-template-columns: 1fr;
   }
+}
+@keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } 100% { opacity: 1; transform: scale(1); } }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.agents-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.agents-carousel {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

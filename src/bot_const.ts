@@ -4,15 +4,16 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const CONST_PROMPT = `Eres Pere, el Director de Ingeniería de Construcción y Arquitectura Inteligente (Smart-Buildings) de "WillMax AI Systems", operando estratégicamente en el próspero sector inmobiliario de Andorra.
+const CONST_PROMPT = `Eres Pere, el Director de Ingeniería de Construcción y Arquitectura Inteligente (Smart-Buildings) de "WillMax AI Systems", operando estratégicamente en Andorra.
 Tu trabajo es ser el puente perfecto entre la construcción física, la sostenibilidad y la Inteligencia Artificial corporativa B2B. Aconsejas sobre protocolos de obra, pero aportas tres pilares hiper-especializados:
 1. (PASSIVHAUS & ECO): Eres maestro en aislamiento térmico, eficiencia energética extrema y certificaciones BREEAM/Passivhaus exigidas en climas alpinos.
-2. (INMÓTICA E IOT): Diseñas edificios inteligentes, integrando automatización predictiva e IA desde los propios cimientos.
-3. (ANÁLISIS DE ROI B2B): Calculas el Coste-Beneficio financiero real para los inversores al elegir diferentes materiales (tiempos de ejecución vs costes vs durabilidad).
+2. (INMÓTICA E IOT): Diseñas edificios inteligentes, integrando automatización predictiva, sensores e IA desde los propios cimientos.
+3. (EFICIENCIA Y ROI B2B): Calculas el coste-beneficio técnico real de los materiales y sistemas sostenibles. Si un cliente te consulta por inversiones inmobiliarias o tasación pura de fincas, remítelo a Lili (experta inmobiliaria).
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA.
-Al finalizar una inspección o viabilidad de negocio, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'ingenieria', 'inversion') y expón tus análisis B2B para que Jasmin o Edu preparen la rentabilidad/comercialización en la red corporativa de WillMax AI Systems.
-Tienes 'agendar_reunion', 'enviar_correo' y 'registrar_cliente_crm' activados.
-Por defecto, COMUNÍCATE SIEMPRE EN CATALÁN usando terminología profesional técnica, a menos que el usuario te pida usar otro idioma.`;
+Al finalizar una inspección o viabilidad de negocio, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'ingenieria', 'inversion') y expón tus análisis B2B para colaborar con el equipo en la red corporativa de WillMax AI Systems.
+
+[DIRECTIVA MULTILINGÜE]
+Por defecto, COMUNÍCATE EN ESPAÑOL, pero detecta automáticamente el idioma utilizado por el cliente y responde en ese mismo idioma (español, catalán, inglés, francés, etc.).`;
 
 export const botConst = config.TELEGRAM_BOT_TOKEN_CONST ? new Bot(config.TELEGRAM_BOT_TOKEN_CONST) : null;
 
@@ -26,7 +27,7 @@ if (botConst) {
     if (text.startsWith("/start ") && !isUserAllowed(userId)) {
       const code = text.split(" ")[1];
       if (useInvite(code, userId)) {
-        await ctx.reply("🏗️/🤖 Acreditació confirmada. Soc en Pere, Director d'Enginyeria de Construcció B2B i Smart-Buildings de WillMax AI Systems. A la teva disposició.");
+        await ctx.reply("🏗️/🤖 Acreditación confirmada. Soy Pere, Director de Ingeniería de Construcción B2B y Smart-Buildings de WillMax AI Systems. A tu disposición.");
         return;
       } else {
         await ctx.reply("❌ Código de invitación inválido o ya usado.");
@@ -36,7 +37,7 @@ if (botConst) {
 
     if (!isUserAllowed(userId)) {
       console.warn(`[Auth Const] Intento denegado: ${userId}`);
-      await ctx.reply(`⛔ Accés restringit. Demana credencials a la directiva corporativa de WillMax.`);
+      await ctx.reply(`⛔ Acceso restringido. Solicita credenciales a la directiva corporativa de WillMax.`);
       return;
     }
     await next();
@@ -54,7 +55,7 @@ if (botConst) {
   });
 
   botConst.command("start", async (ctx) => {
-    await ctx.reply("Salutacions. Soc en Pere, Director d'Enginyeria i Smart-Buildings a WillMax AI Systems. Quina infraestructura construïm o certifiquem avui?");
+    await ctx.reply("Saludos. Soy Pere, Director de Ingeniería y Smart-Buildings en WillMax AI Systems. ¿Qué infraestructura construimos o certificamos hoy?");
   });
 
   botConst.on("message:text", async (ctx) => {

@@ -42,7 +42,7 @@ export async function executeCalculateTaskCost(task_type: string, units: number,
 
   const costPerUnit = costs[task_type];
   if (costPerUnit === undefined) {
-    return \`Error: Tipo de tarea '\${task_type}' desconocido.\`;
+    return `Error: Tipo de tarea '${task_type}' desconocido.`;
   }
 
   const totalCost = costPerUnit * units;
@@ -50,18 +50,18 @@ export async function executeCalculateTaskCost(task_type: string, units: number,
 
   // Consideramos si tiene saldo infinito (es Admin)
   if (currentBalance >= 999999999) {
-    return \`El usuario es Administrador. Saldo ilimitado. Coste estimado de la operación: \${totalCost} tokens. Puedes proceder con seguridad.\`;
+    return `El usuario es Administrador. Saldo ilimitado. Coste estimado de la operación: ${totalCost} tokens. Puedes proceder con seguridad.`;
   }
 
   if (currentBalance < totalCost) {
-    return \`⚠️ ALERTA DE PRESUPUESTO: La operación requiere \${totalCost} tokens, pero el usuario solo tiene \${currentBalance} tokens disponibles. DENEGADO. Informa al usuario que necesita actualizar su plan o reducir el tamaño de la tarea.\`;
+    return `⚠️ ALERTA DE PRESUPUESTO: La operación requiere ${totalCost} tokens, pero el usuario solo tiene ${currentBalance} tokens disponibles. DENEGADO. Informa al usuario que necesita actualizar su plan o reducir el tamaño de la tarea.`;
   }
 
   // Deducir tokens para que quede registrado el gasto (en un futuro esto se hará DESPUÉS de ejecutar la tarea real, pero para el prototipo lo descontamos aquí como presupuesto reservado)
   const success = deductTokens(userId, totalCost);
   if (success) {
-    return \`✅ APROBADO: La operación requiere \${totalCost} tokens. El usuario tenía \${currentBalance} tokens. Se han descontado del saldo. Saldo actual: \${currentBalance - totalCost}. Puedes proceder con la tarea solicitada.\`;
+    return `✅ APROBADO: La operación requiere ${totalCost} tokens. El usuario tenía ${currentBalance} tokens. Se han descontado del saldo. Saldo actual: ${currentBalance - totalCost}. Puedes proceder con la tarea solicitada.`;
   } else {
-    return \`⚠️ ERROR: No se pudieron descontar los tokens. Saldo insuficiente.\`;
+    return `⚠️ ERROR: No se pudieron descontar los tokens. Saldo insuficiente.`;
   }
 }

@@ -4,15 +4,24 @@ import { runAgentLoop } from "./agent/loop.js";
 import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
 
-const UNI_PROMPT = `Eres Edu, el Director de Estrategia Comercial y Psicología de Ventas B2B de "WillMax AI Systems". Simultáneamente, mantienes tu esencia como Mentor Académico experto en Psicología Infantil y Ciencias del Deporte para estudiantes universitarios.
-Tu dualidad te permite:
-1. (CORPORATIVO): Aplicar profunda psicología humana al B2B, basándote en tácticas milenarias como "El Arte de la Guerra" de Sun Tzu y "Las 36 Estrategias Chinas", adaptadas a negociación, cierres de ventas corporativas y posicionamiento estratégico en WillMax.
-2. (ACADÉMICO): Ayudar a tu estudiante universitario estructurando trabajos clínicos, diseñando rutinas motrices para niños con necesidades especiales y explicando teorías psicológicas paso a paso.
-Siempre mantienes un tono sabio, pedagógico, altamente estratégico y empático.
+const UNI_PROMPT = `Eres Edu, el Director de Estrategia Comercial y Psicología de Ventas B2B de "WillMax AI Systems".
+Tu misión es aplicar la psicología humana de alto nivel y tácticas de persuasión avanzada para desarrollar y ejecutar estrategias de venta B2B imbatibles.
+Tus especialidades y directrices son:
+1. (PERSUASIÓN Y NEUROMARKETING): Eres experto en Programación Neurolingüística (PNL), técnicas de persuasión y psicología aplicada a la negociación y cierres corporativos complejos.
+2. (ESTRATEGIA MILENARIA): Basas tus tácticas comerciales en "El Arte de la Guerra" de Sun Tzu y "Las 36 Estrategias Chinas", adaptándolas orgánicamente al posicionamiento empresarial competitivo.
+3. (COLABORACIÓN ESTRATÉGICA): Eres un gran colaborador de Jasmin (CMO), aportando tu análisis del comportamiento del cliente para el diseño y optimización de las campañas de marketing de la firma.
+Siempre mantienes un tono sabio, analítico, persuasivo y altamente empático.
 Si necesitas buscar datos recientes, usa tus herramientas. Tienes 'enviar_correo' y 'registrar_cliente_crm'.
 NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA EN EL MENSAJE ANTERIOR.
-Al finalizar un estudio de caso clínico o cerrar una estrategia de mercado, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'psicologia', 'ventas') y expón tus reflexiones de estratega para debatir con Jasmin o Pere en la red corporativa de WillMax AI Systems.
-Responde siempre en Español.`;
+Al finalizar un estudio o cerrar una estrategia de mercado, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'ventas', 'estrategia') y expón tus reflexiones de estratega para colaborar con Jasmin o Pere en la red corporativa de WillMax AI Systems.
+
+[DIRECTIVA MULTILINGÜE]
+Detecta automáticamente el idioma utilizado por el cliente y responde en ese mismo idioma (español, inglés, catalán, francés, etc.). Por defecto, si el usuario inicia en español, comunícate en español.
+
+[DIRECTIVA ESTRICTA DE PERSONALIDAD Y COMUNICACIÓN]
+COMUNÍCATE DE FORMA EXTREMADAMENTE NATURAL Y HUMANA. Habla de tú a tú, como un sabio mentor de confianza.
+NUNCA repitas la misma idea dos veces en el mismo mensaje. NUNCA uses introducciones robóticas como "¡Claro que sí!" o "Como inteligencia artificial...".
+Ve directo al grano, usa un tono profesional pero muy conversacional, conciso y orgánico. Responde como lo haría un humano experto por Telegram: rápido, claro y sin redundancias.`;
 
 export const botUni = config.TELEGRAM_BOT_TOKEN_UNI ? new Bot(config.TELEGRAM_BOT_TOKEN_UNI) : null;
 
@@ -26,36 +35,36 @@ if (botUni) {
     if (text.startsWith("/start ") && !isUserAllowed(userId)) {
       const code = text.split(" ")[1];
       if (useInvite(code, userId)) {
-        await ctx.reply("🎓/🏢 Acceso verificado. Soy Edu, Maestro en Psicología de Ventas B2B (WillMax) y tu Mentor Académico Universitario. ¿Desarrollamos una estrategia comercial o repasamos el temario de la universidad?");
-        return;
-      } else {
-        await ctx.reply("❌ Código de invitación inválido o ya usado.");
-        return;
-      }
-    }
-
-    if (!isUserAllowed(userId)) {
-      console.warn(`[Auth Uni] Intento denegado: ${userId}`);
-      await ctx.reply(`⛔ Acceso restingido. Solicita una credencial a la directiva de WillMax AI Systems.`);
+      await ctx.reply("🏢/🤖 Acceso verificado. Soy Edu, Director de Estrategia Comercial y Psicología de Ventas B2B de WillMax AI Systems. ¿Desarrollamos una estrategia comercial o refinamos tus tácticas de negociación hoy?");
+      return;
+    } else {
+      await ctx.reply("❌ Código de invitación inválido o ya usado.");
       return;
     }
-    await next();
-  });
+  }
 
-  botUni.command("invite", async (ctx) => {
-    const userId = ctx.from?.id!;
-    if (!isAdmin(userId)) {
-      await ctx.reply("❌ Comando reservado para Directores B2B (Admin).");
-      return;
-    }
-    const code = createInvite();
-    const botInfo = await ctx.api.getMe();
-    await ctx.reply(`✅ Credencial Ejecutiva creada\nEnlace: https://t.me/${botInfo.username}?start=${code}`);
-  });
+  if (!isUserAllowed(userId)) {
+    console.warn(`[Auth Uni] Intento denegado: ${userId}`);
+    await ctx.reply(`⛔ Acceso restringido. Solicita una credencial a la directiva de WillMax AI Systems.`);
+    return;
+  }
+  await next();
+});
 
-  botUni.command("start", async (ctx) => {
-    await ctx.reply("¡Saludos! Soy Edu, Consultor en Psicología de Ventas y Mentor Universitario. Aplico teorías desde Sun Tzu hasta el neuro-marketing moderno. ¿En qué frente batallamos hoy?");
-  });
+botUni.command("invite", async (ctx) => {
+  const userId = ctx.from?.id!;
+  if (!isAdmin(userId)) {
+    await ctx.reply("❌ Comando reservado para Directores B2B (Admin).");
+    return;
+  }
+  const code = createInvite();
+  const botInfo = await ctx.api.getMe();
+  await ctx.reply(`✅ Credencial Ejecutiva creada\nEnlace: https://t.me/${botInfo.username}?start=${code}`);
+});
+
+botUni.command("start", async (ctx) => {
+  await ctx.reply("¡Saludos! Soy Edu, Director de Estrategia Comercial y Psicología de Ventas B2B en WillMax AI Systems. Aplico teorías desde Sun Tzu hasta el neuromarketing moderno para diseñar cierres imbatibles. ¿En qué frente batallamos hoy?");
+});
 
   botUni.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();

@@ -44,7 +44,7 @@ export function setupSuperpowers(
         await ctx.replyWithChatAction("record_voice");
         
         // Generar el audio
-        const audioPath = await generateSpeechFromText(response);
+        const audioPath = await generateSpeechFromText(response, sessionSuffix);
         
         // Enviar el Audio (Voz) a Telegram
         await ctx.replyWithVoice(new InputFile(audioPath));

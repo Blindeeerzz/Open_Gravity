@@ -3,3 +3,4 @@ dist
 .env*
 memory*.db*
 *.exe
+*.tar

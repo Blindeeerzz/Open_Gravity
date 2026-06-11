@@ -60,50 +60,56 @@ export default function Dashboard() {
             <ShieldCheck color="var(--accent-cyan)" /> Enlaces de Despliegue Directo
           </h3>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Aegis Link */}
-            <a href="https://t.me/Aegis_Security_Bot" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'rgba(255,51,51,0.05)', border: '1px solid rgba(255,51,51,0.2)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,51,51,0.1)'} onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255,51,51,0.05)'}>
-                <div>
-                  <h4 style={{ color: '#ff3333', margin: 0 }}>AEGIS (Ciberseguridad)</h4>
-                  <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.85rem' }}>Pentesting y Agent Zero</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem' }}>
+            {[
+              { id: 'lilith', name: 'LILITH', role: 'CEO / Finanzas B2B', user: 'Mia_task_bot', desc: 'Inversión y Estrategia', color: '#d946ef' },
+              { id: 'aegis', name: 'AEGIS', role: 'Ciberseguridad', user: 'Aegis_SecurityBot', desc: 'Pentesting y Agent Zero', color: '#ff3333' },
+              { id: 'jasmin', name: 'JASMIN', role: 'Marketing IA', user: 'MarkAnim_Bot', desc: 'Estrategia 3D y SEO', color: '#06b6d4' },
+              { id: 'edu', name: 'EDU', role: 'Ventas B2B', user: 'MarcoGonz_bot', desc: 'Persuasión y Negociación', color: '#3b82f6' },
+              { id: 'lili', name: 'LILI', role: 'Inmobiliaria B2B', user: 'B_Raices_Bot', desc: 'Flipping y Rentabilidad', color: '#f59e0b' },
+              { id: 'pere', name: 'PERE', role: 'Ing. Inmótica', user: 'PerePiri_bot', desc: 'Smart Buildings y Passivhaus', color: '#10b981' },
+              { id: 'chloe', name: 'CHLOE', role: 'Asistente CFO', user: 'Chloeadmin_bot', desc: 'Contabilidad y Facturación', color: '#14b8a6' },
+              { id: 'kendo', name: 'KENDO', role: 'Soporte Técnico', user: 'Kendo_asist_bot', desc: 'Configuración y Sistemas', color: '#a855f7' }
+            ].map((agent) => (
+              <a 
+                key={agent.id}
+                href={`https://t.me/${agent.user}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ textDecoration: 'none' }}
+              >
+                <div 
+                  style={{ 
+                    background: `rgba(${parseInt(agent.color.slice(1,3), 16)}, ${parseInt(agent.color.slice(3,5), 16)}, ${parseInt(agent.color.slice(5,7), 16)}, 0.03)`, 
+                    border: `1px solid rgba(${parseInt(agent.color.slice(1,3), 16)}, ${parseInt(agent.color.slice(3,5), 16)}, ${parseInt(agent.color.slice(5,7), 16)}, 0.15)`, 
+                    padding: '1rem', 
+                    borderRadius: '8px', 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'center', 
+                    transition: 'all 0.2s ease',
+                    height: '100%'
+                  }} 
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = `rgba(${parseInt(agent.color.slice(1,3), 16)}, ${parseInt(agent.color.slice(3,5), 16)}, ${parseInt(agent.color.slice(5,7), 16)}, 0.08)`;
+                    e.currentTarget.style.borderColor = agent.color;
+                    e.currentTarget.style.boxShadow = `0 0 10px ${agent.color}30`;
+                  }} 
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = `rgba(${parseInt(agent.color.slice(1,3), 16)}, ${parseInt(agent.color.slice(3,5), 16)}, ${parseInt(agent.color.slice(5,7), 16)}, 0.03)`;
+                    e.currentTarget.style.borderColor = `rgba(${parseInt(agent.color.slice(1,3), 16)}, ${parseInt(agent.color.slice(3,5), 16)}, ${parseInt(agent.color.slice(5,7), 16)}, 0.15)`;
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  <div>
+                    <h4 style={{ color: agent.color, margin: 0, fontSize: '0.95rem', fontWeight: 700 }}>{agent.name}</h4>
+                    <p style={{ color: 'var(--text-main)', margin: '0.2rem 0', fontSize: '0.8rem', fontWeight: 500 }}>{agent.role}</p>
+                    <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.75rem' }}>{agent.desc}</p>
+                  </div>
+                  <ExternalLink size={16} color={agent.color} style={{ flexShrink: 0, marginLeft: '0.5rem' }} />
                 </div>
-                <ExternalLink color="#ff3333" />
-              </div>
-            </a>
-
-            {/* Edu Link */}
-            <a href="https://t.me/Edu_Ventas_Bot" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'rgba(0,243,255,0.05)', border: '1px solid rgba(0,243,255,0.2)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.1)'} onMouseOut={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.05)'}>
-                <div>
-                  <h4 style={{ color: 'var(--accent-cyan)', margin: 0 }}>EDU (Ventas y Estrategia)</h4>
-                  <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.85rem' }}>Psicología de Negociación</p>
-                </div>
-                <ExternalLink color="var(--accent-cyan)" />
-              </div>
-            </a>
-            
-            {/* Jasmin Link */}
-            <a href="https://t.me/Jasmin_Marketing_Bot" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'rgba(0,243,255,0.05)', border: '1px solid rgba(0,243,255,0.2)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.1)'} onMouseOut={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.05)'}>
-                <div>
-                  <h4 style={{ color: 'var(--accent-cyan)', margin: 0 }}>JASMIN (Marketing IA)</h4>
-                  <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.85rem' }}>Estrategia 3D y SEO</p>
-                </div>
-                <ExternalLink color="var(--accent-cyan)" />
-              </div>
-            </a>
-
-            {/* Pere Link */}
-            <a href="https://t.me/Pere_Arquitectura_Bot" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <div style={{ background: 'rgba(0,243,255,0.05)', border: '1px solid rgba(0,243,255,0.2)', padding: '1rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s' }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.1)'} onMouseOut={(e) => e.currentTarget.style.background = 'rgba(0,243,255,0.05)'}>
-                <div>
-                  <h4 style={{ color: 'var(--accent-cyan)', margin: 0 }}>PERE (Ingeniería Inmótica)</h4>
-                  <p style={{ color: 'var(--text-muted)', margin: 0, fontSize: '0.85rem' }}>Smart Buildings y ROI</p>
-                </div>
-                <ExternalLink color="var(--accent-cyan)" />
-              </div>
-            </a>
+              </a>
+            ))}
           </div>
 
         </div>
@@ -111,3 +117,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

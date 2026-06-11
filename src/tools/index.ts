@@ -15,6 +15,20 @@ import {
   nmapToolDef, executeNmap
 } from "./cyber_tools.js";
 import { calculateTaskCostToolDef, executeCalculateTaskCost } from "./self_sustain.js";
+import { agentZeroToolDefinition, deployAgentZero } from "./agent_zero.js";
+import { hackeroneReportToolDef, executeHackeroneReport } from "./hackerone.js";
+import { intigritiReportToolDef, executeIntigritiReport } from "./intigriti.js";
+import { bugcrowdReportToolDef, executeBugcrowdReport } from "./bugcrowd.js";
+import { 
+  addKnowledgeToolDef, 
+  deleteKnowledgeToolDef, 
+  searchKnowledgeToolDef, 
+  listKnowledgeCategoriesToolDef,
+  executeAddKnowledge, 
+  executeDeleteKnowledge, 
+  executeSearchKnowledge,
+  executeListKnowledgeCategories
+} from "./knowledge_base.js";
 import { getMCPTools, executeMCPTool } from "../agent/mcpClient.js";
 
 // Lista de definiciones para enviarle al LLM
@@ -33,7 +47,15 @@ export const availableToolsDefinitions = [
   httpHeadersScannerToolDef,
   subdomainSearchToolDef,
   nmapToolDef,
-  calculateTaskCostToolDef
+  calculateTaskCostToolDef,
+  agentZeroToolDefinition,
+  hackeroneReportToolDef,
+  intigritiReportToolDef,
+  bugcrowdReportToolDef,
+  addKnowledgeToolDef,
+  deleteKnowledgeToolDef,
+  searchKnowledgeToolDef,
+  listKnowledgeCategoriesToolDef
 ];
 
 export function getCombinedTools() {
@@ -83,6 +105,22 @@ export async function executeToolWrapper(name: string, args: any, sessionId: str
         return await executeNmap(args.target, args.flags);
       case "calculate_task_cost":
         return await executeCalculateTaskCost(args.task_type, args.units, sessionId);
+      case "deploy_agent_zero":
+        return await deployAgentZero(args.task);
+      case "enviar_reporte_hackerone":
+        return await executeHackeroneReport(args);
+      case "enviar_reporte_intigriti":
+        return await executeIntigritiReport(args);
+      case "enviar_reporte_bugcrowd":
+        return await executeBugcrowdReport(args);
+      case "add_knowledge":
+        return await executeAddKnowledge(args);
+      case "delete_knowledge":
+        return await executeDeleteKnowledge(args);
+      case "search_knowledge":
+        return await executeSearchKnowledge(args);
+      case "list_knowledge_categories":
+        return await executeListKnowledgeCategories();
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }

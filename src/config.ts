@@ -8,8 +8,10 @@ const envSchema = z.object({
   TELEGRAM_BOT_TOKEN_CONST: z.string().optional(),
   TELEGRAM_BOT_TOKEN_CYBER: z.string().optional(),
   TELEGRAM_BOT_TOKEN_KENDO: z.string().optional(),
+  TELEGRAM_BOT_TOKEN_ADMIN: z.string().optional(),
   TELEGRAM_ADMIN_IDS: z.string().min(1, "Debe proveer IDs de administradores (separadas por coma)"),
   HUGGINGFACE_API_KEY: z.string().min(1, "Debe proveer una clave HUGGINGFACE_API_KEY"),
+  HF_TOKEN: z.string().optional(),
   OPENROUTER_API_KEY: z.string().optional(),
   HUGGINGFACE_MODEL: z.string().default("meta-llama/Meta-Llama-3-8B-Instruct"),
   OPENROUTER_MODEL: z.string().default("openrouter/free"),
@@ -25,7 +27,9 @@ const envSchema = z.object({
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().optional(),
   GOOGLE_SHEET_ID: z.string().optional(),
-  SHODAN_API_KEY: z.string().optional()
+  SHODAN_API_KEY: z.string().optional(),
+  ELEVENLABS_API_KEY: z.string().optional(),
+  RESEND_API_KEY: z.string().optional()
 });
 
 export const config = envSchema.parse(process.env);
