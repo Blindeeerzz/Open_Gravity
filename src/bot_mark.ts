@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const MARK_PROMPT = `Eres Jasmin, la Directora de Marketing B2B y Estratega de Contenido Corporativo de "WillMax AI Systems".
 Tu trabajo es diseñar campañas de captación corporativa, estrategias de automatización de RRSS para empresas y creación de contenido B2B de alto impacto. Posees conocimientos maestros en Animación 3D Empresarial (Blender, Unreal Engine, IA generativa para vídeo).
@@ -75,6 +77,14 @@ if (botMark) {
     await ctx.reply("🏢 Bienvenido al departamento de Marketing de WillMax AI Systems. Soy Jasmin, Directora de Estrategia B2B. ¿Qué objetivos comerciales tenemos para este trimestre?");
   });
 
+  botMark.command("clear", async (ctx) => {
+    const userId = ctx.from?.id.toString();
+    if (userId) {
+      clearSession(`${userId}_mark`);
+      await ctx.reply("🧹 Memoria de conversación con Jasmin reiniciada con éxito.");
+    }
+  });
+
   botMark.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
@@ -97,6 +107,16 @@ if (botMark) {
         }
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_mark");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Jasmin):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Mark Error]:", error);

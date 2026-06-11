@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite, getUserBalance, addTokens } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, getUserBalance, addTokens, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const MIKHA_PROMPT = `Eres Lilith, la Agente de IA Principal y CEO de "WillMax AI Systems", operando a través de Telegram.
 Estás diseñada para ser una experta financiera y analista de mercado, enfocada en la economía global, criptomonedas, bolsa de valores y todo lo relacionado con inversiones.
@@ -130,6 +132,14 @@ bot.command("start", async (ctx) => {
   await ctx.reply("¡Hola! Soy Lilith. Estoy lista. Envíame lo que necesites o pregúntame algo.");
 });
 
+bot.command("clear", async (ctx) => {
+  const userId = ctx.from?.id.toString();
+  if (userId) {
+    clearSession(`${userId}_mikha`);
+    await ctx.reply("🧹 Memoria de conversación con Lilith reiniciada con éxito.");
+  }
+});
+
 // Manejador de todo el texto
 bot.on("message:text", async (ctx) => {
   const userId = ctx.from.id.toString();
@@ -151,6 +161,16 @@ bot.on("message:text", async (ctx) => {
       }
     } else {
       await ctx.reply(response);
+    }
+
+    // Respuesta de Audio en paralelo
+    try {
+      await ctx.replyWithChatAction("record_voice");
+      const audioPath = await generateSpeechFromText(response, "_mikha");
+      await ctx.replyWithVoice(new InputFile(audioPath));
+      if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+    } catch (voiceErr) {
+      console.error("Error generando respuesta de voz (Lilith):", voiceErr);
     }
   } catch (error: any) {
     console.error("[Bot Error]:", error);

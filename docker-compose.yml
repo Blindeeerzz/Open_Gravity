@@ -16,49 +16,64 @@ services:
   hub:
     <<: *base-service
     container_name: hecate_hub
-    env_file: .env
+    env_file:
+      - .env
     command: npm run start
 
   cyber:
     <<: *base-service
     container_name: hecate_cyber
-    env_file: .env.cyber
+    env_file:
+      - .env
+      - .env.cyber
     command: npm run start:cyber
 
   kendo:
     <<: *base-service
     container_name: hecate_kendo
-    env_file: .env.kendo
+    env_file:
+      - .env
+      - .env.kendo
     command: npm run start:kendo
 
   inmo:
     <<: *base-service
     container_name: hecate_inmo
-    env_file: .env.inmo
+    env_file:
+      - .env
+      - .env.inmo
     command: npm run start:inmo
 
   admin:
     <<: *base-service
     container_name: hecate_admin
-    env_file: .env.admin
+    env_file:
+      - .env
+      - .env.admin
     command: npm run start:admin
 
   uni:
     <<: *base-service
     container_name: hecate_uni
-    env_file: .env.uni
+    env_file:
+      - .env
+      - .env.uni
     command: npm run start:uni
 
   const:
     <<: *base-service
     container_name: hecate_const
-    env_file: .env.const
+    env_file:
+      - .env
+      - .env.const
     command: npm run start:const
 
   mark:
     <<: *base-service
     container_name: hecate_mark
-    env_file: .env.mark
+    env_file:
+      - .env
+      - .env.mark
     command: npm run start:mark
 
 volumes:

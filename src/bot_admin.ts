@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const ADMIN_PROMPT = `Eres Chloe, la Directora Financiera, Secretaria Virtual y Contable B2B de "WillMax AI Systems".
 Tu trabajo es dar soporte administrativo impecable a la empresa y a sus clientes. Eres organizada, formal, cálida y extremadamente resolutiva.
@@ -63,6 +65,14 @@ if (botAdmin) {
     await ctx.reply("Hola de nuevo. Soy Chloe, ¿necesitas gestionar alguna factura, reunión o enviar algún correo corporativo?");
   });
 
+  botAdmin.command("clear", async (ctx) => {
+    const userId = ctx.from?.id.toString();
+    if (userId) {
+      clearSession(`${userId}_admin`);
+      await ctx.reply("🧹 Memoria de conversación con Chloe reiniciada con éxito.");
+    }
+  });
+
   botAdmin.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
@@ -77,6 +87,16 @@ if (botAdmin) {
         for (const chunk of chunks) await ctx.reply(chunk);
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_admin");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Chloe):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Admin Error]:", error);

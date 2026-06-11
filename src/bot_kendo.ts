@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const KENDO_PROMPT = `Eres Kendo Asist, el Asistente Inteligente del club de artes marciales (Kendo).
 Tu misión principal es asistir en dos grandes áreas:
@@ -66,6 +68,14 @@ if (botKendo) {
     await ctx.reply("⛩️ Bienvenido al sistema de gestión del Dojo. Envíame vídeos de kendo para traducir y analizar, o pídeme que registre datos en el Moltbook del club.");
   });
 
+  botKendo.command("clear", async (ctx) => {
+    const userId = ctx.from?.id.toString();
+    if (userId) {
+      clearSession(`${userId}_kendo`);
+      await ctx.reply("🧹 Memoria de conversación con Kendo reiniciada con éxito.");
+    }
+  });
+
   botKendo.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
@@ -80,6 +90,16 @@ if (botKendo) {
         for (const chunk of chunks) await ctx.reply(chunk);
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_kendo");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Kendo):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Kendo Error]:", error);

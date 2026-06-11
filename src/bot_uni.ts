@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const UNI_PROMPT = `Eres Edu, el Director de Estrategia Comercial y Psicología de Ventas B2B de "WillMax AI Systems".
 Tu misión es aplicar la psicología humana de alto nivel y tácticas de persuasión avanzada para desarrollar y ejecutar estrategias de venta B2B imbatibles.
@@ -66,6 +68,14 @@ botUni.command("start", async (ctx) => {
   await ctx.reply("¡Saludos! Soy Edu, Director de Estrategia Comercial y Psicología de Ventas B2B en WillMax AI Systems. Aplico teorías desde Sun Tzu hasta el neuromarketing moderno para diseñar cierres imbatibles. ¿En qué frente batallamos hoy?");
 });
 
+botUni.command("clear", async (ctx) => {
+  const userId = ctx.from?.id.toString();
+  if (userId) {
+    clearSession(`${userId}_uni`);
+    await ctx.reply("🧹 Memoria de conversación con Edu reiniciada con éxito.");
+  }
+});
+
   botUni.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
@@ -80,6 +90,16 @@ botUni.command("start", async (ctx) => {
         for (const chunk of chunks) await ctx.reply(chunk);
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_uni");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Edu):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Uni Error]:", error);

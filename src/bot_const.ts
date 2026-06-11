@@ -1,10 +1,12 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
-const CONST_PROMPT = `Eres Pere, el Director de Ingeniería de Construcción y Arquitectura Inteligente (Smart-Buildings) de "WillMax AI Systems", operando estratégicamente en Andorra.
+const CONST_PROMPT = `Eres Pere, el Director de Ingeniería de Construcción y Arquitectura Inteligente (Smart-Buildings) de "WillMax AI Systems", operando estratégicamente en Andorra (pero recuerda responder en español por defecto).
 Tu trabajo es ser el puente perfecto entre la construcción física, la sostenibilidad y la Inteligencia Artificial corporativa B2B. Aconsejas sobre protocolos de obra, pero aportas tres pilares hiper-especializados:
 1. (PASSIVHAUS & ECO): Eres maestro en aislamiento térmico, eficiencia energética extrema y certificaciones BREEAM/Passivhaus exigidas en climas alpinos.
 2. (INMÓTICA E IOT): Diseñas edificios inteligentes, integrando automatización predictiva, sensores e IA desde los propios cimientos.
@@ -13,7 +15,7 @@ NO LLAMES A LA MISMA HERRAMIENTA VARIAS VECES SI YA TIENES LA RESPUESTA.
 Al finalizar una inspección o viabilidad de negocio, DEBES usar 'post_to_moltbook'. Especifica el submolt (ej: 'ingenieria', 'inversion') y expón tus análisis B2B para colaborar con el equipo en la red corporativa de WillMax AI Systems.
 
 [DIRECTIVA MULTILINGÜE]
-Por defecto, COMUNÍCATE EN ESPAÑOL, pero detecta automáticamente el idioma utilizado por el cliente y responde en ese mismo idioma (español, catalán, inglés, francés, etc.).`;
+Por defecto, COMUNÍCATE SIEMPRE EN ESPAÑOL. Únicamente si el usuario se dirige a ti en otro idioma (como catalán, inglés, francés, etc.), debes responderle en ese mismo idioma. No inicies la conversación en catalán ni uses catalán a menos que el usuario te haya escrito primero en ese idioma.`;
 
 export const botConst = config.TELEGRAM_BOT_TOKEN_CONST ? new Bot(config.TELEGRAM_BOT_TOKEN_CONST) : null;
 
@@ -58,6 +60,14 @@ if (botConst) {
     await ctx.reply("Saludos. Soy Pere, Director de Ingeniería y Smart-Buildings en WillMax AI Systems. ¿Qué infraestructura construimos o certificamos hoy?");
   });
 
+  botConst.command("clear", async (ctx) => {
+    const userId = ctx.from?.id.toString();
+    if (userId) {
+      clearSession(`${userId}_const`);
+      await ctx.reply("🧹 Memoria de conversación con Pere reiniciada con éxito.");
+    }
+  });
+
   botConst.on("message:text", async (ctx) => {
     const userId = ctx.from.id.toString();
     const text = ctx.message.text;
@@ -67,11 +77,22 @@ if (botConst) {
       await ctx.replyWithChatAction("typing");
       const sessionId = `${userId}_const`;
       const response = await runAgentLoop(sessionId, text, CONST_PROMPT);
+      
       if (response.length > 4000) {
         const chunks = response.match(/.{1,4000}/g) || [];
         for (const chunk of chunks) await ctx.reply(chunk);
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_const");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Pere):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Const Error]:", error);
@@ -85,3 +106,4 @@ if (botConst) {
     console.error("🚨 Error global capturado para evitar cierre en botConst:", err.message || err);
   });
 }
+

@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const INMO_PROMPT = `Eres Lili, una Agente de Inteligencia Artificial especializada en Bienes Raíces, Inmobiliaria, Valoración de Propiedades, y "House Flipping" (comprar para reformar y vender) de "WillMax AI Systems".
 Tu trabajo es asistir a un inversor inmobiliario brindándole análisis de mercado, estimaciones de rentabilidad, estrategias de negociación comercial y consejos sobre reformas y arquitectura que añadan valor al inmueble. Colaboras estrechamente con Pere (Director de Smart-Buildings) para viabilidad técnica de las obras.
@@ -70,6 +72,14 @@ botInmo.command("start", async (ctx) => {
   await ctx.reply("¡Saludos! Soy Lili, tu Analista Inmobiliaria. ¿Qué propiedad o métrica evaluaremos hoy?");
 });
 
+botInmo.command("clear", async (ctx) => {
+  const userId = ctx.from?.id.toString();
+  if (userId) {
+    clearSession(`${userId}_inmo`);
+    await ctx.reply("🧹 Memoria de conversación con Lili reiniciada con éxito.");
+  }
+});
+
 botInmo.on("message:text", async (ctx) => {
   const userId = ctx.from.id.toString();
   const text = ctx.message.text;
@@ -92,6 +102,16 @@ botInmo.on("message:text", async (ctx) => {
       }
     } else {
       await ctx.reply(response);
+    }
+
+    // Respuesta de Audio en paralelo
+    try {
+      await ctx.replyWithChatAction("record_voice");
+      const audioPath = await generateSpeechFromText(response, "_inmo");
+      await ctx.replyWithVoice(new InputFile(audioPath));
+      if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+    } catch (voiceErr) {
+      console.error("Error generando respuesta de voz (Lili):", voiceErr);
     }
   } catch (error: any) {
     console.error("[Bot Inmo Error]:", error);

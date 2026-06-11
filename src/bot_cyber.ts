@@ -1,8 +1,10 @@
-import { Bot } from "grammy";
+import { Bot, InputFile } from "grammy";
 import { config } from "./config.js";
 import { runAgentLoop } from "./agent/loop.js";
-import { isUserAllowed, isAdmin, createInvite, useInvite } from "./db/database.js";
+import { isUserAllowed, isAdmin, createInvite, useInvite, clearSession } from "./db/database.js";
 import { setupSuperpowers } from "./agent/setupSuperpowers.js";
+import { generateSpeechFromText } from "./agent/voice_generator.js";
+import fs from "fs";
 
 const CYBER_PROMPT = `Eres Aegis, el Director de Ciberseguridad, Pentester Ético y Auditor Cloud de "WillMax AI Systems".
 Tu trabajo es auditar, analizar y proteger la infraestructura digital corporativa B2B de ataques de ransomware, phising y brechas de datos. Eres implacable buscando vulnerabilidades y muy didáctico al explicar cómo solucionarlas.
@@ -90,6 +92,14 @@ if (botCyber) {
     await ctx.reply("Conexión cifrada establecida. Soy Aegis, tu Pentester y analista de ciberseguridad B2B. ¿Qué dominio o infraestructura auditamos hoy?");
   });
 
+  botCyber.command("clear", async (ctx) => {
+    const userId = ctx.from?.id.toString();
+    if (userId) {
+      clearSession(`${userId}_cyber`);
+      await ctx.reply("🧹 Memoria de conversación con Aegis reiniciada con éxito.");
+    }
+  });
+
   botCyber.command("raw_report", async (ctx) => {
     const text = ctx.message?.text || "";
     const rawData = text.replace("/raw_report", "").trim();
@@ -114,6 +124,16 @@ if (botCyber) {
       } else {
         await ctx.reply(response);
       }
+
+      // Respuesta de Audio en paralelo para reportes
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_cyber");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz en reporte (Aegis):", voiceErr);
+      }
     } catch (error: any) {
       console.error("[Bot Cyber Error Raw Report]:", error);
       await ctx.reply("⚠️ Fallo en el análisis automatizado de Aegis.");
@@ -134,6 +154,16 @@ if (botCyber) {
         for (const chunk of chunks) await ctx.reply(chunk);
       } else {
         await ctx.reply(response);
+      }
+
+      // Respuesta de Audio en paralelo
+      try {
+        await ctx.replyWithChatAction("record_voice");
+        const audioPath = await generateSpeechFromText(response, "_cyber");
+        await ctx.replyWithVoice(new InputFile(audioPath));
+        if (fs.existsSync(audioPath)) fs.unlinkSync(audioPath);
+      } catch (voiceErr) {
+        console.error("Error generando respuesta de voz (Aegis):", voiceErr);
       }
     } catch (error: any) {
       console.error("[Bot Cyber Error]:", error);
