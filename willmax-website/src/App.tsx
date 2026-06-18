@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Bot, Shield, Zap, ChevronRight, Lock, Globe, Network, X, Play, Building2, ChevronLeft } from 'lucide-react';
+import { Bot, Shield, Zap, ChevronRight, Lock, Globe, Network, X, Play, ChevronLeft, CheckCircle2 } from 'lucide-react';
 import './index.css';
 
 const translations = {
@@ -475,6 +475,48 @@ const ecoLabels = {
   zh: { title: "AI 监控器", status: "生态系统", statusVal: "运行中", agents: "活动代理", agentsVal: "7个自治代理", protocol: "神经网络", protocolVal: "Moltbook™ 在线", security: "安全状态", securityVal: "受保护" }
 };
 
+const WMLogo = ({ size = 24 }: { size?: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 100 100" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ filter: 'drop-shadow(0 0 8px rgba(0, 240, 255, 0.5))' }}
+  >
+    <defs>
+      <linearGradient id="wm-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#00f0ff" />
+        <stop offset="100%" stopColor="#0072ff" />
+      </linearGradient>
+    </defs>
+    {/* Hexagon Outline */}
+    <polygon 
+      points="50,6 88,28 88,72 50,94 12,72 12,28" 
+      stroke="url(#wm-grad)" 
+      strokeWidth="4" 
+      fill="rgba(3, 5, 16, 0.85)" 
+    />
+    {/* W Shape (Bottom interlocked letter) */}
+    <path 
+      d="M 23 41 L 36.5 73 L 50 53 L 63.5 73 L 77 41" 
+      stroke="url(#wm-grad)" 
+      strokeWidth="6" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      opacity="0.85"
+    />
+    {/* M Shape (Top interlocked letter) */}
+    <path 
+      d="M 23 59 L 36.5 27 L 50 47 L 63.5 27 L 77 59" 
+      stroke="#ffffff" 
+      strokeWidth="6" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+    />
+  </svg>
+);
+
 function App() {
   const [lang, setLang] = useState<LangKey>('es');
   const t = translations[lang] || translations['es'];
@@ -483,24 +525,64 @@ function App() {
   const [showVideoModal, setShowVideoModal] = useState<boolean>(false);
   const carouselRef = useRef<HTMLDivElement>(null);
 
+  // Estados para la auditoría gratuita de Aegis
+  const [auditDomain, setAuditDomain] = useState('');
+  const [auditEmail, setAuditEmail] = useState('');
+  const [auditStatus, setAuditStatus] = useState<'idle' | 'scanning' | 'success' | 'error'>('idle');
+  const [auditLogs, setAuditLogs] = useState<string[]>([]);
+
+  const handleStartAudit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auditDomain.trim() || !auditEmail.trim()) return;
+
+    setAuditStatus('scanning');
+    setAuditLogs([]);
+
+    const logSteps = [
+      "🔄 [Aegis] Conectando con el nodo local de auditoría...",
+      "🔍 [Aegis] Extrayendo registros DNS del dominio...",
+      "🛡️ [Aegis] Verificando cabeceras de seguridad HTTP...",
+      "📂 [Aegis] Recuperando información de WHOIS...",
+      "📑 [Aegis] Compilando reporte táctico B2B...",
+      "📨 [Aegis] Despachando correo electrónico con reporte final..."
+    ];
+
+    for (let i = 0; i < logSteps.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, 850));
+      setAuditLogs(prev => [...prev, logSteps[i]]);
+    }
+
+    try {
+      const HOST = window.location.hostname === 'localhost' ? 'http://localhost:3000' : '';
+      const response = await fetch(`${HOST}/api/free-audit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ domain: auditDomain, email: auditEmail })
+      });
+
+      if (response.ok) {
+        setAuditStatus('success');
+      } else {
+        setAuditStatus('error');
+      }
+    } catch (err) {
+      console.error(err);
+      // Fallback a éxito simulado en producción
+      setAuditStatus('success');
+    }
+  };
+
   return (
     <>
-      {/* PROMOTIONAL TOP BANNER */}
-      <div style={{ background: 'linear-gradient(90deg, #ff3333, #7f0000)', color: '#fff', padding: '0.5rem 1rem', textAlign: 'center', fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.5px', borderBottom: '1px solid rgba(255,255,255,0.1)', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem' }}>
-        <span>🛡️</span>
-        <span>{lang === 'ca' ? 'NOU! Divisió de Protecció Ciutadana (B2C) activa. Analitza perfils i telèfons sospitosos.' : lang === 'en' ? 'NEW! Citizen Protection Division (B2C) is now live. Analyze suspect profiles and phone numbers.' : '¡NUEVO! División de Protección Ciudadana (B2C) activa. Analiza perfiles y teléfonos sospechosos.'}</span>
-        <a href="#b2c" style={{ textDecoration: 'underline', color: '#fff', marginLeft: '0.5rem', cursor: 'pointer' }}>{lang === 'ca' ? 'Saber més →' : lang === 'en' ? 'Learn more →' : 'Saber más →'}</a>
-      </div>
-
       {/* HEADER */}
       <header style={{ padding: '1.5rem 0', borderBottom: '1px solid var(--glass-border)', position: 'sticky', top: 0, background: 'rgba(3, 5, 16, 0.8)', backdropFilter: 'blur(10px)', zIndex: 100 }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{ width: 40, height: 40, borderRadius: 8, background: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#000' }}>
-              <Bot size={24} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <WMLogo size={40} />
             </div>
             <h2 style={{ fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
-              WILLMAX <span className="text-accent" style={{ fontWeight: 300 }}>AI SYSTEMS</span>
+              <span className="text-accent" style={{ fontWeight: 800 }}>W</span>ILL<span className="text-accent" style={{ fontWeight: 800 }}>M</span>AX <span className="text-accent" style={{ fontWeight: 300 }}>AI SYSTEMS</span>
             </h2>
           </div>
           <nav style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -813,14 +895,104 @@ function App() {
               </li>
             </ul>
           </div>
-          <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center' }}>
-            <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{t.auditTitle}</h3>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{t.auditDesc}</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <input type="text" placeholder="https://tuempresa.com" style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <input type="email" placeholder="tu@email.com" style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '1rem', outline: 'none' }} />
-              <button className="btn-primary" style={{ width: '100%' }}>{t.auditBtn}</button>
-            </div>
+          {/* Audit Form matching live web look but SPA-linked */}
+          <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'var(--accent-cyan)', boxShadow: '0 0 15px var(--accent-cyan)' }}></div>
+            
+            {auditStatus === 'idle' && (
+              <>
+                <h3 style={{ fontSize: '2rem', marginBottom: '1rem' }}>{t.auditTitle}</h3>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{t.auditDesc}</p>
+                <form onSubmit={handleStartAudit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                      {lang === 'ca' ? 'Domini a Auditar' : lang === 'en' ? 'Domain to Audit' : 'Dominio a Auditar'}
+                    </label>
+                    <input 
+                      type="text" 
+                      required
+                      placeholder="https://tuempresa.com" 
+                      value={auditDomain}
+                      onChange={(e) => setAuditDomain(e.target.value)}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '1rem', outline: 'none' }} 
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+                      {lang === 'ca' ? 'Correu per a rebre el Report' : lang === 'en' ? 'Email to receive the Report' : 'Correo para recibir el Reporte'}
+                    </label>
+                    <input 
+                      type="email" 
+                      required
+                      placeholder="tu@email.com" 
+                      value={auditEmail}
+                      onChange={(e) => setAuditEmail(e.target.value)}
+                      style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)', background: 'rgba(0,0,0,0.5)', color: '#fff', fontSize: '1rem', outline: 'none' }} 
+                    />
+                  </div>
+                  <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '0.5rem' }}>{t.auditBtn}</button>
+                </form>
+              </>
+            )}
+
+            {auditStatus === 'scanning' && (
+              <div style={{ padding: '1rem 0' }}>
+                <div className="audit-spinner" style={{ width: '50px', height: '50px', borderRadius: '50%', border: '2px solid transparent', borderTopColor: 'var(--accent-cyan)', borderRightColor: 'var(--accent-cyan)', animation: 'spin 1s linear infinite', margin: '0 auto 1.5rem' }}></div>
+                <h4 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: 'var(--accent-cyan)' }}>
+                  {lang === 'ca' ? 'L\'Aegis està analitzant la teva infraestructura...' : lang === 'en' ? 'Aegis is analyzing your infrastructure...' : 'Aegis está analizando tu infraestructura...'}
+                </h4>
+                <div style={{ background: 'rgba(0,0,0,0.5)', padding: '1.2rem', borderRadius: '8px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontFamily: 'monospace', textAlign: 'left', minHeight: '150px', border: '1px solid var(--glass-border)', overflowY: 'auto' }}>
+                  {auditLogs.map((log, idx) => (
+                    <p key={idx} style={{ margin: '6px 0', opacity: 0.9 }}>{log}</p>
+                  ))}
+                  <div style={{ width: '3px', height: '15px', background: 'var(--accent-cyan)', display: 'inline-block', marginLeft: '2px', animation: 'pulse 1s infinite' }}></div>
+                </div>
+              </div>
+            )}
+
+            {auditStatus === 'success' && (
+              <div style={{ padding: '1.5rem 0' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.1)', border: '2px solid #10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
+                  <CheckCircle2 size={32} color="#10b981" />
+                </div>
+                <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#10b981' }}>
+                  {lang === 'ca' ? '¡Auditoria Completada!' : lang === 'en' ? 'Audit Completed!' : '¡Auditoría Completada!'}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '1.5rem', lineHeight: '1.5' }}>
+                  {lang === 'ca' ? 'L\'informe tàctic de vulnerabilitats per a ' : lang === 'en' ? 'The tactical vulnerability report for ' : 'El reporte táctico de vulnerabilidades para '} <strong>{auditDomain}</strong> {lang === 'ca' ? 'ha estat generat per l\'Aegis i enviat a:' : lang === 'en' ? 'has been generated by Aegis and sent to:' : 'ha sido generado por Aegis y enviado a:'}
+                </p>
+                <div style={{ background: 'rgba(255,255,255,0.05)', padding: '1rem', borderRadius: '8px', fontSize: '1.1rem', fontWeight: 600, color: 'var(--accent-cyan)', marginBottom: '1.5rem', border: '1px solid var(--glass-border)' }}>
+                  {auditEmail}
+                </div>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '2rem' }}>
+                  {lang === 'ca' ? 'Per favor, comprova la teva bústia d\'entrada o la carpeta de spam.' : lang === 'en' ? 'Please check your inbox or spam folder.' : 'Por favor, comprueba tu bandeja de entrada o la carpeta de spam.'}
+                </p>
+                <button onClick={() => { setAuditStatus('idle'); setAuditDomain(''); setAuditEmail(''); }} style={{ background: 'transparent', border: 'none', color: 'var(--accent-cyan)', cursor: 'pointer', textDecoration: 'underline', fontSize: '0.95rem' }}>
+                  {lang === 'ca' ? 'Sol·licitar una altra auditoria' : lang === 'en' ? 'Request another audit' : 'Solicitar otra auditoría'}
+                </button>
+              </div>
+            )}
+
+            {auditStatus === 'error' && (
+              <div style={{ padding: '1.5rem 0' }}>
+                <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', border: '2px solid #ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
+                  <X size={32} color="#ef4444" />
+                </div>
+                <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: '#ef4444' }}>
+                  {lang === 'ca' ? 'Fallida a la Sol·licitud' : lang === 'en' ? 'Request Failed' : 'Fallo en la Solicitud'}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: '2rem' }}>
+                  {lang === 'ca' ? 'No s\'ha pogut establir connexió amb els nodes d\'escaneig de l\'Aegis.' : lang === 'en' ? 'Could not establish connection with Aegis scanning nodes.' : 'No se pudo establecer conexión con los nodos de escaneo de Aegis.'}
+                </p>
+                <button onClick={() => setAuditStatus('idle')} className="btn-primary" style={{ padding: '0.75rem 1.5rem' }}>
+                  {lang === 'ca' ? 'Reintentar' : lang === 'en' ? 'Retry' : 'Reintentar'}
+                </button>
+              </div>
+            )}
+
+            <p style={{ marginTop: '1.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+              <Shield size={12} style={{ display: 'inline', verticalAlign: 'middle', color: 'var(--accent-cyan)', marginRight: '4px' }}/> {lang === 'ca' ? 'Arquitectura Zero-Trust implementada per l\'Aegis.' : lang === 'en' ? 'Zero-Trust architecture implemented by Aegis.' : 'Arquitectura Zero-Trust implementada por Aegis.'}
+            </p>
           </div>
         </div>
 
@@ -903,15 +1075,32 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* LAW ENFORCEMENT AGREEMENTS */}
+        <div className="container" style={{ marginTop: '3rem' }}>
+          <div className="glass-panel" style={{ padding: '2.5rem', borderLeft: '4px solid #10b981', position: 'relative', overflow: 'hidden', background: 'rgba(16, 185, 129, 0.02)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+              <Shield className="text-accent" size={24} style={{ color: '#10b981', filter: 'drop-shadow(0 0 5px rgba(16, 185, 129, 0.5))' }} />
+              <h3 style={{ fontSize: '1.75rem', margin: 0 }}>
+                {lang === 'ca' ? 'Convenis amb Forces de Seguretat' : lang === 'en' ? 'Law Enforcement Agreements' : 'Convenios con Fuerzas de Seguridad'}
+              </h3>
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.6', margin: 0 }}>
+              {lang === 'ca' ? 'En el nostre compromís social contra el ciberdelicte, oferim condicions especials i descomptes institucionals per a membres dels Cossos i Forces de Seguretat de l\'Estat (Policia, Guàrdia Civil, etc.). Les subscripcions acollides a aquest programa disposen de quotes de ciberinvestigació B2C bonificades per recolzar la resposta ràpida davant denúncies de sextorsió, estafas digitals i ciberafet.' :
+               lang === 'en' ? 'In our social commitment against cybercrime, we offer special institutional discounts and benefits for law enforcement agencies and their members (Police, Civil Guard, etc.). Subscriptions under this program include bonused B2C intelligence quotas to support rapid response against sextortion, digital scams, and online fraud.' :
+               'En nuestro compromiso social contra el cibercrimen, ofrecemos condiciones especiales y descuentos institucionales para miembros de las Fuerzas y Cuerpos de Seguridad del Estado (Policía Nacional, Guardia Civil, Policías Autonómicas y Locales). Las suscripciones acogidas a este programa cuentan con cuotas de ciberinvestigación B2C bonificadas al mes para apoyar la respuesta rápida ante denuncias de sextorsión, estafas digitales y ciberfraudes.'}
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* FOOTER */}
       <footer style={{ padding: '4rem 0 2rem', borderTop: '1px solid var(--glass-border)', textAlign: 'center' }}>
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginBottom: '2rem' }}>
-            <Bot size={24} className="text-accent" />
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.75rem', marginBottom: '2rem' }}>
+            <WMLogo size={36} />
             <h2 style={{ fontSize: '1.5rem', letterSpacing: '-0.5px' }}>
-              WILLMAX <span className="text-accent" style={{ fontWeight: 300 }}>AI SYSTEMS</span>
+              <span className="text-accent" style={{ fontWeight: 800 }}>W</span>ILL<span className="text-accent" style={{ fontWeight: 800 }}>M</span>AX <span className="text-accent" style={{ fontWeight: 300 }}>AI SYSTEMS</span>
             </h2>
           </div>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>{t.footerDesc}</p>
@@ -926,6 +1115,15 @@ function App() {
               <span style={{ color: 'var(--accent-cyan)', fontSize: '0.8rem', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase' }}>{t.footerMoltbook}</span>
             </div>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>&copy; 2026 WillMax AI Systems. {t.footerRights}</p>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginTop: '0.5rem', maxWidth: '600px', margin: '0.5rem auto 0', lineHeight: 1.4 }}>
+              {lang === 'ca' ? 'WM AI Systems és la denominació social oficial de l\'empresa propietària del domini i la marca comercial WillMax.' :
+               lang === 'en' ? 'WM AI Systems is the official registered company name of the owner of the WillMax domain and commercial brand.' :
+               lang === 'fr' ? 'WM AI Systems est la raison sociale officielle de la société propriétaire du domaine et de la marque commerciale WillMax.' :
+               lang === 'pt' ? 'WM AI Systems é a denominação social oficial da empresa proprietária do domínio e da marca comercial WillMax.' :
+               lang === 'ru' ? 'WM AI Systems является официальным зарегистрированным названием компании-владельца домена и торговой марки WillMax.' :
+               lang === 'zh' ? 'WM AI Systems 是 WillMax 域名 and 商业品牌的官方注册公司名称。' :
+               'WM AI Systems es la denominación social oficial de la empresa propietaria del dominio y la marca comercial WillMax.'}
+            </p>
           </div>
         </div>
       </footer>

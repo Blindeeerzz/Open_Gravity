@@ -593,7 +593,7 @@ function Home() {
             <a href="#agents" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }}>{t.navAgents}</a>
             <a href="#security" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s' }}>{t.navSecurity}</a>
             <a onClick={() => navigate('/osint-ciudadano')} style={{ color: 'var(--text-secondary)', transition: 'color 0.3s', cursor: 'pointer' }}>OSINT Ciudadano (B2C)</a>
-            <button onClick={() => navigate('/checkout')} className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>{t.navAudit}</button>
+            <button onClick={() => document.getElementById('security')?.scrollIntoView({ behavior: 'smooth' })} className="btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}>{t.navAudit}</button>
             
             {/* Selector de idiomas */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', padding: '0.25rem 0.5rem', borderRadius: '8px' }}>
@@ -644,7 +644,7 @@ function Home() {
               {t.heroDesc}
             </p>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <button onClick={() => navigate('/checkout')} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <button onClick={() => document.getElementById('security')?.scrollIntoView({ behavior: 'smooth' })} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 {t.heroBtn1} <ChevronRight size={20} />
               </button>
               <button onClick={() => setShowVideoModal(true)} className="btn-solid">{t.heroBtn2}</button>

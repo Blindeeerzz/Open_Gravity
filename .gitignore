@@ -6,3 +6,5 @@ memory*.db*
 *.tar
 *.key
 *.pem
+*.pub
+oracle_keys/
