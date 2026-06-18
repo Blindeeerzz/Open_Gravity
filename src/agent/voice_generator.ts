@@ -90,6 +90,22 @@ export async function generateSpeechFromText(text: string, sessionSuffix: string
   if (config.ELEVENLABS_API_KEY) {
     const voiceId = getVoiceIdForAgent(sessionSuffix);
     const url = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+    const lang = detectLanguage(cleanText);
+    
+    // Configuración base por defecto
+    let modelId = "eleven_multilingual_v2";
+    let stability = 0.5;
+    let similarity_boost = 0.75;
+    
+    // Optimización conversacional para Chloe (_admin) y Aegis (_cyber)
+    if (sessionSuffix === "_admin" || sessionSuffix === "_cyber") {
+      // Usar modelo Turbo optimizado para conversación en idiomas compatibles (latencia ultrabaja, ritmo fluido)
+      if (lang === "es" || lang === "en" || lang === "fr" || lang === "pt") {
+        modelId = "eleven_turbo_v2";
+      }
+      stability = 0.35; // Estabilidad baja para mayor expresividad y ritmo conversacional natural (sin pausas exageradas)
+      similarity_boost = 0.80; // Boost de similitud para conservar bien el timbre de la voz
+    }
     
     try {
       const response = await fetch(url, {
@@ -101,10 +117,12 @@ export async function generateSpeechFromText(text: string, sessionSuffix: string
         },
         body: JSON.stringify({
           text: cleanText,
-          model_id: "eleven_multilingual_v2",
+          model_id: modelId,
           voice_settings: {
-            stability: 0.5,
-            similarity_boost: 0.75
+            stability: stability,
+            similarity_boost: similarity_boost,
+            style: 0.0,
+            use_speaker_boost: true
           }
         })
       });

@@ -4,3 +4,5 @@ dist
 memory*.db*
 *.exe
 *.tar
+*.key
+*.pem

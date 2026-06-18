@@ -25,6 +25,8 @@ Registro oficial para llevar la trazabilidad de los desarrollos pendientes en lo
 - [ ] **Soporte Multilingüe de Voz:** Configurar múltiples voces para cada agente (por idioma de respuesta) ampliando `generateSpeechFromText` en `voice_generator.ts`.
 - [ ] **Ciberseguridad:** Solicitar a **Aegis** una auditoría / análisis completo del dominio live `willmax.ai` para asegurar que está 100% blindado contra accesos no autorizados.
 - [ ] **Campañas de Marketing:** Compilar y estructurar la información/estrategia dada por **Jasmin** para empezar a configurar las campañas publicitarias.
+  - Diseñar el sistema de códigos promocionales / cupones de descuento y planificar sorteos periódicos de licencias en redes sociales.
+- [ ] **Convenios con Fuerzas de Seguridad:** Desarrollar la oferta de descuento institucional y cuotas de escaneos B2C (asistencia en denuncias de sextorsión, fraudes y estafas) para cuerpos de seguridad del Estado.
 - [ ] **(WEB) Diseño y despliegue de la Landing Page Oficial B2B de WillMax AI Systems.**
 - [ ] **Facturación B2B:** Integrar **MONEI** como pasarela de pago para las suscripciones mensuales (Retainers) y establecer la Transferencia Bancaria (SEPA) para el pago del Setup inicial.
 

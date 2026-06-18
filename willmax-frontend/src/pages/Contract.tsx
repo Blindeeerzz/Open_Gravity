@@ -17,12 +17,12 @@ export default function Contract() {
         <div style={{ height: '400px', overflowY: 'auto', paddingRight: '1rem', marginBottom: '2rem', color: 'var(--text-muted)', fontSize: '0.95rem', lineHeight: '1.6' }} className="custom-scrollbar">
           <h3>1. Naturaleza del Servicio (Multi-Agent Systems)</h3>
           <p>
-            WM Ai System (operando comercialmente bajo la marca WillMax) provee acceso a una infraestructura de Inteligencia Artificial ("Agentes") con capacidades avanzadas de análisis, ciberseguridad, marketing e ingeniería. El Cliente reconoce que interactúa con sistemas autónomos amparados por la red Moltbook, no con seres humanos.
+            WM AI Systems (operando comercialmente bajo la marca WillMax) provee acceso a una infraestructura de Inteligencia Artificial ("Agentes") con capacidades avanzadas de análisis, ciberseguridad, marketing e ingeniería. El Cliente reconoce que interactúa con sistemas autónomos amparados por la red Moltbook, no con seres humanos.
           </p>
 
           <h3 style={{ marginTop: '1.5rem' }}>2. Exención de Responsabilidad (Liability)</h3>
           <p>
-            Los reportes generados por "Aegis" (Auditoría de Ciberseguridad), las estrategias de "Edu" (Ventas) y los cálculos de "Pere" (Inmótica) se proporcionan "tal cual" con fines consultivos. WM Ai System no se hace responsable de daños directos, indirectos, pérdida de datos o lucro cesante derivados de la implementación de las recomendaciones generadas por las IA. El Cliente debe verificar la viabilidad técnica y legal antes de aplicar dichas estrategias.
+            Los reportes generados por "Aegis" (Auditoría de Ciberseguridad), las estrategias de "Edu" (Ventas) y los cálculos de "Pere" (Inmótica) se proporcionan "tal cual" con fines consultivos. WM AI Systems no se hace responsable de daños directos, indirectos, pérdida de datos o lucro cesante derivados de la implementación de las recomendaciones generadas por las IA. El Cliente debe verificar la viabilidad técnica y legal antes de aplicar dichas estrategias.
           </p>
 
           <h3 style={{ marginTop: '1.5rem' }}>3. Política de Uso Justo y Límites de Tokens (Fair Use)</h3>
@@ -41,6 +41,16 @@ export default function Contract() {
           <h3 style={{ marginTop: '1.5rem' }}>5. Límite de Responsabilidad Comercial y Exención Legal</h3>
           <p>
             Los agentes Aegis y Agent Zero son herramientas de auditoría preventiva orientadas a reducir drásticamente la superficie de ataque corporativa. Sin embargo, el Cliente reconoce que ningún sistema es completamente "inhackeable" y que la gran mayoría de las brechas de seguridad derivan de fallos humanos (como el uso indebido de redes sociales en equipos de trabajo, phishing o negligencia del personal). Por consiguiente, WM Ai System declina expresamente toda responsabilidad legal frente a ciberataques, robo de datos o pérdidas derivadas. Como única medida de confianza y compromiso comercial frente a incidentes críticos en infraestructuras previamente certificadas por Aegis, la responsabilidad máxima e irrevocable de WM Ai System se limitará estrictamente al reembolso de los últimos 6 meses de suscripción.
+          </p>
+
+          <h3 style={{ marginTop: '1.5rem' }}>6. Mantenimiento del Servidor y Continuidad del Servicio</h3>
+          <p>
+            Para garantizar la mejora continua de la web y la actualización de los modelos y capacidades de los agentes de IA (Aegis, Jasmin, Pere, etc.), WM Ai System se reserva el derecho de interrumpir temporalmente el servicio de manera ocasional por mantenimiento del servidor. En la medida de lo posible, estas paradas técnicas se planificarán fuera de horas pico y se notificará con antelación a los usuarios activos.
+          </p>
+
+          <h3 style={{ marginTop: '1.5rem' }}>7. Campañas Promocionales y Convenios para Fuerzas de Seguridad</h3>
+          <p>
+            WM Ai System podrá lanzar códigos promocionales y campañas de descuento específicos que se rifarán o anunciarán en redes sociales oficiales. Asimismo, como parte de nuestro compromiso social frente a delitos digitales, se establece un programa especial de descuentos y convenios para miembros de las Fuerzas de Seguridad del Estado (Policía, Guardia Civil, etc.). Las cuentas Premium y Premium Plus asociadas a este programa contarán con un número de escaneos B2C bonificados al mes para facilitar la respuesta rápida ante denuncias ciudadanas por sextorsión, estafas y fraudes cibernéticos.
           </p>
           
           <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(255, 51, 51, 0.1)', border: '1px solid rgba(255, 51, 51, 0.3)', borderRadius: '8px', display: 'flex', gap: '1rem' }}>

@@ -29,6 +29,7 @@ import {
   executeSearchKnowledge,
   executeListKnowledgeCategories
 } from "./knowledge_base.js";
+import { createBlueprintToolDef, executeCreateBlueprint } from "./create_blueprint.js";
 import { getMCPTools, executeMCPTool } from "../agent/mcpClient.js";
 
 // Lista de definiciones para enviarle al LLM
@@ -55,7 +56,8 @@ export const availableToolsDefinitions = [
   addKnowledgeToolDef,
   deleteKnowledgeToolDef,
   searchKnowledgeToolDef,
-  listKnowledgeCategoriesToolDef
+  listKnowledgeCategoriesToolDef,
+  createBlueprintToolDef
 ];
 
 export function getCombinedTools() {
@@ -84,7 +86,7 @@ export async function executeToolWrapper(name: string, args: any, sessionId: str
       case "agendar_reunion":
         return await executeScheduleAppointment(args.fecha_hora, args.asunto, args.nombre_cliente, args.email_cliente);
       case "enviar_correo":
-        return await executeSendEmail(args);
+        return await executeSendEmail(args, sessionId);
       case "registrar_cliente_crm":
         return await executeCrmSheets(args.nombre, args.contacto, args.interes, args.agente_responsable, args.notas);
       case "get_crypto_price":
@@ -121,6 +123,8 @@ export async function executeToolWrapper(name: string, args: any, sessionId: str
         return await executeSearchKnowledge(args);
       case "list_knowledge_categories":
         return await executeListKnowledgeCategories();
+      case "crear_plano":
+        return await executeCreateBlueprint(args, sessionId);
       default:
         return `Error: Tool "${name}" is not implemented.`;
     }
