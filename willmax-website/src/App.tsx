@@ -1010,12 +1010,12 @@ function App() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', textAlign: 'left' }}>
               <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.bounties}</span>
-                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: '#10b981', margin: '0.5rem 0', textShadow: '0 0 10px rgba(16,185,129,0.3)' }}>$302,100<span style={{ fontSize: '1.2rem' }}> USD</span></div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: '#10b981', margin: '0.5rem 0', textShadow: '0 0 10px rgba(16,185,129,0.3)' }}><span style={{ fontSize: '1.2rem' }}> USD</span>08,656<span style={{ fontSize: '1.2rem' }}> USD</span></div>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>{s.bountiesDesc}</p>
               </div>
               <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.reports}</span>
-                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--accent-cyan)', margin: '0.5rem 0', textShadow: '0 0 10px var(--accent-cyan-glow)' }}>173<span style={{ fontSize: '1.2rem' }}> Resueltos</span></div>
+                <div style={{ fontSize: '2.25rem', fontWeight: 800, color: 'var(--accent-cyan)', margin: '0.5rem 0', textShadow: '0 0 10px var(--accent-cyan-glow)' }}>175<span style={{ fontSize: '1.2rem' }}> Resueltos</span></div>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>{s.reportsDesc}</p>
               </div>
               <div style={{ background: 'rgba(0,0,0,0.3)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
