@@ -8,6 +8,29 @@ export default function Checkout() {
   const [extraAgent, setExtraAgent] = useState<'edu' | 'jasmin' | 'chloe'>('chloe');
   const navigate = useNavigate();
 
+  // Estados para códigos promocionales
+  const [promoInput, setPromoInput] = useState('');
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [appliedCode, setAppliedCode] = useState('');
+  const [promoError, setPromoError] = useState('');
+
+  const handleApplyPromo = () => {
+    const code = promoInput.trim().toUpperCase();
+    const discounts: Record<string, number> = {
+      'WILLMAX50': 50,
+      'AEGIS15': 15,
+      'MOLTBOOK30': 30,
+      'POLICIA2026': 20
+    };
+    if (discounts[code] !== undefined) {
+      setDiscountPercent(discounts[code]);
+      setAppliedCode(code);
+      setPromoError('');
+    } else {
+      setPromoError('Código promocional no válido');
+    }
+  };
+
   const handlePayment = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -19,7 +42,10 @@ export default function Checkout() {
 
   if (selectedPlan) {
     const planNames = { starter: 'Starter B2B', corporate: 'Corporate', ultra: 'Ultra Enterprise' };
-    const planPrices = { starter: '599,00 €', corporate: '2.499,00 €', ultra: '4.999,00 €' };
+    const planPricesRaw = { starter: 599, corporate: 2499, ultra: 4999 };
+    const originalPrice = planPricesRaw[selectedPlan];
+    const finalPrice = originalPrice * (1 - discountPercent / 100);
+    const finalPriceStr = finalPrice.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
 
     return (
       <div className="container flex-center" style={{ minHeight: '100vh', padding: '2rem' }}>
@@ -51,12 +77,43 @@ export default function Checkout() {
               </div>
             </div>
 
+            {/* Promo Code Input */}
+            <div style={{ borderTop: '1px solid var(--border-light)', paddingTop: '1.2rem', marginTop: '0.5rem' }}>
+              <label style={{ display: 'block', fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>¿Tienes un código promocional?</label>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input 
+                  type="text" 
+                  placeholder="Ej: WILLMAX50" 
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value)}
+                  style={{ flex: 2, padding: '0.8rem', borderRadius: '8px', background: 'rgba(0,0,0,0.5)', border: '1px solid var(--border-light)', color: 'white', outline: 'none', textTransform: 'uppercase' }} 
+                />
+                <button 
+                  type="button" 
+                  onClick={handleApplyPromo}
+                  style={{ flex: 1, padding: '0.8rem', background: 'var(--accent-cyan)', color: 'black', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s' }}
+                >
+                  Aplicar
+                </button>
+              </div>
+              {appliedCode && (
+                <p style={{ color: '#10b981', fontSize: '0.85rem', marginTop: '0.5rem', margin: '0.5rem 0 0' }}>
+                  ✓ Código <strong>{appliedCode}</strong> aplicado ({discountPercent}% de descuento).
+                </p>
+              )}
+              {promoError && (
+                <p style={{ color: '#ef4444', fontSize: '0.85rem', marginTop: '0.5rem', margin: '0.5rem 0 0' }}>
+                  ✗ {promoError}
+                </p>
+              )}
+            </div>
+
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               <button type="button" onClick={() => setSelectedPlan(null)} style={{ flex: 1, padding: '1.2rem', background: 'transparent', border: '1px solid var(--border-light)', color: 'white', borderRadius: '8px', cursor: 'pointer' }}>
                 Volver
               </button>
               <button type="submit" className="btn-primary" disabled={loading} style={{ flex: 2, display: 'flex', justifyContent: 'center', padding: '1.2rem' }}>
-                {loading ? 'Procesando...' : `Pagar ${planPrices[selectedPlan]}`}
+                {loading ? 'Procesando...' : `Pagar ${finalPriceStr}`}
               </button>
             </div>
             
@@ -76,6 +133,16 @@ export default function Checkout() {
         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
           Selecciona el nivel de autonomía y potencia cognitiva que tu infraestructura requiere.
         </p>
+        
+        {/* Active Promotions list */}
+        <div style={{ background: 'rgba(0, 240, 255, 0.03)', border: '1px solid var(--glass-border)', padding: '1rem 1.5rem', borderRadius: '8px', maxWidth: '650px', margin: '1.5rem auto 0', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.85rem' }}>
+          <p style={{ margin: 0, color: 'var(--accent-cyan)', fontWeight: 600, letterSpacing: '0.5px' }}>🎁 Campañas Promocionales Activas (Redes Sociales):</p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', color: 'var(--text-secondary)' }}>
+            <span>🔥 <strong>WILLMAX50</strong> (-50% 1er mes)</span>
+            <span>🛡️ <strong>AEGIS15</strong> (-15%)</span>
+            <span>⚡ <strong>MOLTBOOK30</strong> (-30%)</span>
+          </div>
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
